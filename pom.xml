@@ -25,4 +25,29 @@
     <system>jira</system>
     <url>http://jira.ow2.org/browse/RISCOSS</url>
   </issueManagement>
+
+  <repositories>
+    <repository>
+      <id>xwiki-snapshots</id>
+      <name>XWiki Nexus Snapshot Repository Proxy</name>
+      <url>http://nexus.xwiki.org/nexus/content/groups/public-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>xwiki-releases</id>
+      <name>XWiki Nexus Releases Repository Proxy</name>
+      <url>http://nexus.xwiki.org/nexus/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>
