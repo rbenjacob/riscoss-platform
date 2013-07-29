@@ -78,6 +78,21 @@
             </archive>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
+          <version>${commons.version}</version>
+          <configuration>         
+            <importUser>superadmin</importUser>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>package</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
 

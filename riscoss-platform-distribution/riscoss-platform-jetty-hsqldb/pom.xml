@@ -31,22 +31,21 @@
     <groupId>eu.riscoss</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>riscoss-platform-ui-all</artifactId>
-  <packaging>xar</packaging>
+  <artifactId>riscoss-platform-jetty-hsqldb</artifactId>
+  <packaging>pom</packaging>
 
-  <name>RISCOSS Platform - UI All</name>
+  <name>RISCOSS Platform - Distribution - Jetty HSQLDB</name>
+
+  <properties>
+    <smartgwt.version>3.1</smartgwt.version>
+    <platform.version>${commons.version}</platform.version>
+  </properties>
 
   <dependencies>
     <dependency>
-      <groupId>eu.riscoss</groupId>
-      <artifactId>riscoss-platform-ui</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>riscoss-platform-ui-all</artifactId>
       <version>${project.version}</version>
-      <type>xar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-administration-ui</artifactId>
-      <version>${commons.version}</version>
       <type>xar</type>
     </dependency>
   </dependencies>
@@ -54,12 +53,32 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.xwiki.commons</groupId>
-        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
         <configuration>
-          <includeDependencies>true</includeDependencies>
+          <contextPathMapping>
+            <riscoss-platform-war>xwiki</riscoss-platform-war>
+          </contextPathMapping>
         </configuration>
       </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+            <descriptors>
+              <descriptor>${basedir}/src/assemble/distribution.xml</descriptor>
+            </descriptors>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
     </plugins>
   </build>
 </project>
