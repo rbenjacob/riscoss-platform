@@ -39,6 +39,7 @@
   <modules>
     <module>riscoss-platform-ui-all</module>
     <module>riscoss-platform-jetty-hsqldb</module>
+    <module>riscoss-platform-war</module>
   </modules>
 
   <dependencyManagement>
