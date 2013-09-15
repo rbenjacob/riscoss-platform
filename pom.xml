@@ -51,9 +51,15 @@
     <url>http://jira.ow2.org/browse/RISCOSS</url>
   </issueManagement>
 
+  <properties>
+    <xwiki.version>${commons.version}</xwiki.version>
+  </properties>
+
   <modules>
     <module>riscoss-platform-ui</module>
+    <module>riscoss-platform-war</module>
     <module>riscoss-platform-distribution</module>
+
   </modules>
 
   <build>
@@ -63,35 +69,6 @@
           <groupId>org.xwiki.commons</groupId>
           <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
           <version>${commons.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <!-- Lock down plugin version for build reproducibility -->
-          <version>2.2</version>
-          <configuration>
-            <!-- Add some useful information about the extension in the manifest file. -->
-            <archive>
-              <manifestEntries>
-                <XWiki-Extension-Id>${project.groupId}:${project.artifactId}</XWiki-Extension-Id>
-              </manifestEntries>
-            </archive>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
-          <version>${commons.version}</version>
-          <configuration>         
-            <importUser>superadmin</importUser>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>package</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
       </plugins>
     </pluginManagement>

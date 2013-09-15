@@ -23,8 +23,8 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>riscoss-platform-distribution</artifactId>
@@ -38,16 +38,18 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-ui-all</artifactId>
+      <version>${xwiki.version}</version>
+      <type>xar</type>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>eu.riscoss</groupId>
       <artifactId>riscoss-platform-ui</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-administration-ui</artifactId>
-      <version>${commons.version}</version>
-      <type>xar</type>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
