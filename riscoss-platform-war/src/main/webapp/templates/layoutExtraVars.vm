@@ -1,0 +1,7 @@
+#if(!$hasAdmin)
+  #set($displayQuickSearch = false)
+  #set($displayContentMenu = false)
+  #set($displayMainMenu = false)
+  #set($displayDocExtra = false)
+  #set($displayShortcuts = false)
+#end

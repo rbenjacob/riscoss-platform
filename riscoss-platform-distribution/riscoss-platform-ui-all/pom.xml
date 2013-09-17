@@ -45,6 +45,13 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-menu-ui</artifactId>
+      <version>${xwiki.version}</version>
+      <type>xar</type>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>eu.riscoss</groupId>
       <artifactId>riscoss-platform-ui</artifactId>
       <version>${project.version}</version>
