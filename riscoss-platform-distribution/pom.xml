@@ -19,7 +19,9 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  *
---><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>riscoss-platform</artifactId>
@@ -35,13 +37,14 @@
     <module>riscoss-platform-ui-all</module>
   </modules>
 
-<properties>
+  <properties>
     <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes
          the build take longer than needed (since it downloads the previous versions). -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
 
     <!-- Hibernate configuration -->
-    <xwiki.db.common.extraMappings>activitystream.hbm.xml</xwiki.db.common.extraMappings>
+    <xwiki.db.common.extraMappings>activitystream.hbm.xml,instance.hbm.xml,riscoss.model.hbm.xml
+    </xwiki.db.common.extraMappings>
 
     <!-- xwiki.cfg configuration -->
     <xwiki.cfg.virtual>1</xwiki.cfg.virtual>
@@ -175,7 +178,7 @@
     </pluginManagement>
   </build>
 
-  <profiles>    
+  <profiles>
     <profile>
       <id>mysql</id>
       <activation>

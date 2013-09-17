@@ -54,6 +54,9 @@
     <module>riscoss-platform-ui</module>
     <module>riscoss-platform-war</module>
     <module>riscoss-platform-distribution</module>
+    <module>riscoss-platform-api</module>
+    <module>riscoss-platform-core</module>
+    <module>riscoss-platform-tools</module>
   </modules>
 
   <build>

@@ -1,0 +1,13 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="eu.riscoss.api.model.Measurement" table="measurements">
+    <id name="id" column="measurement_id" type="string">
+      <generator class="assigned"/>
+    </id>
+    <property name="type" type="string" column="measurement_ip" not-null="true"/>
+    <property name="date" type="timestamp" column="measurement_date" not-null="true"/>
+    <property name="value" type="text" column="measurement_value" not-null="true"/>
+  </class>
+</hibernate-mapping>

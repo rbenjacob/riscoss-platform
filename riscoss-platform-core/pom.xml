@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!--
 *
@@ -22,40 +22,43 @@
 *
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>riscoss-platform</artifactId>
     <groupId>eu.riscoss</groupId>
+    <artifactId>riscoss-platform</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>riscoss-platform-war</artifactId>
-  <packaging>war</packaging>
+  <artifactId>riscoss-platform-core</artifactId>
 
-  <name>RISCOSS Platform - WAR</name>
+  <name>RISCOSS Platform - Core</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-web</artifactId>
-      <version>${xwiki.version}</version>
-      <type>war</type>
-    </dependency>
     <dependency>
       <groupId>eu.riscoss</groupId>
       <artifactId>riscoss-platform-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>eu.riscoss</groupId>
-      <artifactId>riscoss-platform-core</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-script</artifactId>
+      <version>${xwiki.version}</version>
     </dependency>
     <dependency>
-      <groupId>eu.riscoss</groupId>
-      <artifactId>riscoss-platform-tools-dummy</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-configuration-api</artifactId>
+      <version>${xwiki.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-query-manager</artifactId>
+      <version>${xwiki.version}</version>
     </dependency>
   </dependencies>
 </project>
