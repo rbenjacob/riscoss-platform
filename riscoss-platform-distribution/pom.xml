@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  *
  * See the NOTICE file distributed with this work for additional
@@ -20,6 +21,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  *
 -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -35,171 +37,6 @@
 
   <modules>
     <module>riscoss-platform-ui-all</module>
+    <module>riscoss-platform-jetty-hsqldb</module>
   </modules>
-
-  <properties>
-    <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes
-         the build take longer than needed (since it downloads the previous versions). -->
-    <xwiki.clirr.skip>true</xwiki.clirr.skip>
-
-    <!-- Hibernate configuration -->
-    <xwiki.db.common.extraMappings>activitystream.hbm.xml,instance.hbm.xml,riscoss.model.hbm.xml
-    </xwiki.db.common.extraMappings>
-
-    <!-- xwiki.cfg configuration -->
-    <xwiki.cfg.virtual>1</xwiki.cfg.virtual>
-    <xe.xwiki.cfg.plugins>\
-      com.xpn.xwiki.monitor.api.MonitorPlugin,\
-      com.xpn.xwiki.plugin.skinx.JsSkinExtensionPlugin,\
-      com.xpn.xwiki.plugin.skinx.JsSkinFileExtensionPlugin,\
-      com.xpn.xwiki.plugin.skinx.JsResourceSkinExtensionPlugin,\
-      com.xpn.xwiki.plugin.skinx.CssSkinExtensionPlugin,\
-      com.xpn.xwiki.plugin.skinx.CssSkinFileExtensionPlugin,\
-      com.xpn.xwiki.plugin.skinx.CssResourceSkinExtensionPlugin,\
-      com.xpn.xwiki.plugin.skinx.LinkExtensionPlugin,\
-      com.xpn.xwiki.plugin.feed.FeedPlugin,\
-      com.xpn.xwiki.plugin.mail.MailPlugin,\
-      com.xpn.xwiki.plugin.packaging.PackagePlugin,\
-      com.xpn.xwiki.plugin.svg.SVGPlugin,\
-      com.xpn.xwiki.plugin.charts.ChartingPlugin,\
-      com.xpn.xwiki.plugin.fileupload.FileUploadPlugin,\
-      com.xpn.xwiki.plugin.image.ImagePlugin,\
-      com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin,\
-      com.xpn.xwiki.plugin.lucene.LucenePlugin,\
-      com.xpn.xwiki.plugin.diff.DiffPlugin,\
-      com.xpn.xwiki.plugin.rightsmanager.RightsManagerPlugin,\
-      com.xpn.xwiki.plugin.jodatime.JodaTimePlugin,\
-      com.xpn.xwiki.plugin.scheduler.SchedulerPlugin,\
-      com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
-      com.xpn.xwiki.plugin.activitystream.plugin.ActivityStreamPlugin, \
-      com.xpn.xwiki.plugin.watchlist.WatchListPlugin, \
-      com.xpn.xwiki.plugin.tag.TagPlugin
-    </xe.xwiki.cfg.plugins>
-    <xwiki.cfg.plugins>${xe.xwiki.cfg.plugins}
-    </xwiki.cfg.plugins>
-    <xwiki.cfg.defaultskin>colibri</xwiki.cfg.defaultskin>
-    <xwiki.cfg.defaultbaseskin>colibri</xwiki.cfg.defaultbaseskin>
-    <xwiki.cfg.encoding>UTF-8</xwiki.cfg.encoding>
-    <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
-    <xwiki.cfg.additionalproperties/>
-
-    <xwiki.properties.environment.permanentDirectory/>
-    <xwiki.properties.additionalproperties/>
-
-    <xwiki.cfg.superadminPassword>system</xwiki.cfg.superadminPassword>
-
-    <!-- Default location for XWiki's Data directory -->
-    <xwikiDataDir>data</xwikiDataDir>
-  </properties>
-
-  <build>
-    <pluginManagement>
-      <plugins>
-        <!--Process configuration resources -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <configuration>
-            <appendAssemblyId>false</appendAssemblyId>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-remote-resources-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>xwiki-eesc-configuration-resources</id>
-              <phase>process-resources</phase>
-              <goals>
-                <goal>process</goal>
-              </goals>
-              <configuration>
-                <resourceBundles>
-                  <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${xwiki.version}
-                  </resourceBundle>
-                </resourceBundles>
-                <properties>
-                  <!-- Default configuration data for hibernate.cfg.xml -->
-                  <xwikiDbConnectionUrl>${xwiki.db.connection.url}</xwikiDbConnectionUrl>
-                  <xwikiDbConnectionUsername>${xwiki.db.connection.username}</xwikiDbConnectionUsername>
-                  <xwikiDbConnectionPassword>${xwiki.db.connection.password}</xwikiDbConnectionPassword>
-                  <xwikiDbConnectionDriverClass>${xwiki.db.connection.driver_class}</xwikiDbConnectionDriverClass>
-                  <xwikiDbDialect>${xwiki.db.dialect}</xwikiDbDialect>
-                  <xwikiDbHbmXwiki>${xwiki.db.hbm.xwiki}</xwikiDbHbmXwiki>
-                  <xwikiDbHbmFeeds>${xwiki.db.hbm.feeds}</xwikiDbHbmFeeds>
-                  <xwikiDbHbmCommonExtraMappings>${xwiki.db.common.extraMappings}</xwikiDbHbmCommonExtraMappings>
-                  <xwikiDbVirtualMode>${xwiki.db.hbm.virtualMode}</xwikiDbVirtualMode>
-
-                  <!-- Default configuration data for xwiki.cfg -->
-                  <xwikiCfgPlugins>${xwiki.cfg.plugins}</xwikiCfgPlugins>
-                  <xwikiCfgVirtual>${xwiki.cfg.virtual}</xwikiCfgVirtual>
-                  <xwikiCfgVirtualUsepath>${xwiki.cfg.virtual.usepath}</xwikiCfgVirtualUsepath>
-                  <xwikiCfgEditCommentMandatory>${xwiki.cfg.editcomment.mandatory}</xwikiCfgEditCommentMandatory>
-                  <xwikiCfgDefaultSkin>${xwiki.cfg.defaultskin}</xwikiCfgDefaultSkin>
-                  <xwikiCfgDefaultBaseSkin>${xwiki.cfg.defaultbaseskin}</xwikiCfgDefaultBaseSkin>
-                  <xwikiCfgEncoding>${xwiki.cfg.encoding}</xwikiCfgEncoding>
-                  <xwikiCfgAdditionalProperties>${xwiki.cfg.additionalproperties}</xwikiCfgAdditionalProperties>
-
-                  <xwikiCfgSuperadminPassword>${xwiki.cfg.superadminPassword}</xwikiCfgSuperadminPassword>
-
-                  <!-- Default configuration data for xwiki.properties -->
-                  <xwikiPropertiesEnvironmentPermanentDirectory>${xwiki.properties.environment.permanentDirectory}
-                  </xwikiPropertiesEnvironmentPermanentDirectory>
-                  <xwikiPropertiesAdditionalProperties>${xwiki.properties.additionalproperties}
-                  </xwikiPropertiesAdditionalProperties>
-                </properties>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-
-        <!-- Copy the configuration files generated by this build to the final WAR -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <configuration>
-            <webResources>
-              <resource>
-                <directory>${project.build.directory}/maven-shared-archive-resources</directory>
-                <targetPath>WEB-INF</targetPath>
-              </resource>
-            </webResources>
-          </configuration>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>war</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
-
-  <profiles>
-    <profile>
-      <id>mysql</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <xwiki.db>mysql</xwiki.db>
-        <xwiki.db.jdbc.groupId>mysql</xwiki.db.jdbc.groupId>
-        <xwiki.db.jdbc.artifactId>mysql-connector-java</xwiki.db.jdbc.artifactId>
-        <xwiki.db.jdbc.version>5.1.21</xwiki.db.jdbc.version>
-        <xwiki.db.connection.url>jdbc:mysql://localhost/xwiki?useServerPrepStmts=false&amp;amp;amp;useUnicode=true&amp;amp;amp;characterEncoding=UTF-8</xwiki.db.connection.url>
-        <xwiki.db.connection.username>xwiki</xwiki.db.connection.username>
-        <xwiki.db.connection.password>xwiki</xwiki.db.connection.password>
-        <xwiki.db.connection.driver_class>com.mysql.jdbc.Driver</xwiki.db.connection.driver_class>
-        <xwiki.db.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</xwiki.db.dialect>
-        <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
-        <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
-      </properties>
-      <modules>
-        <module>riscoss-platform-war-mysql</module>
-      </modules>
-    </profile>
-  </profiles>
 </project>
