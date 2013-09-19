@@ -34,7 +34,7 @@
   <artifactId>riscoss-platform-ui-all</artifactId>
   <packaging>xar</packaging>
 
-  <name>RISCOSS Platform - UI All</name>
+  <name>RISCOSS Platform - Distribution - UI All</name>
 
   <dependencies>
     <dependency>
