@@ -41,9 +41,7 @@ public interface Tool
     /**
      * Execute the business logic implemented by the tool.
      *
-     * This method should be synchronous and it will be executed on a dedicated thread. Implementors are not allowed to
-     * spawn new threads though they can call {@link Thread.sleep()} for suspending the execution while waiting for
-     * events.
+     * It's the implementor responsibility to make this method thread safe and handle possible concurrency issues.
      *
      * @param target the id of the entity the tool should work on.
      * @param parameters a map containing the parameters to be passed business logic of the tool when executed.
