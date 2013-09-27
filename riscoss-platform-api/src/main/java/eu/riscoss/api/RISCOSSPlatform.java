@@ -37,14 +37,25 @@ public interface RISCOSSPlatform
     void storeMeasurement(Measurement measurement);
     
     /**
-     *  The registerQuestion method should propagate the question identified by 
-     *  questionId to the user interface. The consumer shall notify the producer 
-     *  when the question is answered by the user. It may happen that the question 
-     *  was already asked by other component, in this case the consumer should 
-     *  directly notify the answer to the producer 
+     *  The registerQuestion method should ask the question identified by 
+     *  questionId to the user. The platform shall process the question 
+     *  once it is answered by the user. If the question is already answered
+     *  the platform shall process the question without asking it again. 
      *  
      *  @param questionId the id of the question to be answered.
      *  @param questionProcessor instance that can "process()" the question once answered.
      */
     void registerQuestion(String questionId, QuestionProcessor questionProcessor);
+
+    /**
+     *  The registerQuestionnarie method should ask the questions identified by 
+     *  questionIds to the user. The platform shall process the questions
+     *  once all of them are answered by the user. If some question is already 
+     *  answered the platform shall not asking it again, but shall provide the answer
+     *  to the questionnaire processor. 
+     *  
+     *  @param questionIds the ids of the questions to be answered.
+     *  @param questionnarieProcessor instance that can "process()" the questions once answered.
+     */
+    void registerQuestionnarie(String[] questionIds, QuestionnarieProcessor questionnarieProcessor);
 }

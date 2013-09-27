@@ -13,7 +13,7 @@ import org.xwiki.component.manager.ComponentManager;
 
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.ToolFactory;
-import eu.riscoss.api.QuestionProcessor;
+import eu.riscoss.api.model.QuestionProcessor;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.Answer;
 
@@ -62,6 +62,14 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
     @Override public void registerQuestion(String questionId, QuestionProcessor questionProcessor)
     {
         // may be here or in other part of the code, executed once you got the answer
-        questionProcessor.process(new Answer());
+        Answer answer=new Answer();
+        answer.addAnswer("my answer");
+        questionProcessor.process();
+    }
+    
+    @Override public void registerQuestionnarie(String[] questionIds, QuestionnarieProcessor questionnarieProcessor)
+    {
+        // may be here or in other part of the code, executed once you got the answer
+        questionnarieProcessor.process(new Answer());
     }
 }

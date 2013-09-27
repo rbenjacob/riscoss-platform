@@ -1,7 +1,7 @@
 package eu.riscoss.api.model;
 
 /**
- * This class is used to store a question.
+ * This class is for represent a question.
  *
  * @version $Id$
  */
@@ -23,7 +23,11 @@ public class Question
         /**
          * A choice question.
          */
-        CHOICE
+        CHOICE,
+        /**
+         * A multi choice question.
+         */
+        MULTICHOICE        
     }
 
     /**
@@ -72,7 +76,12 @@ public class Question
     private String help;
 
     /**
-     * The question posible answers. It will be null for free and numeric questions.
+     * The question possible answers. It will be null for free text and numeric questions.
      */
-    private Answer[] answers;
+    private String[] possibleAnswers;
+    
+    /**
+     * Is the question mandatory? if not the user may skip it.
+     */
+    private boolean mandatory; 
 }
