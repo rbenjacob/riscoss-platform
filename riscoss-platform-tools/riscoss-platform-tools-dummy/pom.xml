@@ -45,5 +45,16 @@
       <artifactId>riscoss-platform-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-test-component</artifactId>
+      <version>${xwiki.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>
