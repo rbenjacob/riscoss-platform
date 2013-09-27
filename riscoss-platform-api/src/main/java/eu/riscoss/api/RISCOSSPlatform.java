@@ -34,4 +34,16 @@ public interface RISCOSSPlatform
      * @param measurement the measurement to be stored.
      */
     void storeMeasurement(Measurement measurement);
+    
+    /**
+     *  The registerQuestion method should propagate the question identified by 
+     *  questionId to the user interface. The consumer shall notify the producer 
+     *  when the question is answered by the user. It may happen that the question 
+     *  was already asked by other component, in this case the consumer should 
+     *  directly notify the answer to the producer 
+     *  
+     *  @param questionId the id of the question to be answered.
+     *  @param questionProcessor instance that can "process()" the question once answered.
+     */
+    void registerQuestion(String questionId, QuestionProcessor questionProcessor);
 }

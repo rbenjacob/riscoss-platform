@@ -56,4 +56,10 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
     {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+    
+    @Override public void registerQuestion(String questionId, QuestionProcessor questionProcessor)
+    {
+        // may be here or in other part of the code, executed once you got the answer
+        questionProcessor.process(answer);
+    }
 }
