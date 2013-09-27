@@ -5,6 +5,7 @@ import java.util.List;
 import org.xwiki.component.annotation.Role;
 
 import eu.riscoss.api.model.Measurement;
+import eu.riscoss.api.model.Answer;
 
 /**
  * RISCOSSPlatform. This interface provides all the methods for accessing all the functionalities provided by the
