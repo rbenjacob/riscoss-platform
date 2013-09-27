@@ -12,5 +12,5 @@ public abstract class QuestionProcessor
     /**
      * @param answer is the answer provided to the question
      */
-    void process(Answer answer);
+    public abstract void process(Answer answer);
 }
