@@ -10,14 +10,13 @@ import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.Tool;
 import eu.riscoss.api.ToolFactory;
 import eu.riscoss.tools.internal.RISCOSSPlatformMock;
-import eu.riscoss.tools.internal.ToolConfigurationProviderMock;
 
 /**
  * DummyToolFactoryTest.
  *
  * @version $Id$
  */
-@ComponentList({ DummyToolFactory.class, ToolConfigurationProviderMock.class, RISCOSSPlatformMock.class })
+@ComponentList({ DummyToolFactory.class, RISCOSSPlatformMock.class })
 public class DummyToolFactoryTest
 {
     @Rule
