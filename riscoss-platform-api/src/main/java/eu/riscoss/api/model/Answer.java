@@ -11,7 +11,7 @@ import java.util.List;
 public class Answer
 {
     /**
-     * The question answer. It may be more than one if multi choice
+     * The question answer. It may be more than one if multi-choice
      */
     private List<String> answer;
 

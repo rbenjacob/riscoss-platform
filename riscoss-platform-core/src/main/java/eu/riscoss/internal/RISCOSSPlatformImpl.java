@@ -16,6 +16,7 @@ import eu.riscoss.api.ToolFactory;
 import eu.riscoss.api.model.QuestionProcessor;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.Answer;
+import eu.riscoss.api.model.QuestionnaireProcessor;
 
 /**
  * RISCOSSPlatformImpl.
@@ -64,12 +65,28 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
         // may be here or in other part of the code, executed once you got the answer
         Answer answer=new Answer();
         answer.addAnswer("my answer");
+        answer.addAnswer("my second answer of a multichoice question");
+        questionProcessor.setAnswer(answer);
         questionProcessor.process();
+        
+        // You need to save somewhere the question ID / answer just in case some component 
+        // re-register a question (we don't want to ask the same question more than once).
     }
     
-    @Override public void registerQuestionnarie(String[] questionIds, QuestionnarieProcessor questionnarieProcessor)
+    @Override public void registerQuestionnarie(String[] questionIds, QuestionnaireProcessor questionnarieProcessor)
     {
         // may be here or in other part of the code, executed once you got the answer
-        questionnarieProcessor.process(new Answer());
-    }
+        Answer answer;
+        answer=new Answer();
+        answer.addAnswer("my answer");
+        answer.addAnswer("my second answer of a multichoice question");
+        questionnarieProcessor.addAnswer("SOME ID" /*questionIds[0]*/, answer);
+        answer=new Answer();
+        answer.addAnswer("my answer");
+        questionnarieProcessor.addAnswer("OTHER ID" /*questionIds[1]*/, answer);
+        questionnarieProcessor.process();
+
+        // You need to save somewhere the pair {question ID, answer} just in case some component 
+        // re-register a question (we don't want to ask the same question more than once).
+}
 }

@@ -6,6 +6,8 @@ import org.xwiki.component.annotation.Role;
 
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.Answer;
+import eu.riscoss.api.model.QuestionProcessor;
+import eu.riscoss.api.model.QuestionnaireProcessor;
 
 /**
  * RISCOSSPlatform. This interface provides all the methods for accessing all the functionalities provided by the
@@ -48,14 +50,14 @@ public interface RISCOSSPlatform
     void registerQuestion(String questionId, QuestionProcessor questionProcessor);
 
     /**
-     *  The registerQuestionnarie method should ask the questions identified by 
+     *  The registerQuestionnaire method should ask the questions identified by 
      *  questionIds to the user. The platform shall process the questions
      *  once all of them are answered by the user. If some question is already 
      *  answered the platform shall not asking it again, but shall provide the answer
-     *  to the questionnaire processor. 
+     *  to the Questionnaire processor. 
      *  
      *  @param questionIds the ids of the questions to be answered.
-     *  @param questionnarieProcessor instance that can "process()" the questions once answered.
+     *  @param questionnaireProcessor instance that can "process()" the questions once answered.
      */
-    void registerQuestionnarie(String[] questionIds, QuestionnarieProcessor questionnarieProcessor);
+    void registerQuestionnarie(String[] questionIds, QuestionnaireProcessor questionnaireProcessor);
 }

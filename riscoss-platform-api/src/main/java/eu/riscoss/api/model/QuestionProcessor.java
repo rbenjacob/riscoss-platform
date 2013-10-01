@@ -9,7 +9,7 @@ import eu.riscoss.api.model.Answer;
  */
 public abstract class QuestionProcessor
 {
-    private Answer answer;
+    protected Answer answer;
 
     public void setAnswer(Answer answer)
     {
@@ -17,7 +17,7 @@ public abstract class QuestionProcessor
     }
 
     /**
-     * @param answer is the answer provided to the question
+     * This method is to process the "answer" provided. 
      */
     public abstract void process();
 }
