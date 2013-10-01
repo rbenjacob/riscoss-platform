@@ -9,7 +9,7 @@ import eu.riscoss.api.model.Answer;
  *
  * @version $Id$
  */
-public abstract class QuestionnaireProcessor
+public abstract class Answers implements
 {
     protected Map<String, Answer> answers;
 

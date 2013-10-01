@@ -13,10 +13,13 @@ import org.xwiki.component.manager.ComponentManager;
 
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.ToolFactory;
+import eu.riscoss.api.model.Question;
 import eu.riscoss.api.model.QuestionProcessor;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.Answer;
+import eu.riscoss.api.model.Questionnaire;
 import eu.riscoss.api.model.QuestionnaireProcessor;
+import eu.riscoss.api.model.Scope;
 
 /**
  * RISCOSSPlatformImpl.
@@ -60,33 +63,14 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
         //To change body of implemented methods use File | Settings | File Templates.
     }
     
-    @Override public void registerQuestion(String questionId, QuestionProcessor questionProcessor)
+    @Override public Question loadQuestion(String questionId)
     {
-        // may be here or in other part of the code, executed once you got the answer
-        Answer answer=new Answer();
-        answer.addAnswer("my answer");
-        answer.addAnswer("my second answer of a multichoice question");
-        questionProcessor.setAnswer(answer);
-        questionProcessor.process();
-        
-        // You need to save somewhere the question ID / answer just in case some component 
-        // re-register a question (we don't want to ask the same question more than once).
+        Question q=new Question();
+        return q;
     }
     
-    @Override public void registerQuestionnarie(String[] questionIds, QuestionnaireProcessor questionnarieProcessor)
+    @Override public void registerQuestionnaire(Questionnaire questionnaire, Scope target)
     {
-        // may be here or in other part of the code, executed once you got the answer
-        Answer answer;
-        answer=new Answer();
-        answer.addAnswer("my answer");
-        answer.addAnswer("my second answer of a multichoice question");
-        questionnarieProcessor.addAnswer("SOME ID" /*questionIds[0]*/, answer);
-        answer=new Answer();
-        answer.addAnswer("my answer");
-        questionnarieProcessor.addAnswer("OTHER ID" /*questionIds[1]*/, answer);
-        questionnarieProcessor.process();
 
-        // You need to save somewhere the pair {question ID, answer} just in case some component 
-        // re-register a question (we don't want to ask the same question more than once).
-}
+    }
 }

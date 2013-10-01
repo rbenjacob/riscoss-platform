@@ -6,8 +6,11 @@ import org.xwiki.component.annotation.Role;
 
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.Answer;
+import eu.riscoss.api.model.Question;
 import eu.riscoss.api.model.QuestionProcessor;
+import eu.riscoss.api.model.Questionnaire;
 import eu.riscoss.api.model.QuestionnaireProcessor;
+import eu.riscoss.api.model.Scope;
 
 /**
  * RISCOSSPlatform. This interface provides all the methods for accessing all the functionalities provided by the
@@ -39,25 +42,19 @@ public interface RISCOSSPlatform
     void storeMeasurement(Measurement measurement);
     
     /**
-     *  The registerQuestion method should ask the question identified by 
-     *  questionId to the user. The platform shall process the question 
-     *  once it is answered by the user. If the question is already answered
-     *  the platform shall process the question without asking it again. 
+     *  The loadQuestion method will load a question from the RISCOSS DB. 
      *  
-     *  @param questionId the id of the question to be answered.
-     *  @param questionProcessor instance that can "process()" the question once answered.
+     *  @param questionId the id of the question to be retrieved from the RISCOSS DB.
      */
-    void registerQuestion(String questionId, QuestionProcessor questionProcessor);
+    Question loadQuestion(String questionId);
 
     /**
-     *  The registerQuestionnaire method should ask the questions identified by 
-     *  questionIds to the user. The platform shall process the questions
-     *  once all of them are answered by the user. If some question is already 
-     *  answered the platform shall not asking it again, but shall provide the answer
-     *  to the Questionnaire processor. 
+     *  The registerQuestionnaire method should ask the questions. 
+     *  NOTE: If some question is already answered the platform shall not asking it again. 
      *  
-     *  @param questionIds the ids of the questions to be answered.
-     *  @param questionnaireProcessor instance that can "process()" the questions once answered.
+     *  @param questionnaire the questions to be answered.
+     *  @param target the target scope where the questions will be asked.
      */
-    void registerQuestionnarie(String[] questionIds, QuestionnaireProcessor questionnaireProcessor);
+    void registerQuestionnaire(Questionnaire questionnaire, Scope target);
+    
 }
