@@ -1,6 +1,7 @@
 package eu.riscoss.tools.internal;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.xwiki.component.annotation.Component;
@@ -17,6 +18,8 @@ import eu.riscoss.api.model.Measurement;
 @Component
 public class RISCOSSPlatformMock implements RISCOSSPlatform
 {
+    protected List<Measurement> measurements = new ArrayList<Measurement>();
+
     @Override public ToolFactory getToolFactory(String type)
     {
         return null;
@@ -29,10 +32,19 @@ public class RISCOSSPlatformMock implements RISCOSSPlatform
 
     @Override public void storeMeasurement(Measurement measurement)
     {
+        measurements.add(measurement);
     }
 
     @Override public File getTempDirectory(String namespace)
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        File tempDirectory = new File(System.getProperty("java.io.tmpdir"), namespace);
+        tempDirectory.mkdir();
+
+        return tempDirectory;
+    }
+
+    public List<Measurement> getMeasurements()
+    {
+        return measurements;
     }
 }

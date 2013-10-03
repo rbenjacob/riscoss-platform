@@ -21,6 +21,11 @@ public class Measurement
     private String type;
 
     /**
+     * The target of the measurement.
+     */
+    private String target;
+
+    /**
      * The measurement type.
      */
     private Date date;
@@ -31,32 +36,27 @@ public class Measurement
     private String value;
 
     /**
-     * @param id the measurement id.
+     * @param target the measurement target.
      * @param type the measurement type.
      * @param value the measurement value.
      */
-    public Measurement(String id, String type, String value)
+    public Measurement(String target, String type, String value)
     {
-        this(id, type, new Date(), value);
+        this(target, type, new Date(), value);
     }
 
     /**
-     * @param id the measurement id.
+     * @param target the measurement target.
      * @param type the measurement type.
      * @param date the measurement date.
      * @param value the measurement value.
      */
-    public Measurement(String id, String type, Date date, String value)
+    public Measurement(String target, String type, Date date, String value)
     {
-        this.id = id;
+        this.target = target;
         this.type = type;
         this.date = date;
         this.value = value;
-    }
-
-    public Date getDate()
-    {
-        return date;
     }
 
     public String getId()
@@ -64,9 +64,19 @@ public class Measurement
         return id;
     }
 
+    public String getTarget()
+    {
+        return target;
+    }
+
     public String getType()
     {
         return type;
+    }
+
+    public Date getDate()
+    {
+        return date;
     }
 
     public String getValue()
@@ -74,19 +84,24 @@ public class Measurement
         return value;
     }
 
-    public void setDate(Date date)
-    {
-        this.date = date;
-    }
-
     public void setId(String id)
     {
         this.id = id;
     }
 
+    public void setTarget(String target)
+    {
+        this.target = target;
+    }
+
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    public void setDate(Date date)
+    {
+        this.date = date;
     }
 
     public void setValue(String value)

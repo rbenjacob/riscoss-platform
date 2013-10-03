@@ -37,5 +37,6 @@
 
   <modules>
     <module>riscoss-platform-tools-dummy</module>
+    <module>riscoss-platform-tools-git-measurements</module>
   </modules>
 </project>

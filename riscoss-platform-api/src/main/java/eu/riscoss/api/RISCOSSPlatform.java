@@ -1,5 +1,6 @@
 package eu.riscoss.api;
 
+import java.io.File;
 import java.util.List;
 
 import org.xwiki.component.annotation.Role;
@@ -34,4 +35,12 @@ public interface RISCOSSPlatform
      * @param measurement the measurement to be stored.
      */
     void storeMeasurement(Measurement measurement);
+
+    /**
+     * Return a directory where to store temporary files.
+     *
+     * @param namespace the namespace used for isolating temporary files.
+     * @return the temporary directory.
+     */
+    File getTempDirectory(String namespace);
 }

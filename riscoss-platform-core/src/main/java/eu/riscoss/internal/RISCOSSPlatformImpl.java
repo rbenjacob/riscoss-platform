@@ -1,5 +1,6 @@
 package eu.riscoss.internal;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,5 +56,10 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
     @Override public void storeMeasurement(Measurement measurement)
     {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override public File getTempDirectory(String namespace)
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

@@ -20,13 +20,29 @@ public class ParameterDescription
     private String description;
 
     /**
+     * The default value.
+     */
+    private String defaultValue;
+
+    /**
      * @param id the parameter id.
      * @param description the parameter description.
      */
     public ParameterDescription(String id, String description)
     {
+        this(id, description, null);
+    }
+
+    /**
+     * @param id the parameter id.
+     * @param description the parameter description.
+     * @param defaultValue the default value.
+     */
+    public ParameterDescription(String id, String description, String defaultValue)
+    {
         this.id = id;
         this.description = description;
+        this.defaultValue = defaultValue;
     }
 
     public String getId()
@@ -42,5 +58,10 @@ public class ParameterDescription
     @Override public String toString()
     {
         return String.format("%s : %s", id, description);
+    }
+
+    public String getDefaultValue()
+    {
+        return defaultValue;
     }
 }
