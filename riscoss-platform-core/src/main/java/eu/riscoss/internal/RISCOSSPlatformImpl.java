@@ -18,6 +18,7 @@ import eu.riscoss.api.model.QuestionProcessor;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.Answer;
 import eu.riscoss.api.model.Questionnaire;
+import eu.riscoss.api.model.QuestionnaireListener;
 import eu.riscoss.api.model.QuestionnaireProcessor;
 import eu.riscoss.api.model.Scope;
 
@@ -69,7 +70,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
         return q;
     }
     
-    @Override public void registerQuestionnaire(Questionnaire questionnaire, Scope target)
+    @Override public void registerQuestionnaire(Questionnaire questionnaire, Scope target, QuestionnaireListener answersProcessor)
     {
 
     }

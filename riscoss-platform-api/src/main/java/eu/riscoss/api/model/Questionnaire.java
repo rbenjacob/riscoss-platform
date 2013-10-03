@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Questionnaire
 {
     /**
-     * The question answer. It may be more than one if multi-choice
+     * The list of questions
      */
     private ArrayList<Question> questions;
 

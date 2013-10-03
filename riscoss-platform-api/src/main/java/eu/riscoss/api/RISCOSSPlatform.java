@@ -9,6 +9,7 @@ import eu.riscoss.api.model.Answer;
 import eu.riscoss.api.model.Question;
 import eu.riscoss.api.model.QuestionProcessor;
 import eu.riscoss.api.model.Questionnaire;
+import eu.riscoss.api.model.QuestionnaireListener;
 import eu.riscoss.api.model.QuestionnaireProcessor;
 import eu.riscoss.api.model.Scope;
 
@@ -54,7 +55,8 @@ public interface RISCOSSPlatform
      *  
      *  @param questionnaire the questions to be answered.
      *  @param target the target scope where the questions will be asked.
+     *  @param answersProcessor the listener that will be used to process the answers.
      */
-    void registerQuestionnaire(Questionnaire questionnaire, Scope target);
+    void registerQuestionnaire(Questionnaire questionnaire, Scope target, QuestionnaireListener answersProcessor);
     
 }

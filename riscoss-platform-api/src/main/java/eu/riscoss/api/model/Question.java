@@ -33,25 +33,6 @@ public class Question
     }
 
     /**
-     * The possible types for a question.
-     */
-    public enum Topic
-    {
-        /**
-         * A measurement question.
-         */
-        MEASUREMENT,
-        /**
-         * A goal model question.
-         */
-        GOALMODEL,
-        /**
-         * A strategy question.
-         */
-        STRATEGY
-    }
-
-    /**
      * The question id.
      */
     private String id;
@@ -61,12 +42,6 @@ public class Question
      */
     private Type type;
     
-    /**
-     * The question topic.
-     */
-    private Topic topic;
-    
-
     /**
      * The question itself.
      */
@@ -125,22 +100,6 @@ public class Question
     public void setType(Type type)
     {
         this.type = type;
-    }
-
-    /**
-     * @return the topic
-     */
-    public Topic getTopic()
-    {
-        return topic;
-    }
-
-    /**
-     * @param topic the topic to set
-     */
-    public void setTopic(Topic topic)
-    {
-        this.topic = topic;
     }
 
     /**
