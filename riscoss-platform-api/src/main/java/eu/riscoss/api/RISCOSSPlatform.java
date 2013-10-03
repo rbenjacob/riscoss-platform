@@ -5,7 +5,6 @@ import java.util.List;
 import org.xwiki.component.annotation.Role;
 
 import eu.riscoss.api.model.Measurement;
-import eu.riscoss.api.model.Answer;
 import eu.riscoss.api.model.Question;
 import eu.riscoss.api.model.Questionnaire;
 import eu.riscoss.api.model.QuestionnaireListener;
