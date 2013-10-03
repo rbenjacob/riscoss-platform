@@ -14,12 +14,10 @@ import org.xwiki.component.manager.ComponentManager;
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.ToolFactory;
 import eu.riscoss.api.model.Question;
-import eu.riscoss.api.model.QuestionProcessor;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.Answer;
 import eu.riscoss.api.model.Questionnaire;
 import eu.riscoss.api.model.QuestionnaireListener;
-import eu.riscoss.api.model.QuestionnaireProcessor;
 import eu.riscoss.api.model.Scope;
 
 /**
