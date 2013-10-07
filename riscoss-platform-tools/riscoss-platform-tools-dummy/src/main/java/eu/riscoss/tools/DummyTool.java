@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.Tool;
+import eu.riscoss.api.model.Scope;
 
 /**
  * DummyTool.
@@ -24,7 +25,7 @@ public class DummyTool implements Tool
         this.riscossPlatform = riscossPlatform;
     }
 
-    @Override public void execute(String target, Map<String, String> parameters)
+    @Override public void execute(Scope target, Map<String, String> parameters)
     {
         LOGGER.info(String.format("Running on %s with RISCOSS platform %s", target, riscossPlatform));
     }

@@ -20,6 +20,8 @@ import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.Tool;
 import eu.riscoss.api.ToolFactory;
 import eu.riscoss.api.model.Measurement;
+import eu.riscoss.api.model.OSSComponent;
+import eu.riscoss.api.model.Scope;
 import eu.riscoss.tools.internal.RISCOSSPlatformMock;
 import eu.riscoss.tools.internal.ToolConfigurationProviderMock;
 
@@ -71,9 +73,12 @@ public class GitMeasurementsToolTest
 
         Tool tool = toolFactory.createTool();
 
+        Scope scope = new OSSComponent();
+        scope.setId("foo");
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(GitMeasurementsToolFactory.REPOSITORY_URI_PARAMETER, gitRepository.toString());
-        tool.execute("foo", parameters);
+
+        tool.execute(scope, parameters);
 
         List<Measurement> measurements = riscossPlatformMock.getMeasurements();
 

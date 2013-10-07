@@ -2,6 +2,8 @@ package eu.riscoss.api;
 
 import java.util.Map;
 
+import eu.riscoss.api.model.Scope;
+
 /**
  * The Tool interface provides the API for executing the business logic implemented by a tool. A tool is a runnable
  * entity that is able to manipulate the knowledge base. For example, a tool could produce measurement on a given target
@@ -43,10 +45,10 @@ public interface Tool
      *
      * It's the implementor responsibility to make this method thread safe and handle possible concurrency issues.
      *
-     * @param target the id of the entity the tool should work on.
+     * @param scope the scope the tool should work on.
      * @param parameters a map containing the parameters to be passed business logic of the tool when executed.
      */
-    void execute(String target, Map<String, String> parameters);
+    void execute(Scope scope, Map<String, String> parameters);
 
     /**
      * @return the status of the execution.

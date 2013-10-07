@@ -9,6 +9,8 @@ import org.xwiki.test.annotation.ComponentList;
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.Tool;
 import eu.riscoss.api.ToolFactory;
+import eu.riscoss.api.model.OSSComponent;
+import eu.riscoss.api.model.Scope;
 import eu.riscoss.tools.internal.RISCOSSPlatformMock;
 
 /**
@@ -29,7 +31,10 @@ public class DummyToolFactoryTest
         RISCOSSPlatformMock riscossPlatformMock = componentManagerRule.getInstance(RISCOSSPlatform.class);
 
         Tool tool = toolFactory.createTool();
-        tool.execute("foo", null);
+
+        Scope scope = new OSSComponent();
+        scope.setId("foo");
+        tool.execute(scope, null);
 
         /* Here we can use the RISCOSSPlatformMock in order to check what the tool did */
         //Assert.assertTrue(riscossPlatformMock...);

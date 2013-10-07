@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.Tool;
 import eu.riscoss.api.model.Measurement;
+import eu.riscoss.api.model.Scope;
 
 /**
  * GitMeasurementsTool.
@@ -60,9 +61,9 @@ public class GitMeasurementsTool implements Tool
         this.riscossPlatform = riscossPlatform;
     }
 
-    @Override public void execute(String target, Map<String, String> parameters)
+    @Override public void execute(Scope scope, Map<String, String> parameters)
     {
-        LOGGER.info(String.format("Running %s on %s", GitMeasurementsToolFactory.TOOL_ID, target));
+        LOGGER.info(String.format("Running %s on %s", GitMeasurementsToolFactory.TOOL_ID, scope));
 
         File tempDir = riscossPlatform.getTempDirectory(GitMeasurementsToolFactory.TOOL_ID);
         String repositoryURI = parameters.get(GitMeasurementsToolFactory.REPOSITORY_URI_PARAMETER);
@@ -84,15 +85,24 @@ public class GitMeasurementsTool implements Tool
             GitMeasurementsTool.GitLogStatistics statistics = getStatistics(destination);
 
             if (statistics != null) {
-                Measurement measurement = new Measurement(target, "files-changed-per-commit",
+                Measurement measurement = new Measurement();
+                measurement.setScope(scope);
+                measurement.setType("files-changed-per-commit");
+                measurement.setValue(
                         String.format("%.2f", (double) statistics.filesChanged / (double) statistics.commits));
                 riscossPlatform.storeMeasurement(measurement);
 
-                measurement = new Measurement(target, "lines-added-per-commit",
-                        String.format("%.2f", (double) statistics.linesAdded / (double) statistics.commits));
+                measurement = new Measurement();
+                measurement.setScope(scope);
+                measurement.setType("lines-added-per-commit");
+                measurement
+                        .setValue(String.format("%.2f", (double) statistics.linesAdded / (double) statistics.commits));
                 riscossPlatform.storeMeasurement(measurement);
 
-                measurement = new Measurement(target, "lines-removed-per-commit",
+                measurement = new Measurement();
+                measurement.setScope(scope);
+                measurement.setType("lines-removed-per-commit");
+                measurement.setValue(
                         String.format("%.2f", (double) statistics.linesRemoved / (double) statistics.commits));
                 riscossPlatform.storeMeasurement(measurement);
 

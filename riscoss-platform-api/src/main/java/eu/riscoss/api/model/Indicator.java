@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * @version $Id$
  */
-public class Measurement
+public class Indicator
 {
     /**
      * The measurement id.
@@ -34,13 +34,6 @@ public class Measurement
      * The measurement value.
      */
     private String value;
-
-    /**
-     * Default constructor
-     */
-    public Measurement()
-    {
-    }
 
     public String getId()
     {
