@@ -5,11 +5,11 @@ import org.xwiki.component.embed.EmbeddableComponentManager;
 import eu.riscoss.api.RISCOSSPlatform;
 
 /**
- * RISCOSSPlatformTesting.
+ * RISCOSSPlatformHSQLDB.
  *
  * @version $Id$
  */
-public final class RISCOSSPlatformTesting
+public final class RISCOSSPlatformHSQLDB
 {
     public static RISCOSSPlatform getRISCOSSPlatform() throws Exception
     {
