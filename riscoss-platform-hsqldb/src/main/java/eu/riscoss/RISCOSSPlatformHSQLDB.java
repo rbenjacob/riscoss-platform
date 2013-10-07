@@ -14,7 +14,7 @@ public final class RISCOSSPlatformHSQLDB
     public static RISCOSSPlatform getRISCOSSPlatform() throws Exception
     {
         EmbeddableComponentManager ecm = new EmbeddableComponentManager();
-        ecm.initialize(Main.class.getClassLoader());
+        ecm.initialize(RISCOSSPlatformHSQLDB.class.getClassLoader());
 
         return ecm.getInstance(RISCOSSPlatform.class);
     }
