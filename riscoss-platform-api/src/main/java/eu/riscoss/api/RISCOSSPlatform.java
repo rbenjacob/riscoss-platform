@@ -33,6 +33,12 @@ public interface RISCOSSPlatform
      */
     List<ToolFactory> getToolFactories();
 
+
+    /*****************************************************************************************************************
+     * Data model operations.
+     *****************************************************************************************************************/
+    void storeScope(Scope scope);
+
     /**
      * Store a measurement entity object in the platform knowledge base.
      *

@@ -13,13 +13,14 @@ public class Company extends Scope
     /**
      * The products associated to this company.
      */
-    private List<Product> products = new ArrayList<Product>();
+    private List<Product> products;
 
     /**
      * Default constructor.
      */
     public Company()
     {
+        products = new ArrayList<Product>();
     }
 
     public List<Product> getProducts()

@@ -3,39 +3,43 @@ package eu.riscoss.api.model;
 import java.util.Date;
 
 /**
- * This class is used to store a measurement.
+ * This class is used to store a indicator.
  *
  * @version $Id$
  */
 public class Indicator
 {
     /**
-     * The measurement id.
+     * The indicator id.
      */
-    private String id;
+    private Long id;
 
     /**
-     * The measurement type. This gives a reference to the semantics of the measurement (e.g., 'number of commits per
-     * day')
+     * The indicator type. This gives a reference to the semantics of the indicator.
      */
     private String type;
 
     /**
-     * The target of the measurement.
+     * The target of the indicator.
      */
     private Scope scope;
 
     /**
-     * The measurement type.
+     * The indicator type.
      */
     private Date date;
 
     /**
-     * The measurement value.
+     * The indicator value.
      */
     private String value;
 
-    public String getId()
+    public Indicator()
+    {
+        date = new Date();
+    }
+
+    public Long getId()
     {
         return id;
     }
@@ -60,7 +64,7 @@ public class Indicator
         return value;
     }
 
-    public void setId(String id)
+    public void setId(Long id)
     {
         this.id = id;
     }

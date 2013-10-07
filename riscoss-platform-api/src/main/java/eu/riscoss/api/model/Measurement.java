@@ -12,7 +12,7 @@ public class Measurement
     /**
      * The measurement id.
      */
-    private String id;
+    private Long id;
 
     /**
      * The measurement type. This gives a reference to the semantics of the measurement (e.g., 'number of commits per
@@ -40,9 +40,10 @@ public class Measurement
      */
     public Measurement()
     {
+        date = new Date();
     }
 
-    public String getId()
+    public Long getId()
     {
         return id;
     }
@@ -67,7 +68,7 @@ public class Measurement
         return value;
     }
 
-    public void setId(String id)
+    public void setId(Long id)
     {
         this.id = id;
     }

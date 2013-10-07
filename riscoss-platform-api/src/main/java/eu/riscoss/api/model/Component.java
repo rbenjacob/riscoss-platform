@@ -10,8 +10,14 @@ import java.util.List;
  */
 public class Component extends Scope
 {
+    /**
+     * The component version.
+     */
     private String version;
 
+    /**
+     * The list of products this component is associated to.
+     */
     List<Product> products;
 
     /**

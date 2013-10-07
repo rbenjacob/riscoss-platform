@@ -2,12 +2,73 @@
     "-//Hibernate/Hibernate Mapping DTD//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-  <class name="eu.riscoss.api.model.Measurement" table="measurements">
-    <id name="id" column="measurement_id" type="string">
-      <generator class="assigned"/>
-    </id>
-    <property name="type" type="string" column="measurement_ip" not-null="true"/>
-    <property name="date" type="timestamp" column="measurement_date" not-null="true"/>
-    <property name="value" type="text" column="measurement_value" not-null="true"/>
+  <class name="eu.riscoss.api.model.Scope" table="SCOPES">
+    <id name="id"/>
+    <discriminator column="SCOPE_TYPE"/>
+    <property name="name"/>
+    <property name="description"/>
+
+    <subclass name="eu.riscoss.api.model.Company" discriminator-value="COMPANY">
+      <list name="products">
+        <key column="PRODUCTS_FOR_COMPANY"/>
+        <list-index column="id"/>
+        <one-to-many class="eu.riscoss.api.model.Product"/>
+      </list>
+    </subclass>
+
+    <subclass name="eu.riscoss.api.model.Product" discriminator-value="PRODUCT">
+      <many-to-one name="company" class="eu.riscoss.api.model.Company"/>
+      <list name="components">
+        <key column="COMPONENTS_FOR_PRODUCT"/>
+        <list-index column="id"/>
+        <one-to-many class="eu.riscoss.api.model.Component"/>
+      </list>
+    </subclass>
+
+    <subclass name="eu.riscoss.api.model.Project" discriminator-value="PROJECT"/>
+
+    <subclass name="eu.riscoss.api.model.Component" discriminator-value="COMPONENT">
+      <property name="version"/>
+      <list name="products">
+        <key column="PRODUCTS_FOR_COMPONENT"/>
+        <list-index column="id"/>
+        <one-to-many class="eu.riscoss.api.model.Product"/>
+      </list>
+
+      <subclass name="eu.riscoss.api.model.OSSComponent" discriminator-value="OSSCOMPONENT">
+        <property name="webSite"/>
+      </subclass>
+    </subclass>
   </class>
+
+  <class name="eu.riscoss.api.model.Measurement" table="MEASUREMENTS">
+    <id name="id">
+      <generator class="native"/>
+    </id>
+    <many-to-one name="scope" class="eu.riscoss.api.model.Scope"/>
+    <property name="type" not-null="true"/>
+    <property name="date" type="timestamp" not-null="true"/>
+    <property name="value" type="text" not-null="true"/>
+  </class>
+
+  <class name="eu.riscoss.api.model.Indicator" table="INDICATORS">
+    <id name="id">
+      <generator class="native"/>
+    </id>
+    <many-to-one name="scope" class="eu.riscoss.api.model.Scope"/>
+    <property name="type" not-null="true"/>
+    <property name="date" type="timestamp" not-null="true"/>
+    <property name="value" type="text" not-null="true"/>
+  </class>
+
+  <class name="eu.riscoss.api.model.RiskModel" table="RISKMODELS">
+    <id name="id"/>
+    <property name="xml" type="text" not-null="true"/>
+  </class>
+
+  <class name="eu.riscoss.api.model.GoalModel" table="GOALMODELS">
+    <id name="id"/>
+    <property name="xml" type="text" not-null="true"/>
+  </class>
+
 </hibernate-mapping>

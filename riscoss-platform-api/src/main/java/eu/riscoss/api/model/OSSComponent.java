@@ -1,7 +1,5 @@
 package eu.riscoss.api.model;
 
-import java.util.ArrayList;
-
 /**
  * OSSComponent.
  *
@@ -19,7 +17,6 @@ public class OSSComponent extends Component
      */
     public OSSComponent()
     {
-        products = new ArrayList<Product>();
     }
 
     public String getWebSite()
