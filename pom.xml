@@ -57,6 +57,7 @@
     <module>riscoss-platform-api</module>
     <module>riscoss-platform-core</module>
     <module>riscoss-platform-tools</module>
+    <module>riscoss-platform-testing</module>
   </modules>
 
   <build>

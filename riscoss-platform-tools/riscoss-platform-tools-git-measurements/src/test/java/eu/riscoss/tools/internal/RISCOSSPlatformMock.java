@@ -52,6 +52,10 @@ public class RISCOSSPlatformMock implements RISCOSSPlatform
         return measurements;
     }
 
+    @Override public void storeScope(Scope scope)
+    {
+    }
+
     @Override public Question getQuestion(String questionId)
     {
         return null;

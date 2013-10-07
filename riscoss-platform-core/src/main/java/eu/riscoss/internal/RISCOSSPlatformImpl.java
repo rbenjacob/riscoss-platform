@@ -7,11 +7,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 
+import eu.riscoss.HibernateSessionProvider;
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.ToolFactory;
 import eu.riscoss.api.model.Measurement;
@@ -35,6 +37,9 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
     @Inject
     private ComponentManager componentManager;
 
+    @Inject
+    private HibernateSessionProvider hibernateSessionProvider;
+
     @Override public ToolFactory getToolFactory(String toolId)
     {
         try {
@@ -57,9 +62,14 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
         return Collections.EMPTY_LIST;
     }
 
+    @Override public void storeScope(Scope scope)
+    {
+        hibernateStore(scope);
+    }
+
     @Override public void storeMeasurement(Measurement measurement)
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        hibernateStore(measurement);
     }
 
     @Override public File getTempDirectory(String namespace)
@@ -83,5 +93,13 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
     {
         //TODO: Implement this
         return null;
+    }
+
+    private void hibernateStore(Object object)
+    {
+        Session session = hibernateSessionProvider.getSession();
+        session.beginTransaction();
+        session.saveOrUpdate(object);
+        session.getTransaction().commit();
     }
 }

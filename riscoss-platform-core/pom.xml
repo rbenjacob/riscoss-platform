@@ -60,5 +60,11 @@
       <artifactId>xwiki-platform-query-manager</artifactId>
       <version>${xwiki.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <!-- This must match with the version used in XWiki -->
+      <version>3.6.9.Final</version>
+    </dependency>
   </dependencies>
 </project>

@@ -54,4 +54,9 @@ public class RISCOSSPlatformMock implements RISCOSSPlatform
     {
         return null;
     }
+
+    @Override public void storeScope(Scope scope)
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
