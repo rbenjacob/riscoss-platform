@@ -6,6 +6,10 @@ import java.util.List;
 import org.xwiki.component.annotation.Role;
 
 import eu.riscoss.api.model.Measurement;
+import eu.riscoss.api.model.Scope;
+import eu.riscoss.api.model.questionnaire.Question;
+import eu.riscoss.api.model.questionnaire.Questionnaire;
+import eu.riscoss.api.model.questionnaire.QuestionnaireListener;
 
 /**
  * RISCOSSPlatform. This interface provides all the methods for accessing all the functionalities provided by the
@@ -43,4 +47,30 @@ public interface RISCOSSPlatform
      * @return the temporary directory.
      */
     File getTempDirectory(String namespace);
+
+    /*****************************************************************************************************************
+     * Questionnaire oriented API.
+     * TODO: Move this in a separate module
+     *****************************************************************************************************************/
+    /**
+     * The loadQuestion method will load a question from the RISCOSS DB.
+     *
+     * @param questionId the id of the question to be retrieved from the RISCOSS DB.
+     */
+    Question getQuestion(String questionId);
+
+    /**
+     * The registerQuestionnaire method should ask the questions. NOTE: If some question is already answered the
+     * platform shall not asking it again.
+     *
+     * @param target the target scope where the questions will be asked.
+     * @param questionnaire the questions to be answered.
+     * @param questionnaireListener the listener that will be used to process the answers.
+     */
+    void registerQuestionnaire(Scope target, Questionnaire questionnaire, QuestionnaireListener questionnaireListener);
+
+    /**
+     * @return a list of questionnaires that need to be answered.
+     */
+    List<Questionnaire> getRegisteredQuestionnaires();
 }
