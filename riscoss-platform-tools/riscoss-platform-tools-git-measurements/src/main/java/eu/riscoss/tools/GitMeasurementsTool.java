@@ -59,6 +59,9 @@ public class GitMeasurementsTool implements Tool
         this.bashPath = bashPath;
         this.awkPath = awkPath;
         this.riscossPlatform = riscossPlatform;
+
+        LOGGER.info(String.format("git measurements tool initialized with git:%s, bash:%s, awk:%s", gitPath, bashPath,
+                awkPath));
     }
 
     @Override public void execute(Scope scope, Map<String, String> parameters)
