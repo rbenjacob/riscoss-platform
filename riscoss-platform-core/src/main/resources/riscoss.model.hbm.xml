@@ -21,7 +21,7 @@
       <list name="components">
         <key column="COMPONENTS_FOR_PRODUCT"/>
         <list-index column="id"/>
-        <one-to-many class="eu.riscoss.api.model.Component"/>
+        <many-to-many class="eu.riscoss.api.model.Component"/>
       </list>
     </subclass>
 
@@ -32,7 +32,7 @@
       <list name="products">
         <key column="PRODUCTS_FOR_COMPONENT"/>
         <list-index column="id"/>
-        <one-to-many class="eu.riscoss.api.model.Product"/>
+        <many-to-many class="eu.riscoss.api.model.Product"/>
       </list>
 
       <subclass name="eu.riscoss.api.model.OSSComponent" discriminator-value="OSSCOMPONENT">

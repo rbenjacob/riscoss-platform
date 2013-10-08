@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.xwiki.component.annotation.Role;
 
+import eu.riscoss.api.model.GoalModel;
+import eu.riscoss.api.model.Indicator;
 import eu.riscoss.api.model.Measurement;
+import eu.riscoss.api.model.RiskModel;
 import eu.riscoss.api.model.Scope;
 import eu.riscoss.api.model.questionnaire.Question;
 import eu.riscoss.api.model.questionnaire.Questionnaire;
@@ -20,6 +23,9 @@ import eu.riscoss.api.model.questionnaire.QuestionnaireListener;
 @Role
 public interface RISCOSSPlatform
 {
+    /*****************************************************************************************************************
+     * Tool oriented API.
+     *****************************************************************************************************************/
     /**
      * Retrieve the tool factory for creating instances of a given tool.
      *
@@ -33,11 +39,63 @@ public interface RISCOSSPlatform
      */
     List<ToolFactory> getToolFactories();
 
+    /**
+     * Return a directory where to store temporary files.
+     *
+     * @param namespace the namespace used for isolating temporary files.
+     * @return the temporary directory.
+     */
+    File getTempDirectory(String namespace);
 
     /*****************************************************************************************************************
      * Data model operations.
      *****************************************************************************************************************/
+    /**
+     * Retrieve a well defined scope from the platform knowledge base.
+     *
+     * @param scopeId the scope id.
+     * @return the scope whose id is given by the parameter.
+     */
+    Scope getScope(String scopeId);
+
+    /**
+     * @return all the scopes stored in the platform knowledge base.
+     */
+    List<Scope> getScopes();
+
+    /**
+     * @param scopeClass the scope class (e.g., OSSComponents)
+     * @return all the scopes of a given type stored in the platform knowledge base.
+     */
+    <T> List<T> getScopesByType(Class<T> scopeClass);
+
+    /**
+     * Store a scope in the knowledge base.
+     *
+     * @param scope the scope to be stored.
+     */
     void storeScope(Scope scope);
+
+    /**
+     * Get the measurements for a given scope.
+     *
+     * @param scope the scope.
+     * @param offset initial offset for results.
+     * @param length results length.
+     * @return a list of measurement.
+     */
+    List<Measurement> getMeasurements(Scope scope, int offset, int length);
+
+    /**
+     * Get the measurements of a given type for a given scope.
+     *
+     * @param scope the scope.
+     * @param type the measurement type.
+     * @param offset initial offset for results.
+     * @param length results length.
+     * @return a list of measurement.
+     */
+    List<Measurement> getMeasurements(Scope scope, String type, int offset, int length);
 
     /**
      * Store a measurement entity object in the platform knowledge base.
@@ -47,12 +105,68 @@ public interface RISCOSSPlatform
     void storeMeasurement(Measurement measurement);
 
     /**
-     * Return a directory where to store temporary files.
+     * Get the indicators for a given scope.
      *
-     * @param namespace the namespace used for isolating temporary files.
-     * @return the temporary directory.
+     * @param scope the scope.
+     * @param offset initial offset for results.
+     * @param length results length.
+     * @return a list of indicators.
      */
-    File getTempDirectory(String namespace);
+    List<Indicator> getIndicators(Scope scope, int offset, int length);
+
+    /**
+     * Get the indicators of a given type for a given scope.
+     *
+     * @param scope the scope.
+     * @param type the indicator type.
+     * @param offset initial offset for results.
+     * @param length results length.
+     * @return a list of measurement.
+     */
+    List<Indicator> getIndicators(Scope scope, String type, int offset, int length);
+
+    /**
+     * Store an indicator entity object in the platform knowledge base.
+     *
+     * @param indicator the indicator to be stored.
+     */
+    void storeIndicator(Indicator indicator);
+
+    /**
+     * @return the list of risk models stored in the platform knowledge base.
+     */
+    List<RiskModel> getRiskModels();
+
+    /**
+     * @param id the id of the risk model.
+     * @return the risk model with the given id.
+     */
+    RiskModel getRiskModel(String id);
+
+    /**
+     * Store a risk model in the platform knowledge base.
+     *
+     * @param riskModel the risk model to be stored.
+     */
+    void storeRiskModel(RiskModel riskModel);
+
+    /**
+     * @return the list of goal models stored in the platform knowledge base.
+     */
+    List<GoalModel> getGoalModels();
+
+    /**
+     * @param id the id of the goal model.
+     * @return the goal model with the given id.
+     */
+    GoalModel getGoalModel(String id);
+
+    /**
+     * Store a goal model in the platform knowledge base.
+     *
+     * @param goalModel the risk model to be stored.
+     */
+    void storeGoalModel(GoalModel goalModel);
 
     /*****************************************************************************************************************
      * Questionnaire oriented API.
