@@ -14,13 +14,13 @@ import org.xwiki.component.phase.InitializationException;
 import eu.riscoss.HibernateSessionProvider;
 
 /**
- * TestingHibernateSessionProvider.
+ * StandaloneHibernateSessionProvider.
  *
  * @version $Id$
  */
 @Component
 @Singleton
-public class TestingHibernateSessionProvider implements HibernateSessionProvider, Initializable
+public class StandaloneHibernateSessionProvider implements HibernateSessionProvider, Initializable
 {
     @Inject
     private Logger logger;

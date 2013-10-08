@@ -23,7 +23,7 @@ import eu.riscoss.api.ToolConfigurationProvider;
  */
 @Component
 @Singleton
-public class ToolConfigurationProviderImpl implements ToolConfigurationProvider
+public class XWikiToolConfigurationProvider implements ToolConfigurationProvider
 {
     @Inject
     private Logger logger;
@@ -31,7 +31,7 @@ public class ToolConfigurationProviderImpl implements ToolConfigurationProvider
     @Inject
     private QueryManager queryManager;
 
-    public ToolConfigurationProviderImpl()
+    public XWikiToolConfigurationProvider()
     {
     }
 

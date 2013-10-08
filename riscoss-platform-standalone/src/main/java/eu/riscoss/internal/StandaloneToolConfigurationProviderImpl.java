@@ -24,14 +24,14 @@ import eu.riscoss.api.ToolConfigurationProvider;
  */
 @Component
 @Singleton
-public class ToolConfigurationProviderImpl implements ToolConfigurationProvider, Initializable
+public class StandaloneToolConfigurationProviderImpl implements ToolConfigurationProvider, Initializable
 {
     @Inject
     private Logger logger;
 
     private Properties configurationProperties;
 
-    public ToolConfigurationProviderImpl()
+    public StandaloneToolConfigurationProviderImpl()
     {
     }
 

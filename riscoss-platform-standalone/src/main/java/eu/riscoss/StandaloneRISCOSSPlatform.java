@@ -5,16 +5,16 @@ import org.xwiki.component.embed.EmbeddableComponentManager;
 import eu.riscoss.api.RISCOSSPlatform;
 
 /**
- * RISCOSSPlatformHSQLDB.
+ * StandaloneRISCOSSPlatform.
  *
  * @version $Id$
  */
-public final class RISCOSSPlatformHSQLDB
+public final class StandaloneRISCOSSPlatform
 {
     public static RISCOSSPlatform getRISCOSSPlatform() throws Exception
     {
         EmbeddableComponentManager ecm = new EmbeddableComponentManager();
-        ecm.initialize(RISCOSSPlatformHSQLDB.class.getClassLoader());
+        ecm.initialize(StandaloneRISCOSSPlatform.class.getClassLoader());
 
         return ecm.getInstance(RISCOSSPlatform.class);
     }
