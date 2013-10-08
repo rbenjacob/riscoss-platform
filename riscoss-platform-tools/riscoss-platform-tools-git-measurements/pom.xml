@@ -33,11 +33,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>eu.riscoss</groupId>
-      <artifactId>riscoss-platform-testing</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.4</version>
@@ -45,6 +40,12 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>eu.riscoss</groupId>
+      <artifactId>riscoss-platform-testing</artifactId>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
