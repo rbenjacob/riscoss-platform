@@ -54,6 +54,11 @@
     </dependency>
     <dependency>
       <groupId>eu.riscoss</groupId>
+      <artifactId>riscoss-platform-xwiki</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>eu.riscoss</groupId>
       <artifactId>riscoss-platform-tools-dummy</artifactId>
       <version>${project.version}</version>
     </dependency>

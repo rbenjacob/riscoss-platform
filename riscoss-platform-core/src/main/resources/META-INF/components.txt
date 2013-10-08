@@ -1,3 +1,1 @@
 eu.riscoss.internal.RISCOSSPlatformImpl
-eu.riscoss.internal.RISCOSSPlatformScriptService
-eu.riscoss.internal.ToolConfigurationProviderImpl

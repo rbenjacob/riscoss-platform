@@ -1,1 +1,2 @@
 eu.riscoss.internal.TestingHibernateSessionProvider
+eu.riscoss.internal.ToolConfigurationProviderImpl
