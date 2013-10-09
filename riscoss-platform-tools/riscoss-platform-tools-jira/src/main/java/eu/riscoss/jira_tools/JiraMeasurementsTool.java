@@ -95,7 +95,7 @@ public class JiraMeasurementsTool implements Tool
             measurement.setValue(String.format("%.2f", statistics.timeToResolveABlockingOrCriticalBug));
             riscossPlatform.storeMeasurement(measurement);
 
-            LOGGER.info(String.format("Analysis completed [%d, %d, %d]. Results stored", statistics.openBugs,
+            LOGGER.info(String.format("Analysis completed [%d, %f, %f]. Results stored", statistics.openBugs,
                 statistics.timeToResolveABug, statistics.timeToResolveABlockingOrCriticalBug));
         }
     }
