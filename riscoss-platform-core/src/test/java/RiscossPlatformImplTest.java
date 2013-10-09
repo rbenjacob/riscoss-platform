@@ -38,8 +38,6 @@ public class RiscossPlatformImplTest
     @Before
     public void before() throws ComponentLookupException
     {
-
-        System.out.format("%s\n", System.getProperty("user.dir"));
         if (!dataInitialized) {
             riscossPlatform = componentManagerRule.getInstance(RISCOSSPlatform.class);
 
