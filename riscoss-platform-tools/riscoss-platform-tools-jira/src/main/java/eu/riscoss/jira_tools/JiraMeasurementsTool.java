@@ -124,12 +124,11 @@ public class JiraMeasurementsTool implements Tool {
 			measurement.setScope(scope);
 			measurement.setType("number-Of-Open-Feature-Requests");
 			measurement.setValue(Integer.toString(statistics.numberOfOpenFeatureRequests));
-			riscossPlatform.storeMeasurement(measurement);
-
+			riscossPlatform.storeMeasurement(measurement)
 			
 
 			LOGGER.info(String.format(
-					"Analysis completed [%d, %d, %d,%d,%d]. Results stored",
+					"Analysis completed [%d, %f, %f,%d,%d]. Results stored",
 					statistics.openBugs, statistics.timeToResolveABug,
 					statistics.timeToResolveABlockingOrCriticalBug),
 					statistics.numberOfFeatureRequests,statistics.numberOfOpenFeatureRequests);
