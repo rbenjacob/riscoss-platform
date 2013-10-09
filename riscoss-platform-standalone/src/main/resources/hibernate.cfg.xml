@@ -9,7 +9,7 @@
 
     <!-- Database connection settings -->
     <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-    <property name="connection.url">jdbc:hsqldb:file:database/riscoss;shutdown=true</property>
+    <property name="connection.url">jdbc:hsqldb:file:/home/fm/Development/riscoss-platform/database/riscoss;shutdown=true;hsqldb.write_delay=false;</property>
     <property name="connection.username">sa</property>
     <property name="connection.password"></property>
 

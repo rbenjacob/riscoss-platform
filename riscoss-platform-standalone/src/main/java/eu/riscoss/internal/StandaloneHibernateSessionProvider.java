@@ -3,6 +3,7 @@ package eu.riscoss.internal;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -25,13 +26,15 @@ public class StandaloneHibernateSessionProvider implements HibernateSessionProvi
     @Inject
     private Logger logger;
 
-    private SessionFactory sessionFactory;
+    private Session session;
 
     @Override public void initialize() throws InitializationException
     {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
-            sessionFactory = new Configuration().configure().buildSessionFactory();
+            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+            session = sessionFactory.openSession();
+            session.setFlushMode(FlushMode.COMMIT);
 
             logger.info("Initialized");
         } catch (Throwable ex) {
@@ -43,6 +46,6 @@ public class StandaloneHibernateSessionProvider implements HibernateSessionProvi
 
     @Override public Session getSession()
     {
-        return sessionFactory.getCurrentSession();
+        return session;
     }
 }

@@ -338,7 +338,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
         Session session = hibernateSessionProvider.getSession();
         session.beginTransaction();
         try {
-            session.save(object);
+            session.saveOrUpdate(object);
         } catch (Exception e) {
             session.getTransaction().rollback();
         } finally {
