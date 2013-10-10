@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author David
@@ -24,8 +25,16 @@ public class Questionnaire
     private ArrayList<Question> questions;
 
     /**
-     * Standard constructor. We enforce the presence of an id by declaring it as a parameter of the constructor.
-     * 
+     * Default constructor.
+     */
+    public Questionnaire()
+    {
+        id = UUID.randomUUID().toString();
+    }
+
+    /**
+     * Standard constructor.
+     *
      * @param id the questionnaire id.
      */
     public Questionnaire(String id)
@@ -51,7 +60,6 @@ public class Questionnaire
     }
 
     /**
-     * @param questionId
      * @return the question if present in the questionnaire, or null otherwise.
      */
     public Question getQuestion(String questionId)
@@ -60,10 +68,11 @@ public class Questionnaire
         Iterator<Question> it = questions.iterator();
         while (it.hasNext()) {
             question = it.next();
-            if (question.getId() == questionId)
+            if (question.getId() == questionId) {
                 break;
-            else
+            } else {
                 question = null;
+            }
         }
         return question;
     }
