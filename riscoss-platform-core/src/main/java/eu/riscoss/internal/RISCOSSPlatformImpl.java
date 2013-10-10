@@ -1,6 +1,7 @@
 package eu.riscoss.internal;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import eu.riscoss.api.model.Indicator;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.RiskModel;
 import eu.riscoss.api.model.Scope;
+import eu.riscoss.api.model.questionnaire.Answers;
 import eu.riscoss.api.model.questionnaire.Question;
 import eu.riscoss.api.model.questionnaire.Questionnaire;
 import eu.riscoss.api.model.questionnaire.QuestionnaireListener;
@@ -35,6 +37,18 @@ import eu.riscoss.api.model.questionnaire.QuestionnaireListener;
 @Singleton
 public class RISCOSSPlatformImpl implements RISCOSSPlatform
 {
+    /**
+     * This class is used to store information about registered questionnaires.
+     */
+    private static class QuestionnaireEntry
+    {
+        Scope scope;
+
+        Questionnaire questionnaire;
+
+        QuestionnaireListener listener;
+    }
+
     @Inject
     private Logger logger;
 
@@ -43,6 +57,13 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
 
     @Inject
     private HibernateSessionProvider hibernateSessionProvider;
+
+    private List<QuestionnaireEntry> registeredQuestionnaires;
+
+    public RISCOSSPlatformImpl()
+    {
+        registeredQuestionnaires = new ArrayList<QuestionnaireEntry>();
+    }
 
     @Override public ToolFactory getToolFactory(String toolId)
     {
@@ -75,22 +96,100 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
         return tempDirectory;
     }
 
-    @Override public Question getQuestion(String questionId)
+    @Override public Question getQuestion(String id)
     {
-        //TODO: Implement this
+        Session session = hibernateSessionProvider.getSession();
+        session.beginTransaction();
+
+        try {
+            Query query = session.createQuery("from Question as Q where Q.id = :id");
+            query.setParameter("id", id);
+            List<Question> questions = query.list();
+
+            if (questions.size() != 0) {
+                return questions.get(0);
+            }
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.getTransaction().commit();
+        }
+
         return null;
     }
 
-    @Override public void registerQuestionnaire(Scope target, Questionnaire questionnaire,
+    @Override public List<Question> getQuestions()
+    {
+        Session session = hibernateSessionProvider.getSession();
+        session.beginTransaction();
+
+        try {
+            Query query = session.createQuery("from Question");
+            return query.list();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.getTransaction().commit();
+        }
+
+        return Collections.EMPTY_LIST;
+    }
+
+    @Override public void storeQuestion(Question question)
+    {
+        hibernateStore(question);
+    }
+
+    @Override public void registerQuestionnaire(Scope scope, Questionnaire questionnaire,
             QuestionnaireListener questionnaireListener)
     {
-        //TODO: Implement this
+        QuestionnaireEntry entry = new QuestionnaireEntry();
+        entry.scope = scope;
+        entry.questionnaire = questionnaire;
+        entry.listener = questionnaireListener;
+
+        registeredQuestionnaires.add(entry);
     }
 
     @Override public List<Questionnaire> getRegisteredQuestionnaires()
     {
-        //TODO: Implement this
-        return null;
+        List<Questionnaire> result = new ArrayList<Questionnaire>();
+        for (QuestionnaireEntry entry : registeredQuestionnaires) {
+            result.add(entry.questionnaire);
+        }
+
+        return result;
+    }
+
+    @Override public List<Questionnaire> getRegisteredQuestionnaires(Scope scope)
+    {
+        List<Questionnaire> result = new ArrayList<Questionnaire>();
+        for (QuestionnaireEntry entry : registeredQuestionnaires) {
+            if (entry.scope.equals(scope)) {
+                result.add(entry.questionnaire);
+            }
+        }
+
+        return result;
+    }
+
+    @Override public void submitAnswers(Questionnaire questionnaire, Answers answers)
+    {
+        QuestionnaireEntry targetEntry = null;
+        for (QuestionnaireEntry entry : registeredQuestionnaires) {
+            if (entry.questionnaire.equals(questionnaire)) {
+                targetEntry = entry;
+                break;
+            }
+        }
+
+        if (targetEntry != null) {
+            if (targetEntry.listener != null) {
+                targetEntry.listener.questionnaireAnswered(answers);
+            }
+
+            registeredQuestionnaires.remove(targetEntry);
+        }
     }
 
     @Override public Scope getScope(String id)

@@ -10,6 +10,7 @@ import eu.riscoss.api.model.Indicator;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.RiskModel;
 import eu.riscoss.api.model.Scope;
+import eu.riscoss.api.model.questionnaire.Answers;
 import eu.riscoss.api.model.questionnaire.Question;
 import eu.riscoss.api.model.questionnaire.Questionnaire;
 import eu.riscoss.api.model.questionnaire.QuestionnaireListener;
@@ -128,5 +129,25 @@ public class BaseRISCOSSPlatform implements RISCOSSPlatform
     @Override public void storeGoalModel(GoalModel goalModel)
     {
 
+    }
+
+    @Override public List<Question> getQuestions()
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override public void storeQuestion(Question question)
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override public List<Questionnaire> getRegisteredQuestionnaires(Scope scope)
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override public void submitAnswers(Questionnaire questionnaire, Answers answers)
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

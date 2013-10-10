@@ -18,6 +18,11 @@ import eu.riscoss.api.model.Product;
 import eu.riscoss.api.model.Project;
 import eu.riscoss.api.model.RiskModel;
 import eu.riscoss.api.model.Scope;
+import eu.riscoss.api.model.questionnaire.Answer;
+import eu.riscoss.api.model.questionnaire.Answers;
+import eu.riscoss.api.model.questionnaire.Question;
+import eu.riscoss.api.model.questionnaire.Questionnaire;
+import eu.riscoss.api.model.questionnaire.QuestionnaireListener;
 import eu.riscoss.internal.RISCOSSPlatformImpl;
 
 /**
@@ -34,6 +39,9 @@ public class RiscossPlatformImplTest
     private RISCOSSPlatform riscossPlatform;
 
     private boolean dataInitialized = false;
+
+    /* Used in submit answes test */
+    private boolean answersReceived = false;
 
     @Before
     public void before() throws ComponentLookupException
@@ -109,6 +117,16 @@ public class RiscossPlatformImplTest
             goalModel.setId("g");
             goalModel.setXml("xml");
             riscossPlatform.storeGoalModel(goalModel);
+
+            /* Store some questions */
+            for (int i = 0; i < 3; i++) {
+                Question question = new Question();
+                question.setId("Q" + i);
+                question.setQuestion("Q" + i + "?");
+                question.setType(Question.Type.FREETEXT);
+                question.setHelp("Help" + i);
+                riscossPlatform.storeQuestion(question);
+            }
         } else {
             dataInitialized = true;
         }
@@ -286,5 +304,76 @@ public class RiscossPlatformImplTest
         GoalModel goalModel = riscossPlatform.getGoalModel("NULL");
 
         Assert.assertNull(goalModel);
+    }
+
+    @Test
+    public void getQuestionsTest()
+    {
+        List<Question> questions = riscossPlatform.getQuestions();
+
+        Assert.assertEquals(3, questions.size());
+    }
+
+    @Test
+    public void getQuestionTest()
+    {
+        Question question = riscossPlatform.getQuestion("Q1");
+
+        Assert.assertNotNull(question);
+    }
+
+    @Test
+    public void registerQuestionnaireTest()
+    {
+        Scope scope = riscossPlatform.getScope("ossc");
+        Question question = riscossPlatform.getQuestion("Q1");
+
+        Questionnaire questionnaire = new Questionnaire("QU1");
+        riscossPlatform.registerQuestionnaire(scope, questionnaire, new QuestionnaireListener()
+        {
+            @Override public void questionnaireAnswered(Answers answers)
+            {
+            }
+        });
+
+        List<Questionnaire> registeredQuestionnaires = riscossPlatform.getRegisteredQuestionnaires();
+
+        Assert.assertEquals(1, registeredQuestionnaires.size());
+
+        registeredQuestionnaires = riscossPlatform.getRegisteredQuestionnaires(scope);
+
+        Assert.assertEquals(1, registeredQuestionnaires.size());
+    }
+
+    @Test
+    public void submitAnswersTest()
+    {
+        answersReceived = false;
+
+        Scope scope = riscossPlatform.getScope("ossc");
+        Question question = riscossPlatform.getQuestion("Q1");
+
+        Questionnaire questionnaire = new Questionnaire("QU2");
+        riscossPlatform.registerQuestionnaire(scope, questionnaire, new QuestionnaireListener()
+        {
+            @Override public void questionnaireAnswered(Answers answers)
+            {
+                answersReceived = true;
+            }
+        });
+
+        int numberOfregisteredQuestionnaires = riscossPlatform.getRegisteredQuestionnaires().size();
+
+        Answers answers = new Answers(questionnaire);
+        Answer answer = new Answer();
+        answer.addValue("foo");
+        answers.addAnswer("Q1", answer);
+        riscossPlatform.submitAnswers(questionnaire, answers);
+
+        List<Questionnaire> registeredQuestionnaires = riscossPlatform.getRegisteredQuestionnaires();
+
+        Assert.assertEquals(numberOfregisteredQuestionnaires - 1, registeredQuestionnaires.size());
+
+        Assert.assertEquals(true, answersReceived);
     }
 }

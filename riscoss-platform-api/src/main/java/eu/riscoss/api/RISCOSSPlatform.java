@@ -10,6 +10,7 @@ import eu.riscoss.api.model.Indicator;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.RiskModel;
 import eu.riscoss.api.model.Scope;
+import eu.riscoss.api.model.questionnaire.Answers;
 import eu.riscoss.api.model.questionnaire.Question;
 import eu.riscoss.api.model.questionnaire.Questionnaire;
 import eu.riscoss.api.model.questionnaire.QuestionnaireListener;
@@ -173,11 +174,23 @@ public interface RISCOSSPlatform
      * TODO: Move this in a separate module
      *****************************************************************************************************************/
     /**
+     * @return the questions stored in the platform.
+     */
+    List<Question> getQuestions();
+
+    /**
      * The loadQuestion method will load a question from the RISCOSS DB.
      *
      * @param questionId the id of the question to be retrieved from the RISCOSS DB.
      */
     Question getQuestion(String questionId);
+
+    /**
+     * Store a question
+     *
+     * @param question the question to be stored.
+     */
+    void storeQuestion(Question question);
 
     /**
      * The registerQuestionnaire method should ask the questions. NOTE: If some question is already answered the
@@ -193,4 +206,18 @@ public interface RISCOSSPlatform
      * @return a list of questionnaires that need to be answered.
      */
     List<Questionnaire> getRegisteredQuestionnaires();
+
+    /**
+     * @param scope the scope.
+     * @return a list of questionnaires that need to be answered for a given scope.
+     */
+    List<Questionnaire> getRegisteredQuestionnaires(Scope scope);
+
+    /**
+     * Store answers to a questionnaire. This method removes the questionnaire from the registered questionnaires.
+     *
+     * @param questionnaire the target questionnaire.
+     * @param answers the answers to the questionnaire.
+     */
+    void submitAnswers(Questionnaire questionnaire, Answers answers);
 }

@@ -71,4 +71,18 @@
     <property name="xml" type="text" not-null="true"/>
   </class>
 
+  <class name="eu.riscoss.api.model.questionnaire.Question">
+    <id name="id"/>
+    <property name="type">
+      <type name="org.hibernate.type.EnumType">
+        <param name="enumClass">eu.riscoss.api.model.questionnaire.Question$Type</param>
+      </type>
+    </property>
+    <property name="question"/>
+    <property name="help"/>
+    <property name="possibleAnswersRaw" type="text"/>
+    <property name="mandatory"/>
+  </class>
+
+
 </hibernate-mapping>
