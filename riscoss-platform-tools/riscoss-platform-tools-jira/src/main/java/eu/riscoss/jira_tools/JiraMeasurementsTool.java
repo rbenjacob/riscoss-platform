@@ -40,13 +40,12 @@ public class JiraMeasurementsTool implements Tool {
 
 	public static class JiraLogStatistics {
 		public int openBugs;
-
 		public double timeToResolveABug;
-
 		public double timeToResolveABlockingOrCriticalBug;
 		public int numberOfFeatureRequests;
 		public int numberOfOpenFeatureRequests;
 		public int numberOfClosedFeatureRequestsPerUpdate;
+		public int numberOfClosedBugsPerUpdate;
 
 
 	}
@@ -125,14 +124,22 @@ public class JiraMeasurementsTool implements Tool {
 			measurement.setValue(Integer.toString(statistics.numberOfOpenFeatureRequests));
 			riscossPlatform.storeMeasurement(measurement);
 			
+			measurement = new Measurement();
+			measurement.setScope(scope);
+			measurement.setType("number-Of-Closed-Bugs-Per-Update");
+			measurement.setValue(Integer.toString(statistics.numberOfClosedBugsPerUpdate));
+			riscossPlatform.storeMeasurement(measurement);
+			
+			
 
 			LOGGER.info(String.format(
-					"Analysis completed [%d, %f, %f,%d,%d,%d]. Results stored",
+					"Analysis completed [%d, %f, %f,%d,%d,%d,%d]. Results stored",
 					statistics.openBugs, statistics.timeToResolveABug,
 					statistics.timeToResolveABlockingOrCriticalBug,
 					statistics.numberOfFeatureRequests,
 					statistics.numberOfClosedFeatureRequestsPerUpdate,
-					statistics.numberOfOpenFeatureRequests));
+					statistics.numberOfOpenFeatureRequests,
+					statistics.numberOfClosedBugsPerUpdate));
 		}
 	}
 
@@ -160,6 +167,7 @@ public class JiraMeasurementsTool implements Tool {
 		int numberOfFeatureRequests=0;
 		int numberOfOpenFeatureRequests=0;
 		int numberOfClosedFeatureRequestsPerUpdate=0;
+		int numberOfClosedBugsPerUpdate=0;
 		boolean correctExecution = true;
 		Issue is;
 		String issueState;
@@ -246,6 +254,8 @@ public class JiraMeasurementsTool implements Tool {
 							}
 
 						} else {
+							
+							
 							/*
 							 * Other BUGs Measures
 							 */
@@ -305,6 +315,7 @@ public class JiraMeasurementsTool implements Tool {
 			stats.numberOfFeatureRequests= numberOfFeatureRequests;
 			stats.numberOfOpenFeatureRequests=numberOfOpenFeatureRequests;
 			stats.numberOfClosedFeatureRequestsPerUpdate=numberOfClosedFeatureRequestsPerUpdate;
+			stats.numberOfClosedBugsPerUpdate=counterCloseBugs;
 			return stats;
 		}
 
