@@ -354,6 +354,7 @@ public class RiscossPlatformImplTest
         Question question = riscossPlatform.getQuestion("Q1");
 
         Questionnaire questionnaire = new Questionnaire("QU2");
+        questionnaire.addQuestion(question);
         riscossPlatform.registerQuestionnaire(scope, questionnaire, new QuestionnaireListener()
         {
             @Override public void questionnaireAnswered(Answers answers)
@@ -375,5 +376,11 @@ public class RiscossPlatformImplTest
         Assert.assertEquals(numberOfregisteredQuestionnaires - 1, registeredQuestionnaires.size());
 
         Assert.assertEquals(true, answersReceived);
+
+        /* Check that answers are also correctly stored */
+        answer = riscossPlatform.getAnswer(scope, "Q1");
+
+        Assert.assertNotNull(answer);
+        Assert.assertEquals("foo", answer.getValue());
     }
 }

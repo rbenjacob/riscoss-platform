@@ -71,7 +71,7 @@
     <property name="xml" type="text" not-null="true"/>
   </class>
 
-  <class name="eu.riscoss.api.model.questionnaire.Question">
+  <class name="eu.riscoss.api.model.questionnaire.Question" table="QUESTIONS">
     <id name="id"/>
     <property name="type">
       <type name="org.hibernate.type.EnumType">
@@ -82,6 +82,14 @@
     <property name="help"/>
     <property name="possibleAnswersRaw" type="text"/>
     <property name="mandatory"/>
+  </class>
+
+  <class name="eu.riscoss.internal.AnswerWithScope" table="ANSWERS">
+    <composite-id>
+      <key-property name="questionId"/>
+      <key-many-to-one name="scope"/>
+    </composite-id>
+    <property name="values" column="answerValues" type="text"/>
   </class>
 
 

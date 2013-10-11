@@ -10,6 +10,7 @@ import eu.riscoss.api.model.Indicator;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.RiskModel;
 import eu.riscoss.api.model.Scope;
+import eu.riscoss.api.model.questionnaire.Answer;
 import eu.riscoss.api.model.questionnaire.Answers;
 import eu.riscoss.api.model.questionnaire.Question;
 import eu.riscoss.api.model.questionnaire.Questionnaire;
@@ -220,4 +221,11 @@ public interface RISCOSSPlatform
      * @param answers the answers to the questionnaire.
      */
     void submitAnswers(Questionnaire questionnaire, Answers answers);
+
+    /**
+     * @param scope the scope.
+     * @param questionId the questionId.
+     * @return the answer that were given to a question for a given scope.
+     */
+    Answer getAnswer(Scope scope, String questionId);
 }
