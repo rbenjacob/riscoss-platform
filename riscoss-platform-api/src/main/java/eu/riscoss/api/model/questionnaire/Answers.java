@@ -64,4 +64,15 @@ public class Answers
 
         return allMandatoryQuestionsAnswered;
     }
+
+    /**
+     * @return the questions to the associated questionnaire.
+     *
+     *         TODO: This might fail. We don't persist questionnaires at the moment so if we retrieve a question from
+     *         the DB questionaire might be null.
+     */
+    public List<Question> getQuestions()
+    {
+        return questionnaire.getQuestions();
+    }
 }

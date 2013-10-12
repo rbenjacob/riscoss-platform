@@ -1,6 +1,7 @@
 package eu.riscoss.internal;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,6 +23,8 @@ import eu.riscoss.api.model.Indicator;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.RiskModel;
 import eu.riscoss.api.model.Scope;
+import eu.riscoss.api.model.questionnaire.Answer;
+import eu.riscoss.api.model.questionnaire.Answers;
 import eu.riscoss.api.model.questionnaire.Question;
 import eu.riscoss.api.model.questionnaire.Questionnaire;
 import eu.riscoss.api.model.questionnaire.QuestionnaireListener;
@@ -35,6 +38,18 @@ import eu.riscoss.api.model.questionnaire.QuestionnaireListener;
 @Singleton
 public class RISCOSSPlatformImpl implements RISCOSSPlatform
 {
+    /**
+     * This class is used to store information about registered questionnaires.
+     */
+    private static class QuestionnaireEntry
+    {
+        Scope scope;
+
+        Questionnaire questionnaire;
+
+        QuestionnaireListener listener;
+    }
+
     @Inject
     private Logger logger;
 
@@ -43,6 +58,13 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
 
     @Inject
     private HibernateSessionProvider hibernateSessionProvider;
+
+    private List<QuestionnaireEntry> registeredQuestionnaires;
+
+    public RISCOSSPlatformImpl()
+    {
+        registeredQuestionnaires = new ArrayList<QuestionnaireEntry>();
+    }
 
     @Override public ToolFactory getToolFactory(String toolId)
     {
@@ -75,21 +97,147 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
         return tempDirectory;
     }
 
-    @Override public Question getQuestion(String questionId)
+    @Override public Question getQuestion(String id)
     {
-        //TODO: Implement this
+        Session session = hibernateSessionProvider.getSession();
+        session.beginTransaction();
+
+        try {
+            Query query = session.createQuery("from Question as Q where Q.id = :id");
+            query.setParameter("id", id);
+            List<Question> questions = query.list();
+
+            if (questions.size() != 0) {
+                return questions.get(0);
+            }
+        } catch (Exception e) {
+            logger.error("Error getting question", e);
+            session.getTransaction().rollback();
+        } finally {
+            session.getTransaction().commit();
+        }
+
         return null;
     }
 
-    @Override public void registerQuestionnaire(Scope target, Questionnaire questionnaire,
+    @Override public List<Question> getQuestions()
+    {
+        Session session = hibernateSessionProvider.getSession();
+        session.beginTransaction();
+
+        try {
+            Query query = session.createQuery("from Question");
+            return query.list();
+        } catch (Exception e) {
+            logger.error("Error getting questions", e);
+            session.getTransaction().rollback();
+        } finally {
+            session.getTransaction().commit();
+        }
+
+        return Collections.EMPTY_LIST;
+    }
+
+    @Override public void storeQuestion(Question question)
+    {
+        hibernateStore(question);
+    }
+
+    @Override public void registerQuestionnaire(Scope scope, Questionnaire questionnaire,
             QuestionnaireListener questionnaireListener)
     {
-        //TODO: Implement this
+        QuestionnaireEntry entry = new QuestionnaireEntry();
+        entry.scope = scope;
+        entry.questionnaire = questionnaire;
+        entry.listener = questionnaireListener;
+
+        registeredQuestionnaires.add(entry);
     }
 
     @Override public List<Questionnaire> getRegisteredQuestionnaires()
     {
-        //TODO: Implement this
+        List<Questionnaire> result = new ArrayList<Questionnaire>();
+        for (QuestionnaireEntry entry : registeredQuestionnaires) {
+            result.add(entry.questionnaire);
+        }
+
+        return result;
+    }
+
+    @Override public List<Questionnaire> getRegisteredQuestionnaires(Scope scope)
+    {
+        List<Questionnaire> result = new ArrayList<Questionnaire>();
+        for (QuestionnaireEntry entry : registeredQuestionnaires) {
+            if (entry.scope.equals(scope)) {
+                result.add(entry.questionnaire);
+            }
+        }
+
+        return result;
+    }
+
+    //TODO: This should clearly be refactored wrt answer storage.
+    @Override public void submitAnswers(Questionnaire questionnaire, Answers answers)
+    {
+        QuestionnaireEntry targetEntry = null;
+        for (QuestionnaireEntry entry : registeredQuestionnaires) {
+            if (entry.questionnaire.equals(questionnaire)) {
+                targetEntry = entry;
+                break;
+            }
+        }
+
+        if (targetEntry != null) {
+            /* Store question answers */
+            for (Question question : questionnaire.getQuestions()) {
+                Answer answer = answers.getAnswer(question.getId());
+                if (answer != null) {
+                    //TODO: The data model concerning questions/questionnaires is convoluted. Refactor it.
+                    AnswerWithScope answerWithScope = new AnswerWithScope();
+                    answerWithScope.setScope(targetEntry.scope);
+                    answerWithScope.setQuestionId(question.getId());
+                    answerWithScope.setValues(answer.getValues());
+                    hibernateStore(answerWithScope);
+                }
+            }
+
+            if (targetEntry.listener != null) {
+                targetEntry.listener.questionnaireAnswered(answers);
+            }
+
+            registeredQuestionnaires.remove(targetEntry);
+        }
+    }
+
+    @Override public Answer getAnswer(Scope scope, String questionId)
+    {
+        Session session = hibernateSessionProvider.getSession();
+        session.beginTransaction();
+
+        try {
+            Query query = session.createQuery(
+                    "from AnswerWithScope as AWS where AWS.scope.id = :scopeId AND AWS.questionId = :questionId");
+            query.setParameter("scopeId", scope.getId());
+            query.setParameter("questionId", questionId);
+            List<AnswerWithScope> answerWithScopes = query.list();
+
+            if (answerWithScopes.size() != 0) {
+                AnswerWithScope answerWithScope = answerWithScopes.get(0);
+
+                Answer answer = new Answer();
+                for (String s : answerWithScope.getValuesAsList()) {
+                    answer.addValue(s);
+                }
+
+                return answer;
+            }
+        } catch (Exception e) {
+            logger.error("Error getting answers", e);
+            session.getTransaction().rollback();
+        } finally {
+            session.getTransaction().commit();
+        }
+
         return null;
     }
 
@@ -107,6 +255,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
                 return scopes.get(0);
             }
         } catch (Exception e) {
+            logger.error("Error getting scope", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -124,6 +273,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
             Query query = session.createQuery("from Scope");
             return query.list();
         } catch (Exception e) {
+            logger.error("Error getting scopes", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -142,6 +292,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
 
             return (List<T>) query.list();
         } catch (Exception e) {
+            logger.error("Error getting scopes by type", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -167,6 +318,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
 
             return query.list();
         } catch (Exception e) {
+            logger.error("Error getting measurements", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -188,6 +340,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
 
             return query.list();
         } catch (Exception e) {
+            logger.error("Error getting measurements by type", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -213,6 +366,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
 
             return query.list();
         } catch (Exception e) {
+            logger.error("Error getting indicators", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -234,6 +388,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
 
             return query.list();
         } catch (Exception e) {
+            logger.error("Error getting indicators by type", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -256,6 +411,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
 
             return query.list();
         } catch (Exception e) {
+            logger.error("Error getting risk models", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -277,6 +433,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
                 return riskModels.get(0);
             }
         } catch (Exception e) {
+            logger.error("Error getting risk model", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -299,6 +456,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
 
             return query.list();
         } catch (Exception e) {
+            logger.error("Error getting goal models", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -320,6 +478,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
                 return goalModels.get(0);
             }
         } catch (Exception e) {
+            logger.error("Error getting goal model", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
@@ -338,8 +497,9 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
         Session session = hibernateSessionProvider.getSession();
         session.beginTransaction();
         try {
-            session.save(object);
+            session.saveOrUpdate(object);
         } catch (Exception e) {
+            logger.error(String.format("Error storing %s", object), e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();

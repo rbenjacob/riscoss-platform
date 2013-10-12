@@ -36,5 +36,8 @@
     <module>riscoss-platform-tools-git-measurements</module>
     <module>riscoss-platform-tools-fbk</module>
     <module>riscoss-platform-tools-kpa</module>
+    <module>riscoss-platform-tools-markmail-measurements</module>
+    <module>riscoss-platform-tools-goalmodels</module>
+    <module>riscoss-platform-tools-jira</module>
   </modules>
 </project>
