@@ -1,0 +1,25 @@
+<istarml version='1.0'>
+<diagram name = "The Company">
+	<actor id='1' name='The Company' op='refine' question='1'></actor>
+	<actor id='2' name='Customer' op='refine'></actor>
+	<actor id='3' name='Vendor' op='refine' question='4'></actor>
+	<ielement type='resource' name='product' op='refine' question='3'>
+		<dependency>
+			<depender aref='2'/>
+			<dependee aref='1'/>
+		</dependency>
+	</ielement>
+	<ielement type='goal' name='#QUESTION# sold' op='refine' question='3'>
+		<dependency>
+			<depender aref='1'/>
+			<dependee aref='3'/>
+		</dependency>
+	</ielement>
+	<ielement type='goal' name='#QUESTION# obtained' op='refine' question='11'>
+		<dependency>
+			<depender aref='2'/>
+			<dependee aref='1'/>
+		</dependency>
+	</ielement>
+</diagram>
+</istarml>
