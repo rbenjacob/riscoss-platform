@@ -59,4 +59,29 @@ public abstract class Scope
     {
         this.description = description;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Scope)) {
+            return false;
+        }
+
+        Scope scope = (Scope) o;
+
+        if (!id.equals(scope.id)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return id.hashCode();
+    }
 }

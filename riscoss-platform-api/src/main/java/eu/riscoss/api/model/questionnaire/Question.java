@@ -1,7 +1,6 @@
 package eu.riscoss.api.model.questionnaire;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,7 +13,7 @@ public class Question
     /**
      * The possible types for a question.
      */
-    public enum Type
+    public static enum Type
     {
         /**
          * A free text question.
@@ -33,6 +32,11 @@ public class Question
          */
         MULTICHOICE
     }
+
+    /**
+     * A separator used in serialized possible answers string to distinguish the elements.
+     */
+    private static final String SEPARATOR = "##";
 
     /**
      * The question id.
@@ -55,9 +59,12 @@ public class Question
     private String help;
 
     /**
-     * The question possible answers. It will be null for free text and numeric questions.
+     * Possible answers serialized as a raw string. Since we cannot directly persist lists (unless we complicate the
+     * underlying model by creating a one-to-many association to another class PossibleAnswer), we store in this field a
+     * serialized representation of the list as a String and persist that. The getter of the possibleAnswers field will
+     * deserialize the content of this field into an actual list.
      */
-    private ArrayList<String> possibleAnswers;
+    private String possibleAnswersRaw;
 
     /**
      * Is the question mandatory? if not the user may skip it.
@@ -65,11 +72,10 @@ public class Question
     private boolean mandatory;
 
     /**
-     * basic constructor
+     * Default constructor
      */
     public Question()
     {
-        possibleAnswers = new ArrayList<String>();
     }
 
     /**
@@ -141,7 +147,7 @@ public class Question
      */
     public List<String> getPossibleAnswers()
     {
-        return Collections.unmodifiableList(possibleAnswers);
+        return deserializePossibleAnswers(possibleAnswersRaw);
     }
 
     /**
@@ -149,7 +155,9 @@ public class Question
      */
     public void addPossibleAnswer(String possibleAnswer)
     {
-        this.possibleAnswers.add(possibleAnswer);
+        List<String> possibleAnswers = deserializePossibleAnswers(possibleAnswersRaw);
+        possibleAnswers.add(possibleAnswer);
+        setPossibleAnswersRaw(serializePossibleAnswers(possibleAnswers));
     }
 
     /**
@@ -166,5 +174,47 @@ public class Question
     public void setMandatory(boolean mandatory)
     {
         this.mandatory = mandatory;
+    }
+
+    /**
+     * @return the raw string encoding the possible answers.
+     */
+    public String getPossibleAnswersRaw()
+    {
+        return possibleAnswersRaw;
+    }
+
+    /**
+     * This is not supposed to be called by clients. Use {@link Question#addPossibleAnswer(String)} instead.
+     *
+     * @param possibleAnswersRaw the raw string encoding the possible answers.
+     */
+    public void setPossibleAnswersRaw(String possibleAnswersRaw)
+    {
+        this.possibleAnswersRaw = possibleAnswersRaw;
+    }
+
+    private List<String> deserializePossibleAnswers(String data)
+    {
+        List<String> result = new ArrayList<String>();
+
+        String[] components = data.split(SEPARATOR);
+        for (String component : components) {
+            result.add(component);
+        }
+
+        return result;
+    }
+
+    private String serializePossibleAnswers(List<String> data)
+    {
+        StringBuffer sb = new StringBuffer();
+
+        for (String s : data) {
+            sb.append(s);
+            sb.append(SEPARATOR);
+        }
+
+        return sb.toString();
     }
 }
