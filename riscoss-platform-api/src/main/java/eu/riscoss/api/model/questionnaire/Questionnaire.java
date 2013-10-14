@@ -29,7 +29,7 @@ public class Questionnaire
      */
     public Questionnaire()
     {
-        id = UUID.randomUUID().toString();
+        this(UUID.randomUUID().toString());
     }
 
     /**
@@ -60,6 +60,7 @@ public class Questionnaire
     }
 
     /**
+     * @param questionId
      * @return the question if present in the questionnaire, or null otherwise.
      */
     public Question getQuestion(String questionId)
@@ -68,11 +69,10 @@ public class Questionnaire
         Iterator<Question> it = questions.iterator();
         while (it.hasNext()) {
             question = it.next();
-            if (question.getId() == questionId) {
+            if (question.getId().equalsIgnoreCase(questionId))
                 break;
-            } else {
+            else
                 question = null;
-            }
         }
         return question;
     }

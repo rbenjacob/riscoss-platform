@@ -39,5 +39,6 @@
     <module>riscoss-platform-tools-dummy</module>
     <module>riscoss-platform-tools-git-measurements</module>
     <module>riscoss-platform-tools-markmail-measurements</module>
+    <module>riscoss-platform-tools-goalmodels</module>
   </modules>
 </project>
