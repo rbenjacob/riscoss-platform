@@ -115,7 +115,7 @@ public class RiscossPlatformImplTest
             /* Create goal model */
             GoalModel goalModel = new GoalModel();
             goalModel.setId("g");
-            goalModel.setXml("xml");
+            goalModel.setXml("<goalModel></goalModel>");
             riscossPlatform.storeGoalModel(goalModel);
 
             /* Store some questions */
@@ -127,7 +127,7 @@ public class RiscossPlatformImplTest
                 question.setHelp("Help" + i);
                 riscossPlatform.storeQuestion(question);
             }
-        } else {
+
             dataInitialized = true;
         }
     }
