@@ -46,6 +46,8 @@ public class JiraMeasurementsTool implements Tool {
 		public int numberOfOpenFeatureRequests;
 		public int numberOfClosedFeatureRequestsPerUpdate;
 		public int numberOfClosedBugsPerUpdate;
+		public boolean presenceOfSecurityBugsCorrected;
+		
 
 
 	}
@@ -129,17 +131,25 @@ public class JiraMeasurementsTool implements Tool {
 			measurement.setType("number-Of-Closed-Bugs-Per-Update");
 			measurement.setValue(Integer.toString(statistics.numberOfClosedBugsPerUpdate));
 			riscossPlatform.storeMeasurement(measurement);
-			
+
+			measurement = new Measurement();
+			measurement.setScope(scope);
+			measurement.setType("presence-O-fSecurity-Bugs-Corrected");
+			measurement.setValue(Boolean.toString(statistics.presenceOfSecurityBugsCorrected));
+			riscossPlatform.storeMeasurement(measurement);
+
 			
 
 			LOGGER.info(String.format(
-					"Analysis completed [%d, %f, %f,%d,%d,%d,%d]. Results stored",
+					"Analysis completed [%d, %f, %f,%d,%d,%d,%d,%b]. Results stored",
 					statistics.openBugs, statistics.timeToResolveABug,
 					statistics.timeToResolveABlockingOrCriticalBug,
 					statistics.numberOfFeatureRequests,
 					statistics.numberOfClosedFeatureRequestsPerUpdate,
 					statistics.numberOfOpenFeatureRequests,
-					statistics.numberOfClosedBugsPerUpdate));
+					statistics.numberOfClosedBugsPerUpdate,
+					statistics.presenceOfSecurityBugsCorrected));
+					
 		}
 	}
 
@@ -168,6 +178,7 @@ public class JiraMeasurementsTool implements Tool {
 		int numberOfOpenFeatureRequests=0;
 		int numberOfClosedFeatureRequestsPerUpdate=0;
 		int numberOfClosedBugsPerUpdate=0;
+		boolean presenceOfSecurityBugsCorrected=false;
 		boolean correctExecution = true;
 		Issue is;
 		String issueState;
@@ -316,6 +327,11 @@ public class JiraMeasurementsTool implements Tool {
 			stats.numberOfOpenFeatureRequests=numberOfOpenFeatureRequests;
 			stats.numberOfClosedFeatureRequestsPerUpdate=numberOfClosedFeatureRequestsPerUpdate;
 			stats.numberOfClosedBugsPerUpdate=counterCloseBugs;
+			if(counterCloseBugs>0)
+			{
+				presenceOfSecurityBugsCorrected=true;
+			}
+			stats.presenceOfSecurityBugsCorrected=presenceOfSecurityBugsCorrected;
 			return stats;
 		}
 
