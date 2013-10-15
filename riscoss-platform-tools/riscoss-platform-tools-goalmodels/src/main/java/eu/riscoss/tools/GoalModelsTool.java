@@ -26,17 +26,14 @@ import eu.riscoss.api.model.questionnaire.QuestionnaireListener;
  * <li>ONE question can be ONLY used by ONE model element (OLD)</li>
  * <li>only ONE operation can be applied over ONE model element</li>
  * </ul>
- *
  * Allowed operations over an i* element
- *
  * <ul>
  * <li>changing the complete name for an i* element (actor, ielement), op='refines', the new value for the attribute
  * 'name' is the answer to the corresponding question.
  * <li>changing part of the name for an i* element (actor, ielement), op='refines', the new value for the attribute
- * 'name' is the same attribute replacing the text #QUESTION" by the answer to the
- * corresponding question.</li>
+ * 'name' is the same attribute replacing the text #QUESTION" by the answer to the corresponding question.</li>
  * </ul>
- *
+ * 
  * @version $Id$
  */
 public class GoalModelsTool implements Tool, QuestionnaireListener
@@ -116,17 +113,17 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
         processNewQuestions(goalModel.getFirstPendingElement(), new Answers(new Questionnaire()));
 
         // The new questions are register to the platform to be asked to the user
-        riscossPlatform.registerQuestionnaire(currentScope, questionnaire, this);
+        if (!questionnaire.isEmpty())
+            riscossPlatform.registerQuestionnaire(currentScope, questionnaire, this);
     }
 
     /**
-     * Processes the answers related to some questions in order to modify the model depending on them.<br> If these
-     * answers correspond to questions related to a model transformation operation, only 1 model transformation is
-     * processed at the same time. <br> Once the answers have been processed, new questions related to the changed
-     * model
-     * will be register in the RISCOSS platform. This procedure also inform to the platform when the process is
-     * finished.
-     *
+     * Processes the answers related to some questions in order to modify the model depending on them.<br>
+     * If these answers correspond to questions related to a model transformation operation, only 1 model transformation
+     * is processed at the same time. <br>
+     * Once the answers have been processed, new questions related to the changed model will be register in the RISCOSS
+     * platform. This procedure also inform to the platform when the process is finished.
+     * 
      * @param answers list of answers to be processed in order to change the model.
      * @see eu.riscoss.api.model.questionnaire.QuestionnaireListener#questionnaireAnswered(eu.riscoss.api.model.questionnaire.Answers)
      */
@@ -148,15 +145,16 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
         // The model modified is stored in the platform after processing all the answers
         riscossPlatform.storeGoalModel(goalModel);
         // The new questions are register to the platform to be asked to the user
-        riscossPlatform.registerQuestionnaire(currentScope, questionnaire, this);
+        if (!questionnaire.isEmpty())
+            riscossPlatform.registerQuestionnaire(currentScope, questionnaire, this);
     }
 
     /**
      * Processes the information for ONE element. Only one question per node (FOR NOW)
-     *
+     * 
      * @param element the valid i* element as org.w3c.doc.Node (NOT null).
      * @param answers the list of answers that modified the element depending on the operation related to this element.
-     * (FUTURE: maybe we need a combination of questions/answers to apply the operation).
+     *            (FUTURE: maybe we need a combination of questions/answers to apply the operation).
      */
     private void processModelElement(Node element, Answers answers)
     {
@@ -182,9 +180,9 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
     }
 
     /**
-     * Makes the i* element changes corresponding to the operation REFINES over a specific i* element. <br> Only
-     * ONE-valued answer for questions related to a node to be refined.
-     *
+     * Makes the i* element changes corresponding to the operation REFINES over a specific i* element. <br>
+     * Only ONE-valued answer for questions related to a node to be refined.
+     * 
      * @param node the valid i* element as org.w3c.doc.Node to be refined (not null).
      * @param answer the answer containing the new name for the i* element.
      */
@@ -199,13 +197,13 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
     }
 
     /**
-     * Makes the i* element changes corresponding to the operation CHOOSE over a specific i* element. <br> Possible
-     * MULTI-valued answer for questions related to a node decomposition to be chosen.
-     *
+     * Makes the i* element changes corresponding to the operation CHOOSE over a specific i* element. <br>
+     * Possible MULTI-valued answer for questions related to a node decomposition to be chosen.
+     * 
      * @param node the valid i* element as org.w3c.doc.Node to be refined (not null). The valid nodes to apply this
-     * operation are the links (ielementLink)
+     *            operation are the links (ielementLink)
      * @param answer the answer containing the information about which decomposition remains. The decomposition not
-     * related to any answer is removed from the model.
+     *            related to any answer is removed from the model.
      */
     private void processChoosing(Node node, Answer answer)
     {
@@ -253,38 +251,40 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
     }
 
     /**
-     * Makes the changed to the model corresponding to the apply a PATTERN over a specific i* element. <br> This change
-     * is not directly associated to a question. If a node with this operation remains in the model, the pattern is
-     * applied.<br> All the matches between the model and the pattern will be done using IDs, because the element name
-     * or type can be changed for some reasons (refinements) THIS FUNCTION IS ONLY CALLED AFTER A CHOOSING, FOR THE
-     * REMAINING CHILDREN
-     *
+     * Makes the changed to the model corresponding to the apply a PATTERN over a specific i* element. <br>
+     * This change is not directly associated to a question. If a node with this operation remains in the model, the
+     * pattern is applied.<br>
+     * All the matches between the model and the pattern will be done using IDs, because the element name or type can be
+     * changed for some reasons (refinements) THIS FUNCTION IS ONLY CALLED AFTER A CHOOSING, FOR THE REMAINING CHILDREN
+     * 
      * @param node the valid i* element as a org.w2c.doc.Node responsible for the pattern appliance (not null). This
-     * procedure also checks if the element has a pattern operation associated.
+     *            procedure also checks if the element has a pattern operation associated.
      */
     private void processPattern(Node node)
     {
         GoalModel.ElementOperation op = goalModel.getOperation(node);
 
-        if (op == GoalModel.ElementOperation.PATTERN) //Just in case
+        if (op == GoalModel.ElementOperation.PATTERN) // Just in case
         {
             LOGGER.info(goalModel.getPattern(node));
             GoalModel pattern = riscossPlatform.getGoalModel(goalModel.getPattern(node));
-            /// All the element from the pattern have to be moved to the model, in the case of the matching element, the element will be replaced
+            // / All the element from the pattern have to be moved to the model, in the case of the matching element,
+            // the element will be replaced
             NodeList patternElements = pattern.getModelElements();
 
-            for (int i = 0; i < patternElements.getLength(); i++) {   // actors & dependencies
+            for (int i = 0; i < patternElements.getLength(); i++) { // actors & dependencies
                 Node patternNode = patternElements.item(i);
                 String patternNodeId = goalModel.getIdentifier(patternNode);
                 if (!goalModel.isValidID(patternNodeId)) {
                     continue;
                 }
                 Node modelNode = goalModel.getElementById(patternNodeId);
-                if (modelNode == null) {   // If the node is new, it is copied
+                if (modelNode == null) { // If the node is new, it is copied
                     goalModel.addElementFromOtherModel(patternNode);
-                } else {   // If the node is already in the model, it is replaced
+                } else { // If the node is already in the model, it is replaced
                     GoalModel.ElementType type = goalModel.getType(patternNode);
-                    // TODO: No se si els actors als patrons han de reemplazar l'actor del model??? Que passa si ya s'ha refinat? PER ARA NO!!!
+                    // TODO: No se si els actors als patrons han de reemplazar l'actor del model??? Que passa si ya s'ha
+                    // refinat? PER ARA NO!!!
                     if (type == GoalModel.ElementType.ACTOR) {
                         NodeList patternNodes = patternNode.getChildNodes();
                         for (int j = 0; j < patternNodes.getLength(); j++) {
@@ -293,8 +293,10 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
                                 continue;
                             }
 
-                            if (goalModel.getIdentifier(node).equalsIgnoreCase(
-                                    patternNodeId))    // the node to apply the pattern operation: REPLACING FOR THE NODE IN THE PATTERN
+                            if (goalModel.getIdentifier(node).equalsIgnoreCase(patternNodeId)) // the node to apply the
+                                                                                               // pattern operation:
+                                                                                               // REPLACING FOR THE NODE
+                                                                                               // IN THE PATTERN
                             {
                                 goalModel.replaceChildFromOtherModel(node.getParentNode(), node, patternNodes.item(j));
                             } else {
@@ -306,14 +308,15 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
                                 }
                             }
                         }
-                    } else  // dependencies
+                    } else // dependencies
                     {
                         goalModel.replaceChildFromOtherModel(modelNode.getParentNode(), modelNode, patternNode);
                     }
                 }
             }
         }
-        // In this case the node is not marked as processed because is possible that the node in the pattern should have questions associated
+        // In this case the node is not marked as processed because is possible that the node in the pattern should have
+        // questions associated
     }
 
     /********************************************************
@@ -321,11 +324,10 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
      ********************************************************/
     /**
      * Generates the new list of questions. This list of questions will be guided
-     *
+     * 
      * @param element the valid i* element (not null) as org.w3c.doc.Node that guides the search of new questions. If
-     * this node is null, the tool decides the policy to search new questions.
-     * @param answers the list of answers to process the model
-     * time should be false.
+     *            this node is null, the tool decides the policy to search new questions.
+     * @param answers the list of answers to process the model time should be false.
      */
     private void processNewQuestions(Node element, Answers answers)
     {
@@ -417,7 +419,7 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
 
     /**
      * Adds the question associated to an i* element (if it has) to the private list of questions.
-     *
+     * 
      * @param element the i* element as org.w3c.doc.Node.
      */
     private void addQuestion(Node element, Answers answers)
@@ -426,8 +428,7 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
             String questionId = goalModel.getQuestion(element);
             // If the question is included in the list of answers, it won't be added again as a question.
             if (!questionId.isEmpty() && questionnaire.getQuestion(questionId) != null
-                    && answers.getAnswer(questionId) == null)
-            {
+                && answers.getAnswer(questionId) == null) {
                 questionnaire.addQuestion(riscossPlatform.getQuestion(questionId));
             }
         }
@@ -435,7 +436,7 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
 
     /**
      * Adds the questions associated to a list of i* elements (if they have) to the private list of questions.
-     *
+     * 
      * @param elements list of i* elements as org.w3c.doc.NodeList
      */
     private void addQuestions(NodeList elements, Answers answers)
