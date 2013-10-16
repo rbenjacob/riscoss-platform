@@ -11,16 +11,16 @@ import org.slf4j.LoggerFactory;
 import com.atlassian.jira.rest.client.api.IssueRestClient;
 import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.api.JiraRestClientFactory;
+import com.atlassian.jira.rest.client.api.ProjectRestClient;
 import com.atlassian.jira.rest.client.api.SearchRestClient;
 import com.atlassian.jira.rest.client.api.domain.BasicIssue;
+import com.atlassian.jira.rest.client.api.domain.BasicProject;
 import com.atlassian.jira.rest.client.api.domain.Issue;
+import com.atlassian.jira.rest.client.api.domain.Project;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
+import com.atlassian.jira.rest.client.api.domain.Version;
 import com.atlassian.jira.rest.client.auth.AnonymousAuthenticationHandler;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
-import com.atlassian.jira.rest.client.api.ProjectRestClient;
-import com.atlassian.jira.rest.client.api.domain.Project;
-import com.atlassian.jira.rest.client.api.domain.BasicProject;
-import com.atlassian.jira.rest.client.api.domain.Version;
 
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.Tool;
@@ -28,340 +28,365 @@ import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.Scope;
 
 /**
- * GitMeasurementsTool.
+ * JiraMeasurementsTool.
  * 
  * @version $Id$
  */
-public class JiraMeasurementsTool implements Tool {
-	protected static final Logger LOGGER = LoggerFactory
-			.getLogger(JiraMeasurementsTool.class);
+public class JiraMeasurementsTool implements Tool
+{
+    protected static final Logger LOGGER = LoggerFactory.getLogger(JiraMeasurementsTool.class);
 
-	protected final RISCOSSPlatform riscossPlatform;
+    protected final RISCOSSPlatform riscossPlatform;
 
-	private final static int maxBufferIssue = 250;
+    private final static int maxBufferIssue = 250;
 
-	private final long secondsOfDay = 86400;
+    private final long secondsOfDay = 86400;
 
-	public static class JiraLogStatistics {
-		public int openBugs;
-		public double timeToResolveABug;
-		public double timeToResolveABlockingOrCriticalBug;
-		public int numberOfFeatureRequests;
-		public int numberOfOpenFeatureRequests;
-		public double numberOfClosedFeatureRequestsPerUpdate;
-		public double numberOfClosedBugsPerUpdate;
-		public boolean presenceOfSecurityBugsCorrected;
+    private final double security_factor = 0.03;
 
-	}
+    public static class JiraLogStatistics
+    {
+        public int openBugs;
 
-	public JiraMeasurementsTool(RISCOSSPlatform riscossPlatform) {
-		this.riscossPlatform = riscossPlatform;
-	}
+        public double timeToResolveABug;
 
-	@Override
-	public void execute(Scope scope, Map<String, String> parameters) {
-		LOGGER.info(String.format("Running %s on %s",
-				JiraMeasurementsToolFactory.TOOL_ID, scope));
+        public double timeToResolveABlockingOrCriticalBug;
 
-		String jiraURL = parameters
-				.get(JiraMeasurementsToolFactory.JIRA_URL_PARAMETER);
-		boolean anonymousAuthentication = Boolean
-				.parseBoolean(parameters
-						.get(JiraMeasurementsToolFactory.JIRA_ANONYMOUS_AUTHENTICATION_PARAMETER));
-		String username = parameters
-				.get(JiraMeasurementsToolFactory.JIRA_USERNAME_PARAMETER);
-		String password = parameters
-				.get(JiraMeasurementsToolFactory.JIRA_PASSWORD_PARAMETER);
-		String initialDate = parameters
-				.get(JiraMeasurementsToolFactory.INITIAL_DATE_PARAMETER);
+        public int numberOfFeatureRequests;
 
-		if (jiraURL == null) {
-			LOGGER.error("jira URL is null.");
-		}
+        public int numberOfOpenFeatureRequests;
 
-		JiraMeasurementsTool.JiraLogStatistics statistics = null;
-		try {
-			statistics = getStatistics(jiraURL, anonymousAuthentication,
-					username, password, initialDate);
-		} catch (URISyntaxException e) {
-			LOGGER.error(String.format("Error while executing analysis on %s",
-					jiraURL), e);
-		}
+        public double numberOfClosedFeatureRequestsPerUpdate;
 
-		if (statistics != null) {
-			Measurement measurement = new Measurement();
-			measurement.setScope(scope);
-			measurement.setType("open-bugs");
-			measurement.setValue(Integer.toString(statistics.openBugs));
-			riscossPlatform.storeMeasurement(measurement);
+        public double numberOfClosedBugsPerUpdate;
 
-			measurement = new Measurement();
-			measurement.setScope(scope);
-			measurement.setType("time-to-resolve-a-bug");
-			measurement.setValue(String.format("%.2f",
-					statistics.timeToResolveABug));
-			riscossPlatform.storeMeasurement(measurement);
+        public boolean presenceOfSecurityBugsCorrected;
 
-			measurement = new Measurement();
-			measurement.setScope(scope);
-			measurement.setType("time-to-resolve-a-blocking-or-critical-bug");
-			measurement.setValue(String.format("%.2f",
-					statistics.timeToResolveABlockingOrCriticalBug));
-			riscossPlatform.storeMeasurement(measurement);
+        public int numberOfSecurityBugs;
 
-			measurement = new Measurement();
-			measurement.setScope(scope);
-			measurement.setType("number-of-feature-requests");
-			measurement.setValue(Integer
-					.toString(statistics.numberOfFeatureRequests));
-			riscossPlatform.storeMeasurement(measurement);
+        public double timeToResolveASecurityBug;
 
-			measurement = new Measurement();
-			measurement.setScope(scope);
-			measurement.setType("number-of-closed-feature-requests-per-pdate;");
-			measurement
-					.setValue(Double
-							.toString(statistics.numberOfClosedFeatureRequestsPerUpdate));
-			riscossPlatform.storeMeasurement(measurement);
+    }
 
-			measurement = new Measurement();
-			measurement.setScope(scope);
-			measurement.setType("number-Of-Open-Feature-Requests");
-			measurement.setValue(Integer
-					.toString(statistics.numberOfOpenFeatureRequests));
-			riscossPlatform.storeMeasurement(measurement);
+    /**
+     * Creates a new JiraMeasurementTool
+     * 
+     * @param riscossPlatform the riscoss platform
+     */
+    public JiraMeasurementsTool(RISCOSSPlatform riscossPlatform)
+    {
+        this.riscossPlatform = riscossPlatform;
+    }
 
-			measurement = new Measurement();
-			measurement.setScope(scope);
-			measurement.setType("number-Of-Closed-Bugs-Per-Update");
-			measurement.setValue(Double
-					.toString(statistics.numberOfClosedBugsPerUpdate));
-			riscossPlatform.storeMeasurement(measurement);
+    /**
+     * Stores all the measures obtained from monitoring.
+     * 
+     * @param scope target of the measures.
+     * @param statistics results of monitoring.
+     */
+    private void storeAllMeasures(Scope scope, JiraMeasurementsTool.JiraLogStatistics statistics)
+    {
+        storeMeasure(scope, "open-bugs", Integer.toString(statistics.openBugs));
+        storeMeasure(scope, "time-to-resolve-a-bug", String.format("%.2f", statistics.timeToResolveABug));
+        storeMeasure(scope, "time-to-resolve-a-blocker-or-critical-bug",
+            String.format("%.2f", statistics.timeToResolveABlockingOrCriticalBug));
+        storeMeasure(scope, "number-of-feature-requests", Integer.toString(statistics.numberOfFeatureRequests));
+        storeMeasure(scope, "number-of-closed-feature-requests-per-date",
+            Double.toString(statistics.numberOfClosedFeatureRequestsPerUpdate));
+        storeMeasure(scope, "number-of-open-feature-requests", Integer.toString(statistics.numberOfOpenFeatureRequests));
+        storeMeasure(scope, "number-of-closed-bugs-per-update", Double.toString(statistics.numberOfClosedBugsPerUpdate));
+        storeMeasure(scope, "presence-of-security-bugs-corrected",
+            Boolean.toString(statistics.presenceOfSecurityBugsCorrected));
+        storeMeasure(scope, "number-of-security-bugs", Integer.toString(statistics.numberOfSecurityBugs));
+        storeMeasure(scope, "time-to-resolve-a-security-bug",
+            String.format("%2f", statistics.timeToResolveASecurityBug));
 
-			measurement = new Measurement();
-			measurement.setScope(scope);
-			measurement.setType("presence-O-fSecurity-Bugs-Corrected");
-			measurement.setValue(Boolean
-					.toString(statistics.presenceOfSecurityBugsCorrected));
-			riscossPlatform.storeMeasurement(measurement);
+        LOGGER.info(String.format("Analysis completed [%d, %f, %f,%d,%f,%d,%f,%b,%d,%f]. Results stored",
+            statistics.openBugs, statistics.timeToResolveABug, statistics.timeToResolveABlockingOrCriticalBug,
+            statistics.numberOfFeatureRequests, statistics.numberOfClosedFeatureRequestsPerUpdate,
+            statistics.numberOfOpenFeatureRequests, statistics.numberOfClosedBugsPerUpdate,
+            statistics.presenceOfSecurityBugsCorrected, statistics.numberOfSecurityBugs,
+            statistics.timeToResolveASecurityBug));
+    }
 
-			LOGGER.info(String.format("Analysis completed [%d, %f, %f,%d,%f,%d,%f,%b]. Results stored",
-							statistics.openBugs, statistics.timeToResolveABug,
-							statistics.timeToResolveABlockingOrCriticalBug,
-							statistics.numberOfFeatureRequests,
-							statistics.numberOfClosedFeatureRequestsPerUpdate,
-							statistics.numberOfOpenFeatureRequests,
-							statistics.numberOfClosedBugsPerUpdate,
-							statistics.presenceOfSecurityBugsCorrected));
+    /**
+     * Stores a single measurement
+     * 
+     * @param scope target of the measure
+     * @param type type of the measure
+     * @param value value of the measure
+     */
+    private void storeMeasure(Scope scope, String type, String value)
+    {
+        Measurement measurement = new Measurement();
+        measurement.setScope(scope);
+        measurement.setType(type);
+        measurement.setValue(value);
+        riscossPlatform.storeMeasurement(measurement);
+    }
 
-		}
-	}
+    @Override
+    public void execute(Scope scope, Map<String, String> parameters)
+    {
+        LOGGER.info(String.format("Running %s on %s", JiraMeasurementsToolFactory.TOOL_ID, scope));
 
-	@Override
-	public Status getStatus() {
-		return Status.DONE;
-	}
+        String jiraURL = parameters.get(JiraMeasurementsToolFactory.JIRA_URL_PARAMETER);
+        boolean anonymousAuthentication =
+            Boolean.parseBoolean(parameters.get(JiraMeasurementsToolFactory.JIRA_ANONYMOUS_AUTHENTICATION_PARAMETER));
+        String username = parameters.get(JiraMeasurementsToolFactory.JIRA_USERNAME_PARAMETER);
+        String password = parameters.get(JiraMeasurementsToolFactory.JIRA_PASSWORD_PARAMETER);
+        String initialDate = parameters.get(JiraMeasurementsToolFactory.INITIAL_DATE_PARAMETER);
 
-	@Override
-	public void stop() {
-		LOGGER.info("Stopping");
-	}
+        if (jiraURL == null) {
+            LOGGER.error("jira URL is null.");
+        }
 
-	protected JiraMeasurementsTool.JiraLogStatistics getStatistics(
-			String jiraURL, boolean anonymousAuthentication, String username,
-			String password, String initialDate) throws URISyntaxException {
+        JiraMeasurementsTool.JiraLogStatistics statistics = null;
+        try {
+            statistics = getStatistics(jiraURL, anonymousAuthentication, username, password, initialDate);
+        } catch (URISyntaxException e) {
+            LOGGER.error(String.format("Error while executing analysis on %s", jiraURL), e);
+        }
 
-		int issueIndex = 0;
-		int totalIssues;
-		int numberOfOpenBugs = 0;
-		double totalCriticalBugFixTime = 0;
-		int counterCriticalBugs = 0;
-		double totalBugFixTime = 0;
-		int counterCloseBugs = 0;
-		int numberOfFeatureRequests = 0;
-		int numberOfOpenFeatureRequests = 0;
-		double numberOfClosedFeatureRequestsPerUpdate = 0;
-		double numberOfClosedBugsPerUpdate = 0;
-		boolean presenceOfSecurityBugsCorrected = false;
-		boolean correctExecution = true;
-		Issue is;
-		String issueState;
-		Interval interval;
+        if (statistics != null) {
+            storeAllMeasures(scope, statistics);
+        }
+    }
 
-		final JiraRestClientFactory jiraRestFactory = new AsynchronousJiraRestClientFactory();
-		final JiraRestClient restClient;
+    @Override
+    public Status getStatus()
+    {
+        return Status.DONE;
+    }
 
-		/*
-		 * Type Authentication instance
-		 */
-		if (anonymousAuthentication) {
-			restClient = jiraRestFactory.create(new URI(jiraURL),
-					new AnonymousAuthenticationHandler());
-		} else {
-			restClient = jiraRestFactory.createWithBasicHttpAuthentication(
-					new URI(jiraURL), username, password);
-		}
+    @Override
+    public void stop()
+    {
+        LOGGER.info("Stopping");
+    }
 
-		final IssueRestClient client = restClient.getIssueClient();
+    /**
+     * Calculates the statistic of jira
+     * 
+     * @param jiraURL url of Jira
+     * @param anonymousAuthentication true if the authentication is anonymous, false otherwise.
+     * @param username the username to log in Jira
+     * @param password the password to log in Jira
+     * @param initialDate the initial date to perform the measures.
+     * @return
+     * @throws URISyntaxException the url of Jira is not a valid URI.
+     */
+    protected JiraMeasurementsTool.JiraLogStatistics getStatistics(String jiraURL, boolean anonymousAuthentication,
+        String username, String password, String initialDate) throws URISyntaxException
+    {
 
-		SearchRestClient searchClient = restClient.getSearchClient();
-		String jql = "created >= \"" + initialDate + "\"";
-		SearchResult results = searchClient.searchJql(jql).claim();
+        int issueIndex = 0;
+        int totalIssues;
+        int totalBugs = 0;
+        int numberOfOpenBugs = 0;
+        double totalCriticalBugFixTime = 0;
+        int counterCriticalBugs = 0;
+        double totalBugFixTime = 0;
+        double totalSecurityBugFixTime = 0;
+        int counterSecurityBugs = 0;
+        int counterCloseBugs = 0;
+        int numberOfFeatureRequests = 0;
+        int numberOfOpenFeatureRequests = 0;
+        double numberOfClosedFeatureRequestsPerUpdate = 0;
+        double numberOfClosedBugsPerUpdate = 0;
+        boolean presenceOfSecurityBugsCorrected = false;
+        boolean correctExecution = true;
+        Issue is;
+        String issueState;
+        Interval interval;
 
-		/*
-		 * Calculate Total Issues
-		 */
-		totalIssues = results.getTotal();
-		while (issueIndex < totalIssues) {
-			results = searchClient.searchJql(jql, maxBufferIssue, issueIndex,
-					null).claim();
-			for (final BasicIssue issue : results.getIssues()) {
-				is = client.getIssue(issue.getKey()).claim();
+        final JiraRestClientFactory jiraRestFactory = new AsynchronousJiraRestClientFactory();
+        final JiraRestClient restClient;
 
-				if (is != null) {
-					/*
-					 * Measures for BUGs
-					 */
+        /*
+         * Type Authentication instance
+         */
+        if (anonymousAuthentication) {
+            restClient = jiraRestFactory.create(new URI(jiraURL), new AnonymousAuthenticationHandler());
+        } else {
+            restClient = jiraRestFactory.createWithBasicHttpAuthentication(new URI(jiraURL), username, password);
+        }
 
-					if (is.getIssueType().getName().toUpperCase().equals("BUG")) {
-						issueState = is.getStatus().getName().toUpperCase();
+        final IssueRestClient client = restClient.getIssueClient();
 
-						/*
-						 * Bug open if -->status !closed and ! done
-						 */
-						if ((!issueState.equals(IssueStatus.CLOSED.toString()))
-								&& (!issueState.equals(IssueStatus.DONE
-										.toString()))) {
-							numberOfOpenBugs++;
-						}
+        SearchRestClient searchClient = restClient.getSearchClient();
+        String jql = "created >= \"" + initialDate + "\"";
+        SearchResult results = searchClient.searchJql(jql).claim();
 
-						/*
-						 * Bug close if--> status closed or status done or
-						 * status resolved Number of days= date of bug create -
-						 * date of bug last update
-						 */
-						if ((issueState.equals(IssueStatus.CLOSED.toString()))
-								|| (issueState.equals(IssueStatus.RESOLVED
-										.toString()))
-								|| (issueState.equals(IssueStatus.DONE
-										.toString()))) {
+        /*
+         * Calculate Total Issues
+         */
+        totalIssues = results.getTotal();
+        while (issueIndex < totalIssues) {
+            results = searchClient.searchJql(jql, maxBufferIssue, issueIndex, null).claim();
+            for (final BasicIssue issue : results.getIssues()) {
+                is = client.getIssue(issue.getKey()).claim();
 
-							interval = new Interval(is.getCreationDate(),
-									is.getUpdateDate());
-							totalBugFixTime += (double) interval.toDuration()
-									.getStandardSeconds() / secondsOfDay;
-							counterCloseBugs++;
+                if (is != null) {
+                    /*
+                     * Measures for BUGs
+                     */
 
-							/*
-							 * close bug with Priority CRITICAL OR BLOCKER
-							 */
-							if (is.getPriority() != null) {
-								if ((is.getPriority().getName().toUpperCase()
-										.equals(IssuePriority.CRITICAL
-												.toString()))
-										|| (is.getPriority().getName()
-												.toUpperCase()
-												.equals(IssuePriority.BLOCKER
-														.toString()))) {
-									totalCriticalBugFixTime += (double) interval
-											.toDuration().getStandardSeconds()
-											/ secondsOfDay;
-									counterCriticalBugs++;
-								}
-							}
+                    if (is.getIssueType().getName().toUpperCase().equals("BUG")) {
+                        issueState = is.getStatus().getName().toUpperCase();
+                        totalBugs++;
 
-						} else {
+                        /*
+                         * Bug open if -->status !closed and ! done
+                         */
+                        if ((!issueState.equals(IssueStatus.CLOSED.toString()))
+                            && (!issueState.equals(IssueStatus.DONE.toString()))) {
+                            numberOfOpenBugs++;
+                        }
 
-							/*
-							 * Other BUGs Measures
-							 */
+                        /*
+                         * Bug close if--> status closed or status done or status resolved Number of days= date of bug
+                         * create - date of bug last update
+                         */
+                        if ((issueState.equals(IssueStatus.CLOSED.toString()))
+                            || (issueState.equals(IssueStatus.RESOLVED.toString()))
+                            || (issueState.equals(IssueStatus.DONE.toString()))) {
 
-						}
+                            interval = new Interval(is.getCreationDate(), is.getUpdateDate());
+                            totalBugFixTime += (double) interval.toDuration().getStandardSeconds() / secondsOfDay;
+                            counterCloseBugs++;
 
-					}
-					/*
-					 * Measures for FEATUREs
-					 */
+                            /*
+                             * close bug with Priority CRITICAL OR BLOCKER
+                             */
+                            if (is.getPriority() != null) {
+                                if ((is.getPriority().getName().toUpperCase().equals(IssuePriority.CRITICAL.toString()))
+                                    || (is.getPriority().getName().toUpperCase().equals(IssuePriority.BLOCKER
+                                        .toString()))) {
+                                    totalCriticalBugFixTime +=
+                                        (double) interval.toDuration().getStandardSeconds() / secondsOfDay;
+                                    counterCriticalBugs++;
+                                }
+                            }
 
-					else {
-						/*
-						 * Issue is feature if type = "NEW FEATURE"
-						 */
-						if (is.getIssueType().getName().toUpperCase()
-								.equals("NEW FEATURE")) {
-							issueState = is.getStatus().getName().toUpperCase();
-							numberOfFeatureRequests++;
-							/*
-							 * Feature open if -->status !closed and ! done
-							 */
-							if ((!issueState.equals(IssueStatus.CLOSED
-									.toString()))
-									&& (!issueState.equals(IssueStatus.DONE
-											.toString()))) {
-								numberOfOpenFeatureRequests++;
-							}
-						}
+                            /*
+                             * close bug is a secutiry issue
+                             */
+                            if (isSecurityIssue(is)) {
+                                totalSecurityBugFixTime +=
+                                    (double) interval.toDuration().getStandardSeconds() / secondsOfDay;
+                                counterSecurityBugs++;
+                            }
 
-					}
+                        } else {
 
-					issueIndex++;
-				} // is !=null end
-			}// for end
-		} // while end
+                            /*
+                             * Other BUGs Measures
+                             */
 
-		/**
-		 * Metrics about all issues
-		 */
+                        }
 
-		// Number of Versions
+                    }
+                    /*
+                     * Measures for FEATUREs
+                     */
 
-		ProjectRestClient projectClient = restClient.getProjectClient();
+                    else {
+                        /*
+                         * Issue is feature if type = "NEW FEATURE"
+                         */
+                        if (is.getIssueType().getName().toUpperCase().equals("NEW FEATURE")) {
+                            issueState = is.getStatus().getName().toUpperCase();
+                            numberOfFeatureRequests++;
+                            /*
+                             * Feature open if -->status !closed and ! done
+                             */
+                            if ((!issueState.equals(IssueStatus.CLOSED.toString()))
+                                && (!issueState.equals(IssueStatus.DONE.toString()))) {
+                                numberOfOpenFeatureRequests++;
+                            }
+                        }
 
-		Project project;
+                    }
 
-		int countOfVersions = 0;
+                    issueIndex++;
+                } // is !=null end
+            }// for end
+        } // while end
 
-		Iterable<BasicProject> basicProjects = projectClient.getAllProjects()
-				.claim();
+        /**
+         * Metrics about all issues
+         */
 
-		for (BasicProject basicP : basicProjects) {
+        // Number of Versions
 
-			project = projectClient.getProject(basicP.getKey()).claim();
-			for (Version ver : project.getVersions()) {
-				countOfVersions++;
+        ProjectRestClient projectClient = restClient.getProjectClient();
 
-			}
-		}
+        Project project;
 
-		jql = "issuetype = Bug AND status in (Closed, Resolved)";
-		results = searchClient.searchJql(jql).claim();
-		numberOfClosedBugsPerUpdate = (double) results.getTotal()
-				/ (double) countOfVersions;
+        int countOfVersions = 0;
 
-		jql = "issuetype = \"New Feature\" AND status in (Closed, Resolved)";
-		results = searchClient.searchJql(jql).claim();
-		numberOfClosedFeatureRequestsPerUpdate = (double) results.getTotal()
-				/ (double) countOfVersions;
+        Iterable<BasicProject> basicProjects = projectClient.getAllProjects().claim();
 
-		if (correctExecution) {
+        for (BasicProject basicP : basicProjects) {
 
-			JiraMeasurementsTool.JiraLogStatistics stats = new JiraMeasurementsTool.JiraLogStatistics();
-			stats.openBugs = numberOfOpenBugs;
-			stats.timeToResolveABug = totalBugFixTime / counterCloseBugs;
-			stats.timeToResolveABlockingOrCriticalBug = totalCriticalBugFixTime
-					/ counterCriticalBugs;
-			stats.numberOfFeatureRequests = numberOfFeatureRequests;
-			stats.numberOfOpenFeatureRequests = numberOfOpenFeatureRequests;
-			stats.numberOfClosedFeatureRequestsPerUpdate = numberOfClosedFeatureRequestsPerUpdate;
-			stats.numberOfClosedBugsPerUpdate = numberOfClosedBugsPerUpdate;
-			if (counterCloseBugs > 0) {
-				presenceOfSecurityBugsCorrected = true;
-			}
-			stats.presenceOfSecurityBugsCorrected = presenceOfSecurityBugsCorrected;
-			return stats;
-		}
+            project = projectClient.getProject(basicP.getKey()).claim();
+            for (Version ver : project.getVersions()) {
+                countOfVersions++;
+            }
+        }
 
-		return null;
-	}
+        jql = "issuetype = Bug AND status in (Closed, Resolved)";
+        results = searchClient.searchJql(jql).claim();
+        numberOfClosedBugsPerUpdate = (double) results.getTotal() / (double) countOfVersions;
+
+        jql = "issuetype = \"New Feature\" AND status in (Closed, Resolved)";
+        results = searchClient.searchJql(jql).claim();
+        numberOfClosedFeatureRequestsPerUpdate = (double) results.getTotal() / (double) countOfVersions;
+
+        if (correctExecution) {
+
+            JiraMeasurementsTool.JiraLogStatistics stats = new JiraMeasurementsTool.JiraLogStatistics();
+            stats.openBugs = numberOfOpenBugs;
+            stats.timeToResolveABug = totalBugFixTime / counterCloseBugs;
+            stats.timeToResolveABlockingOrCriticalBug = totalCriticalBugFixTime / counterCriticalBugs;
+            stats.numberOfFeatureRequests = numberOfFeatureRequests;
+            stats.numberOfOpenFeatureRequests = numberOfOpenFeatureRequests;
+            stats.numberOfClosedFeatureRequestsPerUpdate = numberOfClosedFeatureRequestsPerUpdate;
+            stats.numberOfClosedBugsPerUpdate = numberOfClosedBugsPerUpdate;
+            stats.numberOfSecurityBugs = (int) (totalBugs * security_factor);
+            if (counterCloseBugs > 0) {
+                presenceOfSecurityBugsCorrected = true;
+            }
+            stats.presenceOfSecurityBugsCorrected = presenceOfSecurityBugsCorrected;
+            if (counterSecurityBugs > 0) {
+                stats.timeToResolveASecurityBug = totalSecurityBugFixTime / counterSecurityBugs;
+            }
+            return stats;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns if a given issue is related to security
+     * 
+     * @param is Issue
+     * @return true if it is a security issue.
+     */
+    private boolean isSecurityIssue(Issue is)
+    {
+        String[] securityTerms =
+            {"security", "secure", "attack", "vulnerability", "exploit", "sql injection", "cross-site scripting"};
+        String issueSummary = is.getSummary() == null ? "" : is.getSummary().toLowerCase();
+        String issueDescription = is.getDescription() == null ? "" : is.getDescription().toLowerCase();
+
+        boolean found = false;
+        for (int i = 0; i < securityTerms.length && !found; i++) {
+            found = issueSummary.contains(securityTerms[i]) || issueDescription.contains(securityTerms[i]);
+        }
+
+        return found;
+    }
 
 }
