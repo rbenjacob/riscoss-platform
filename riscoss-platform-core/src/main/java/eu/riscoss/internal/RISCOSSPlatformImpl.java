@@ -19,6 +19,7 @@ import eu.riscoss.HibernateSessionProvider;
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.ToolFactory;
 import eu.riscoss.api.model.GoalModel;
+import eu.riscoss.api.model.ImpactModel;
 import eu.riscoss.api.model.Indicator;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.RiskModel;
@@ -490,6 +491,51 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
     @Override public void storeGoalModel(GoalModel goalModel)
     {
         hibernateStore(goalModel);
+    }
+
+    @Override public List<ImpactModel> getImpactModels()
+    {
+        Session session = hibernateSessionProvider.getSession();
+        session.beginTransaction();
+        try {
+            Query query = session.createQuery("from ImpactModel");
+
+            return query.list();
+        } catch (Exception e) {
+            logger.error("Error getting impact models", e);
+            session.getTransaction().rollback();
+        } finally {
+            session.getTransaction().commit();
+        }
+
+        return Collections.EMPTY_LIST;
+    }
+
+    @Override public ImpactModel getImpactModel(String id)
+    {
+        Session session = hibernateSessionProvider.getSession();
+        session.beginTransaction();
+        try {
+            Query query = session.createQuery("from ImpactModel as I where I.id = :id");
+            query.setParameter("id", id);
+            List<ImpactModel> impactModels = query.list();
+
+            if (impactModels.size() != 0) {
+                return impactModels.get(0);
+            }
+        } catch (Exception e) {
+            logger.error("Error getting impact model", e);
+            session.getTransaction().rollback();
+        } finally {
+            session.getTransaction().commit();
+        }
+
+        return null;
+    }
+
+    @Override public void storeImpactModel(ImpactModel impactModel)
+    {
+        hibernateStore(impactModel);
     }
 
     private void hibernateStore(Object object)

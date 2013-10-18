@@ -6,6 +6,7 @@ import java.util.List;
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.ToolFactory;
 import eu.riscoss.api.model.GoalModel;
+import eu.riscoss.api.model.ImpactModel;
 import eu.riscoss.api.model.Indicator;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.RiskModel;
@@ -84,22 +85,22 @@ public class BaseRISCOSSPlatform implements RISCOSSPlatform
 
     @Override public List<Measurement> getMeasurements(Scope scope, int offset, int length)
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override public List<Measurement> getMeasurements(Scope scope, String type, int offset, int length)
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override public List<Indicator> getIndicators(Scope scope, int offset, int length)
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override public List<Indicator> getIndicators(Scope scope, String type, int offset, int length)
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override public void storeIndicator(Indicator indicator)
@@ -154,5 +155,19 @@ public class BaseRISCOSSPlatform implements RISCOSSPlatform
     @Override public Answer getAnswer(Scope scope, String questionId)
     {
         return null;
+    }
+
+    @Override public ImpactModel getImpactModel(String id)
+    {
+        return null;
+    }
+
+    @Override public List<ImpactModel> getImpactModels()
+    {
+        return null;
+    }
+
+    @Override public void storeImpactModel(ImpactModel impactModel)
+    {
     }
 }
