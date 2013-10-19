@@ -1,5 +1,6 @@
 package eu.riscoss.api.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,13 +8,8 @@ import java.util.Date;
  *
  * @version $Id$
  */
-public class Indicator
+public class Indicator implements Serializable
 {
-    /**
-     * The indicator id.
-     */
-    private Long id;
-
     /**
      * The indicator type. This gives a reference to the semantics of the indicator.
      */
@@ -39,11 +35,6 @@ public class Indicator
         date = new Date();
     }
 
-    public Long getId()
-    {
-        return id;
-    }
-
     public Scope getScope()
     {
         return scope;
@@ -64,11 +55,6 @@ public class Indicator
         return value;
     }
 
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-
     public void setScope(Scope scope)
     {
         this.scope = scope;
@@ -87,5 +73,43 @@ public class Indicator
     public void setValue(String value)
     {
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Indicator)) {
+            return false;
+        }
+
+        Indicator indicator = (Indicator) o;
+
+        if (!date.equals(indicator.date)) {
+            return false;
+        }
+        if (!scope.equals(indicator.scope)) {
+            return false;
+        }
+        if (!type.equals(indicator.type)) {
+            return false;
+        }
+        if (!value.equals(indicator.value)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = type.hashCode();
+        result = 31 * result + scope.hashCode();
+        result = 31 * result + date.hashCode();
+        result = 31 * result + value.hashCode();
+        return result;
     }
 }

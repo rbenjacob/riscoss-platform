@@ -376,7 +376,7 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
         return Collections.EMPTY_LIST;
     }
 
-    @Override public List<Indicator> getIndicators(Scope scope, String type, int offset, int length)
+    @Override public Indicator getIndicator(Scope scope, String type)
     {
         Session session = hibernateSessionProvider.getSession();
         session.beginTransaction();
@@ -384,18 +384,20 @@ public class RISCOSSPlatformImpl implements RISCOSSPlatform
             Query query = session.createQuery("from Indicator as I where I.scope.id = :scopeId AND  I.type = :type");
             query.setParameter("scopeId", scope.getId());
             query.setParameter("type", type);
-            query.setFirstResult(offset);
-            query.setMaxResults(length);
 
-            return query.list();
+            List<Indicator> indicators = query.list();
+
+            if (indicators.size() != 0) {
+                return indicators.get(0);
+            }
         } catch (Exception e) {
-            logger.error("Error getting indicators by type", e);
+            logger.error("Error getting indicator by type for a given scope", e);
             session.getTransaction().rollback();
         } finally {
             session.getTransaction().commit();
         }
 
-        return Collections.EMPTY_LIST;
+        return null;
     }
 
     @Override public void storeIndicator(Indicator indicator)

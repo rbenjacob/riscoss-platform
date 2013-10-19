@@ -122,11 +122,9 @@ public interface RISCOSSPlatform
      *
      * @param scope the scope.
      * @param type the indicator type.
-     * @param offset initial offset for results.
-     * @param length results length.
      * @return a list of measurement.
      */
-    List<Indicator> getIndicators(Scope scope, String type, int offset, int length);
+    Indicator getIndicator(Scope scope, String type);
 
     /**
      * Store an indicator entity object in the platform knowledge base.

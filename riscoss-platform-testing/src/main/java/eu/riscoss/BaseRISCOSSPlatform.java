@@ -98,7 +98,7 @@ public class BaseRISCOSSPlatform implements RISCOSSPlatform
         return null;
     }
 
-    @Override public List<Indicator> getIndicators(Scope scope, String type, int offset, int length)
+    @Override public Indicator getIndicator(Scope scope, String type)
     {
         return null;
     }
