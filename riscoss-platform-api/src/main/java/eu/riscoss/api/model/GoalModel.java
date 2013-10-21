@@ -36,6 +36,7 @@ public class GoalModel
     public enum ElementType
     {
         ACTOR,
+        ACTOR_LINK,
         INTENTIONAL_ELEMENT,
         IE_LINK,
         DEPENDENCY,
@@ -198,7 +199,7 @@ public class GoalModel
         cloned.setId(cloneID);
         return cloned;
     }
-    
+
     public void addElementFromOtherModel(Node element)
     {
         Node diagram = model.getElementsByTagName("diagram").item(0);
@@ -244,6 +245,8 @@ public class GoalModel
 
         if (type.equalsIgnoreCase("actor"))
             return ElementType.ACTOR;
+        if (type.equalsIgnoreCase("actorLink"))
+            return ElementType.ACTOR_LINK;
         else if (type.equalsIgnoreCase("ielement"))
             return ElementType.INTENTIONAL_ELEMENT;
         else if (type.equalsIgnoreCase("ielementLink"))
