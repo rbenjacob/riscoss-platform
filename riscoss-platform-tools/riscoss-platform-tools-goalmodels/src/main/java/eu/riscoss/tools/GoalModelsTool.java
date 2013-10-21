@@ -154,6 +154,7 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
         }
 
         // The model modified is stored in the platform after processing all the answers
+        LOGGER.info("storing goal model: %s", goalModel.toString());
         riscossPlatform.storeGoalModel(goalModel);
         // The new questions are register to the platform to be asked to the user
         if (!questionnaire.isEmpty())
@@ -237,8 +238,8 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
                 if (answer.getValues().contains(id)) {
                     processPattern(child);
                 } else {
-                    // But if this element is referenciated in another part of the model it has been moved
-                    // TODO: Review, this code througt an exceptions but it seems to work.
+                    // But if this element is referenced in another part of the model it has been moved
+                    // TODO: Review, this code thought an exceptions but it seems to work.
                     NodeList references = goalModel.getIEsByIRef(id);
                     String newID = "";
                     for (int j = 0; j < references.getLength(); j++) {
@@ -281,6 +282,8 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
             // All the element from the pattern have to be moved to the model, in the case of the matching element,
             // the element will be replaced
             NodeList patternElements = pattern.getModelElements();
+            Node modelNode = goalModel.getModelNode();
+
 
             for (int i = 0; i < patternElements.getLength(); i++) { // actors & dependencies
                 Node patternNode = patternElements.item(i);
@@ -288,9 +291,9 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
                 if (!goalModel.isValidID(patternNodeId)) {
                     continue;
                 }
-                Node modelNode = goalModel.getElementById(patternNodeId);
-                if (modelNode == null) {
-                    // If the node is new, it is copied
+                Node modelElement = goalModel.getElementById(patternNodeId);
+                if (modelElement == null) {
+                    // If the node (actor o dependency) is new, it is copied
                     goalModel.addElementFromOtherModel(patternNode);
                 } else {
                     // If the node is already in the model, it is replaced
@@ -311,8 +314,10 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
                             } else {
                                 Node inModel = goalModel.getElementById(patternNodeId);
                                 if (inModel == null) {
-                                    goalModel.addChildFromOtherModel(modelNode, patternNodes.item(j));
+                                    // If the element is not in the model yet, the node is added to the corresponding actor(modelElement)
+                                    goalModel.addChildFromOtherModel(modelElement, patternNodes.item(j));
                                 } else {
+                                    // 
                                     goalModel.addChildsFromOtherModel(inModel, patternNodes.item(j));
                                 }
                             }
@@ -343,9 +348,9 @@ public class GoalModelsTool implements Tool, QuestionnaireListener
      */
     private void processNewQuestions(Node element, Answers answers)
     {
-        // TODO: review, in the previous version this function could be call using a null as a element, this is the code
-        // if (element == null)
-        // element = istarModel.getFirstPendingElement(model);
+        // For processing pending brother elements (getParent for actors returns null)
+         if (element == null)
+             element = goalModel.getFirstPendingElement();
 
         // element == null is the base case, it stops the recursive calls
         if (element != null) {
