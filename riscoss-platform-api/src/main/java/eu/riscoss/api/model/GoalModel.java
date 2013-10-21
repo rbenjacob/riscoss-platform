@@ -191,7 +191,14 @@ public class GoalModel
     /******************************************************************************
      * Functions managing the model
      ******************************************************************************/
-
+    public GoalModel clone(String cloneID)
+    {
+        GoalModel cloned = new GoalModel();
+        cloned.setXml(this.getXml());
+        cloned.setId(cloneID);
+        return cloned;
+    }
+    
     public void addElementFromOtherModel(Node element)
     {
         Node diagram = model.getElementsByTagName("diagram").item(0);
