@@ -52,11 +52,10 @@
   </class>
 
   <class name="eu.riscoss.api.model.Indicator" table="INDICATORS">
-    <id name="id">
-      <generator class="native"/>
-    </id>
-    <many-to-one name="scope" class="eu.riscoss.api.model.Scope"/>
-    <property name="type" not-null="true"/>
+    <composite-id>
+      <key-property name="type"/>
+      <key-many-to-one name="scope" class="eu.riscoss.api.model.Scope"/>
+    </composite-id>
     <property name="date" type="timestamp" not-null="true"/>
     <property name="value" type="text" not-null="true"/>
   </class>

@@ -93,15 +93,7 @@ public class RiscossPlatformImplTest
             /* Store some indicators */
             for (int i = 0; i < 10; i++) {
                 Indicator indicator = new Indicator();
-                indicator.setType("i1");
-                indicator.setScope(ossComponent);
-                indicator.setValue(String.format("%d", i));
-                riscossPlatform.storeIndicator(indicator);
-            }
-
-            for (int i = 0; i < 10; i++) {
-                Indicator indicator = new Indicator();
-                indicator.setType("i2");
+                indicator.setType("i" + i);
                 indicator.setScope(ossComponent);
                 indicator.setValue(String.format("%d", i));
                 riscossPlatform.storeIndicator(indicator);
@@ -221,8 +213,8 @@ public class RiscossPlatformImplTest
         ossComponent.setId("ossc");
         ossComponent.setName("ossc");
 
-        List<Indicator> indicators = riscossPlatform.getIndicators(ossComponent, 0, 20);
-        Assert.assertEquals(20, indicators.size());
+        List<Indicator> indicators = riscossPlatform.getIndicators(ossComponent, 0, 10);
+        Assert.assertEquals(10, indicators.size());
     }
 
     @Test
@@ -232,7 +224,7 @@ public class RiscossPlatformImplTest
         ossComponent.setId("ossc1");
         ossComponent.setName("ossc1");
 
-        List<Indicator> indicators = riscossPlatform.getIndicators(ossComponent, 0, 20);
+        List<Indicator> indicators = riscossPlatform.getIndicators(ossComponent, 0, 10);
         Assert.assertEquals(0, indicators.size());
     }
 
@@ -243,15 +235,8 @@ public class RiscossPlatformImplTest
         ossComponent.setId("ossc");
         ossComponent.setName("ossc");
 
-        List<Indicator> indicators = riscossPlatform.getIndicators(ossComponent, "i1", 0, 10);
-        Assert.assertEquals(10, indicators.size());
-
-        indicators = riscossPlatform.getIndicators(ossComponent, "i2", 0, 10);
-        Assert.assertEquals(10, indicators.size());
-
-        indicators = riscossPlatform.getIndicators(ossComponent, "i1", 3, 1);
-        Assert.assertEquals(1, indicators.size());
-        Assert.assertEquals("3", indicators.get(0).getValue());
+        Indicator indicator = riscossPlatform.getIndicator(ossComponent, "i1");
+        Assert.assertNotNull(indicator);
     }
 
     @Test
@@ -261,8 +246,8 @@ public class RiscossPlatformImplTest
         ossComponent.setId("ossc");
         ossComponent.setName("ossc");
 
-        List<Indicator> indicators = riscossPlatform.getIndicators(ossComponent, "NULL", 0, 10);
-        Assert.assertEquals(0, indicators.size());
+        Indicator indicator = riscossPlatform.getIndicator(ossComponent, "NULL");
+        Assert.assertNull(indicator);
     }
 
     @Test
