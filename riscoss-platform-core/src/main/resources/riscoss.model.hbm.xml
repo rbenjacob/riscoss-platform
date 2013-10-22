@@ -71,6 +71,11 @@
     <property name="xml" type="text" not-null="true"/>
   </class>
 
+  <class name="eu.riscoss.api.model.ImpactModel" table="IMPACTMODELS">
+    <id name="id"/>
+    <property name="xml" type="text" not-null="true"/>
+  </class>
+
   <class name="eu.riscoss.api.model.questionnaire.Question" table="QUESTIONS">
     <id name="id"/>
     <property name="type">

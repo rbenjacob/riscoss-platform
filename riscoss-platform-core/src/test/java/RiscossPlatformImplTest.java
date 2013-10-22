@@ -11,6 +11,7 @@ import org.xwiki.test.annotation.ComponentList;
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.model.Company;
 import eu.riscoss.api.model.GoalModel;
+import eu.riscoss.api.model.ImpactModel;
 import eu.riscoss.api.model.Indicator;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.OSSComponent;
@@ -117,6 +118,12 @@ public class RiscossPlatformImplTest
             goalModel.setId("g");
             goalModel.setXml("<goalModel></goalModel>");
             riscossPlatform.storeGoalModel(goalModel);
+
+            /* Create impact model */
+            ImpactModel impactModel = new ImpactModel();
+            impactModel.setId("i");
+            impactModel.setXml("xml");
+            riscossPlatform.storeImpactModel(impactModel);
 
             /* Store some questions */
             for (int i = 0; i < 3; i++) {
@@ -382,5 +389,29 @@ public class RiscossPlatformImplTest
 
         Assert.assertNotNull(answer);
         Assert.assertEquals("foo", answer.getValue());
+    }
+
+    @Test
+    public void getImpactModelsTest()
+    {
+        List<ImpactModel> impactModels = riscossPlatform.getImpactModels();
+
+        Assert.assertEquals(1, impactModels.size());
+    }
+
+    @Test
+    public void getImpactModel()
+    {
+        ImpactModel impactModel = riscossPlatform.getImpactModel("i");
+
+        Assert.assertEquals("i", impactModel.getId());
+    }
+
+    @Test
+    public void getNonExistingImpactModel()
+    {
+        ImpactModel impactModel = riscossPlatform.getImpactModel("NULL");
+
+        Assert.assertNull(impactModel);
     }
 }

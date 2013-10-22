@@ -6,6 +6,7 @@ import java.util.List;
 import org.xwiki.component.annotation.Role;
 
 import eu.riscoss.api.model.GoalModel;
+import eu.riscoss.api.model.ImpactModel;
 import eu.riscoss.api.model.Indicator;
 import eu.riscoss.api.model.Measurement;
 import eu.riscoss.api.model.RiskModel;
@@ -169,6 +170,24 @@ public interface RISCOSSPlatform
      * @param goalModel the risk model to be stored.
      */
     void storeGoalModel(GoalModel goalModel);
+
+    /**
+     * @return the list of impact models stored in the platform knowledge base.
+     */
+    List<ImpactModel> getImpactModels();
+
+    /**
+     * @param id the id of the risk model.
+     * @return the impact model with the given id.
+     */
+    ImpactModel getImpactModel(String id);
+
+    /**
+     * Store a impact model in the platform knowledge base.
+     *
+     * @param impactModel the impact model to be stored.
+     */
+    void storeImpactModel(ImpactModel impactModel);
 
     /*****************************************************************************************************************
      * Questionnaire oriented API.
