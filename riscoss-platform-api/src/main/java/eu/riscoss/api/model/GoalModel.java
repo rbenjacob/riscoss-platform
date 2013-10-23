@@ -5,6 +5,7 @@ import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -36,6 +37,7 @@ public class GoalModel
     public enum ElementType
     {
         ACTOR,
+        ACTOR_LINK,
         INTENTIONAL_ELEMENT,
         IE_LINK,
         DEPENDENCY,
@@ -102,8 +104,8 @@ public class GoalModel
         try {
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer tr = tf.newTransformer();
-            // tr.setOutputProperty(OutputKeys.INDENT, "yes");
-            // tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","2");
+            tr.setOutputProperty(OutputKeys.INDENT, "yes");
+            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","2");
             tr.transform(domSource, result);
         } catch (TransformerException e) {
             LOGGER.error(e.toString());
@@ -191,6 +193,13 @@ public class GoalModel
     /******************************************************************************
      * Functions managing the model
      ******************************************************************************/
+    public GoalModel clone(String cloneID)
+    {
+        GoalModel cloned = new GoalModel();
+        cloned.setXml(this.getXml());
+        cloned.setId(cloneID);
+        return cloned;
+    }
 
     public void addElementFromOtherModel(Node element)
     {
@@ -237,6 +246,8 @@ public class GoalModel
 
         if (type.equalsIgnoreCase("actor"))
             return ElementType.ACTOR;
+        if (type.equalsIgnoreCase("actorLink"))
+            return ElementType.ACTOR_LINK;
         else if (type.equalsIgnoreCase("ielement"))
             return ElementType.INTENTIONAL_ELEMENT;
         else if (type.equalsIgnoreCase("ielementLink"))
@@ -420,11 +431,25 @@ public class GoalModel
     /******************************************************************************
      * Functions 'get' to obtain i* elements from a model element
      ******************************************************************************/
+    /**
+     * Get all the nodes (actors and dependencies) from the model
+     * 
+     * @return the list of nodes associated to all the elements in the model (actors and dependencies)
+     */
     public NodeList getModelElements()
     {
-        return model.getElementsByTagName("diagram");
+        return model.getElementsByTagName("diagram").item(0).getChildNodes();
     }
 
+    /**
+     * Gets the node associated to the whole model (tag <diagram> for the starml format)
+     * 
+     * @return the node as org.w3c.doc.Node associated to the whole model
+     */
+    public Node getModelNode()
+    {
+        return model.getElementsByTagName("diagram").item(0);
+    }
     /**
      * Gets the first non-processed i* element from an especific model element
      * 
