@@ -92,4 +92,9 @@ public class Measurement
     {
         this.value = value;
     }
+
+    @Override public String toString()
+    {
+        return String.format("[Measurement - scope: %s, type: %s, value: %s]", scope.getId(), type, value);
+    }
 }

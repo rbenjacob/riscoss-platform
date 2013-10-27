@@ -3,61 +3,71 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
   <class name="eu.riscoss.api.model.Scope" table="SCOPES">
-    <id name="id"/>
-    <discriminator column="SCOPE_TYPE"/>
+    <id name="id" column="SCOPE_ID"/>
     <property name="name"/>
     <property name="description"/>
 
-    <subclass name="eu.riscoss.api.model.Company" discriminator-value="COMPANY">
-      <list name="products">
-        <key column="PRODUCTS_FOR_COMPANY"/>
-        <list-index column="id"/>
+    <joined-subclass name="eu.riscoss.api.model.Company" table="COMPANIES">
+      <key column="COMPANY_ID"/>
+      <set name="products" cascade="save-update" inverse="true">
+        <!-- This must match the foreign key column name in the Products many-to-one mapping -->
+        <key column="COMPANY_ID"/>
         <one-to-many class="eu.riscoss.api.model.Product"/>
-      </list>
-    </subclass>
+      </set>
+    </joined-subclass>
 
-    <subclass name="eu.riscoss.api.model.Product" discriminator-value="PRODUCT">
-      <many-to-one name="company" class="eu.riscoss.api.model.Company"/>
-      <list name="components">
-        <key column="COMPONENTS_FOR_PRODUCT"/>
-        <list-index column="id"/>
-        <many-to-many class="eu.riscoss.api.model.Component"/>
-      </list>
-    </subclass>
+    <joined-subclass name="eu.riscoss.api.model.Project">
+      <key column="PROJECT_ID"/>
+    </joined-subclass>
 
-    <subclass name="eu.riscoss.api.model.Project" discriminator-value="PROJECT"/>
+    <joined-subclass name="eu.riscoss.api.model.Product" table="PRODUCTS">
+      <key column="PRODUCT_ID"/>
+      <!-- Foreign key for associated company-->
+      <many-to-one name="company" class="eu.riscoss.api.model.Company" column="COMPANY_ID"/>
 
-    <subclass name="eu.riscoss.api.model.Component" discriminator-value="COMPONENT">
+      <set name="components" cascade="save-update">
+        <key column="PRODUCT_ID"/>
+        <one-to-many class="eu.riscoss.api.model.Component"/>
+      </set>
+    </joined-subclass>
+
+    <joined-subclass name="eu.riscoss.api.model.Component" table="COMPONENTS">
+      <key column="COMPONENT_ID"/>
       <property name="version"/>
-      <list name="products">
-        <key column="PRODUCTS_FOR_COMPONENT"/>
-        <list-index column="id"/>
-        <many-to-many class="eu.riscoss.api.model.Product"/>
-      </list>
 
-      <subclass name="eu.riscoss.api.model.OSSComponent" discriminator-value="OSSCOMPONENT">
+      <joined-subclass name="eu.riscoss.api.model.OSSComponent" table="OSSCOMPONENTS">
+        <key column="OSSCOMPONENT_ID"/>
         <property name="webSite"/>
-      </subclass>
-    </subclass>
+        <many-to-one name="ossCommunity" class="eu.riscoss.api.model.OSSCommunity" column="OSSCOMMUNITY_ID"/>
+      </joined-subclass>
+    </joined-subclass>
+  </class>
+
+  <class name="eu.riscoss.api.model.OSSCommunity" table="OSSCOMMUNITIES">
+    <id name="id" column="OSSCOMMUNITY_ID"/>
+    <set name="components">
+      <key column="OSSCOMMUNITY_ID"/>
+      <one-to-many class="eu.riscoss.api.model.OSSComponent"/>
+    </set>
   </class>
 
   <class name="eu.riscoss.api.model.Measurement" table="MEASUREMENTS">
-    <id name="id">
+    <id name="id" column="MEASUREMENT_ID">
       <generator class="native"/>
     </id>
-    <many-to-one name="scope" class="eu.riscoss.api.model.Scope"/>
-    <property name="type" not-null="true"/>
-    <property name="date" type="timestamp" not-null="true"/>
-    <property name="value" type="text" not-null="true"/>
+    <many-to-one name="scope" class="eu.riscoss.api.model.Scope" column="SCOPE_ID"/>
+    <property name="type" not-null="true" column="MEASUREMENT_TYPE"/>
+    <property name="date" type="timestamp" not-null="true" column="MEASUREMENT_DATE"/>
+    <property name="value" type="text" not-null="true" column="MEASUREMENT_VALUE"/>
   </class>
 
   <class name="eu.riscoss.api.model.Indicator" table="INDICATORS">
     <composite-id>
-      <key-property name="type"/>
-      <key-many-to-one name="scope" class="eu.riscoss.api.model.Scope"/>
+      <key-property name="type" column="INDICATOR_TYPE"/>
+      <key-many-to-one name="scope" class="eu.riscoss.api.model.Scope" column="SCOPE_ID"/>
     </composite-id>
-    <property name="date" type="timestamp" not-null="true"/>
-    <property name="value" type="text" not-null="true"/>
+    <property name="date" type="timestamp" not-null="true" column="INDICATOR_DATE"/>
+    <property name="value" type="text" not-null="true" column="INDICATOR_VALUE"/>
   </class>
 
   <class name="eu.riscoss.api.model.RiskModel" table="RISKMODELS">

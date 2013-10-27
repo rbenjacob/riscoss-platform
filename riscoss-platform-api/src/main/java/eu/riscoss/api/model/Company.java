@@ -1,7 +1,7 @@
 package eu.riscoss.api.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A company.
@@ -13,22 +13,21 @@ public class Company extends Scope
     /**
      * The products associated to this company.
      */
-    private List<Product> products;
+    private Set<Product> products = new HashSet<Product>();
 
     /**
      * Default constructor.
      */
     public Company()
     {
-        products = new ArrayList<Product>();
     }
 
-    public List<Product> getProducts()
+    public Set<Product> getProducts()
     {
         return products;
     }
 
-    public void setProducts(List<Product> products)
+    public void setProducts(Set<Product> products)
     {
         this.products = products;
     }

@@ -12,6 +12,8 @@ public class OSSComponent extends Component
      */
     String webSite;
 
+    OSSCommunity ossCommunity;
+
     /**
      * Default constructor.
      */
@@ -27,6 +29,16 @@ public class OSSComponent extends Component
     public void setWebSite(String webSite)
     {
         this.webSite = webSite;
+    }
+
+    public OSSCommunity getOssCommunity()
+    {
+        return ossCommunity;
+    }
+
+    public void setOssCommunity(OSSCommunity ossCommunity)
+    {
+        this.ossCommunity = ossCommunity;
     }
 
     @Override public String toString()

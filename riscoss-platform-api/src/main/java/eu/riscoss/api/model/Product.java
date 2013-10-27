@@ -1,7 +1,7 @@
 package eu.riscoss.api.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Product.
@@ -18,11 +18,10 @@ public class Product extends Scope
     /**
      * The list of components associated to this product.
      */
-    List<Component> components;
+    Set<Component> components = new HashSet<Component>();
 
     public Product()
     {
-        components = new ArrayList<Component>();
     }
 
     public Company getCompany()
@@ -35,12 +34,12 @@ public class Product extends Scope
         this.company = company;
     }
 
-    public List<Component> getComponents()
+    public Set<Component> getComponents()
     {
         return components;
     }
 
-    public void setComponents(List<Component> components)
+    public void setComponents(Set<Component> components)
     {
         this.components = components;
     }
