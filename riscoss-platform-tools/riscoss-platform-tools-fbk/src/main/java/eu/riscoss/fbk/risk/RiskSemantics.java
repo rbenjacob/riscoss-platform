@@ -10,6 +10,8 @@ public class RiskSemantics extends Semantics
 {
 	public RiskSemantics()
 	{
+		addAttribute( "situation", "st" );
+		
 		putAxiom( "situation", 
 				new Axiom( "st", 
 						new Condition( e( "st" ), "true", Operator.Equals ) ) );
@@ -84,8 +86,17 @@ public class RiskSemantics extends Semantics
 		rules.put( "dependee", 
 				new Rule( "threated", 
 						new Condition( "threated", "true", Operator.Equals ) ) );
+		
+		rules.put( "indicate", 
+				new Rule( "st", 
+						new Condition( "st", "true", Operator.Equals ) ) );
 	}
 	
+	protected void addAttribute( String stereotype, String attributeName )
+	{
+		
+	}
+
 	protected String e( String pred )
 	{
 		return pred + "x";

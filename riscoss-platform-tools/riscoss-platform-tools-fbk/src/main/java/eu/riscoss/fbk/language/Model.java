@@ -23,6 +23,8 @@ public class Model
 	
 	public <T extends Proposition> T addProposition( T p )
 	{
+		assert( p.getId() != null );
+		
 		if( index.get( p.getId() ) != null )
 		{
 			try

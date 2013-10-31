@@ -2,23 +2,23 @@ package eu.riscoss.fbk.lp;
 
 
 import java.security.InvalidParameterException;
-import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Node {
+public class Node
+{
 	private Label satLabel;      // node label for the satisfaction
 	private Label denLabel;      // node label for the negation
 	private Label oldSatLabel;   // doubled values for safe propagation
 	private Label oldDenLabel;   // doubled values for safe propagation
-	private LinkedList<Relation> parenthood;  // list of  rels. where this node is parent
-	private LinkedList<Relation> childhood;   // list of rels. where this node is child
+	private LinkedList<Relation> in;  // list of  rels. where this node is parent
+	private LinkedList<Relation> out;   // list of rels. where this node is child
 	
 	
 	public Node(Label aSatLabel, Label aDenLabel) {
 		initSatLabel(aSatLabel);
 		initDenLabel(aDenLabel);
-		parenthood = new LinkedList<Relation>();
-		childhood  = new LinkedList<Relation>();
+		in = new LinkedList<Relation>();
+		out  = new LinkedList<Relation>();
 	};
 	
 	
@@ -86,45 +86,40 @@ public class Node {
 		denLabel = aLabel;
 	}
 	
-	private void initDenLabel(Label aLabel) {
+	private void initDenLabel( Label aLabel )
+	{
 		setDenLabel(aLabel);
 		setDenLabel(aLabel);
 	}
 	
-	private void syncDenLabel() {
-		setDenLabel(getDenLabel());
+	private void syncDenLabel()
+	{
+		setDenLabel( getDenLabel() );
 	}
 	
-	// adds a relation where this node is parent
-	void addToParenthood(Relation aRelation) {
-		parenthood.add(aRelation);
+	void addIncomingRelation( Relation r )
+	{
+		in.add( r );
 	}
 	
-	// removes a relation where this node is parent
-	boolean removeFromParenthood(Relation aRelation) {
-		return parenthood.remove(aRelation);
+//	boolean removeIncomingRelation( Relation r )
+//	{
+//		return in.remove( r );
+//	}
+	
+	void addOutgoingRelation( Relation r )
+	{
+		out.add( r );
 	}
 	
-	// adds a relation where this node is a child
-	void addToChildhood(Relation aRelation) {
-		childhood.add(aRelation);
-	}
-	
-	// removes a relation where this node is a child
-	boolean removeFromChildhood(Relation aRelation) {
-		return childhood.remove(aRelation);
-	}
+//	boolean removeOutgoingRelation( Relation r )
+//	{
+//		return out.remove( r );
+//	}
 	
 	
-	LinkedList<Relation> getParenthood() {
-		return parenthood;
-	}
-	
-	Iterator<Relation> getFirstInParenthood() {
-		return parenthood.iterator();
-	}
-	
-	Iterator<Relation> getFirstInChildhood() {
-		return childhood.iterator();
+	LinkedList<Relation> getIncomingRelations()
+	{
+		return in;
 	}
 }

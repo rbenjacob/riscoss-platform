@@ -4,6 +4,9 @@ package eu.riscoss.fbk.risk;
 import java.io.PrintStream;
 import java.util.Iterator;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 import eu.riscoss.fbk.language.Analysis;
 import eu.riscoss.fbk.language.Program;
 import eu.riscoss.fbk.language.Proposition;
@@ -29,6 +32,9 @@ public class RiskEvaluation implements Iterable<Solution>, Analysis
 	LPKB		kb = new LPKB();
 	
 	Semantics	semantics = new RiskSemantics();
+	
+	ScriptEngineManager mgr = new ScriptEngineManager();
+	ScriptEngine engine = mgr.getEngineByName( "JavaScript" );
 	
 	
 	public RiskEvaluation()
@@ -64,8 +70,9 @@ public class RiskEvaluation implements Iterable<Solution>, Analysis
 		{
 			for( Proposition p : program.getModel().propositions( type ) )
 			{
-				for( Axiom a : semantics.axioms( type ) )
+				if( semantics.getAxiomCount( type ) > 0 )
 				{
+					for( Axiom a : semantics.axioms( type ) )
 					{
 						eu.riscoss.fbk.lp.Relation r_comb = new eu.riscoss.fbk.lp.Relation( 
 								new Solver.AndSolver(false) );
@@ -109,10 +116,16 @@ public class RiskEvaluation implements Iterable<Solution>, Analysis
 						r_pos.informNodes();
 					}
 				}
+				else
+				{
+					kb.store( p, "st" );
+				}
 				
 				for( Pair pair : program.getScenario().constraintsOf( p.getId() ) )
 				{
 					Node node = kb.getNode( p.getId(), pair.label );
+					
+					if( node == null ) continue;
 					
 					float value = 1f;
 					
@@ -128,10 +141,23 @@ public class RiskEvaluation implements Iterable<Solution>, Analysis
 						}
 					}
 					
-					if( node != null )
+					String function = p.getProperty( "function", null );
+					
+					if( function != null ) try
 					{
-						node.setSatLabel( new Label( value ) );
+						String code = "x=" + value + ";" + function;
+						
+						String result = engine.eval( code ).toString();
+						
+						value = Float.parseFloat( result );
 					}
+					catch( Exception ex )
+					{
+						ex.printStackTrace();
+					}
+					
+					node.setSatLabel( new Label( value ) );
+					
 				}
 			}
 		}

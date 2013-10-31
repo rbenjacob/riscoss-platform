@@ -1,6 +1,7 @@
 package eu.riscoss.fbk.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -1379,5 +1380,14 @@ public class XmlNode implements CharSequence, Comparable<XmlNode>, Iterable<XmlN
 	public XmlNode item( int i )
 	{
 		return this.children.getValue( i );
+	}
+
+	public String asString()
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
+		write( out );
+		
+		return out.toString();
 	}
 }

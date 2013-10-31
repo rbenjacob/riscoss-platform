@@ -64,12 +64,6 @@ public abstract class Solver
 			}
 			
 			return sumLabel;
-			
-//			mustHaveExactlyOneSource( rel.getSources() );
-//			
-//			Label tmpLabel = getOldLabel(rel.getSources().getFirst());
-//			
-//			return product( tmpLabel, rel.getWeight() );
 		}
 	}
 	

@@ -6,7 +6,7 @@ import eu.riscoss.fbk.language.Proposition;
 public class LPKB
 {
 	ValueMap	index = new ValueMap();
-	Graph		graph = new Graph( "C" );
+	Graph		graph = new Graph();
 	
 	public Node		TRUE = new Node( new Label( 1f ), new Label( 0f ) );
 	public Node		FALSE = new Node( new Label( 0f ), new Label( 1f ) );

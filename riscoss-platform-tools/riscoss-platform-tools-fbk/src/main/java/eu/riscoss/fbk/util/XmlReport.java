@@ -59,15 +59,6 @@ public class XmlReport
 					}
 				}
 			}
-//			for( String val : solution.values( var ) )
-//			{
-//				if( filter.contains( val ) )
-//				{
-//					XmlNode child = node.add( "property" );
-////					child.setAttr( "label", solution.fields );
-//					child.setAttr( "value", val );
-//				}
-//			}
 		}
 	}
 	
