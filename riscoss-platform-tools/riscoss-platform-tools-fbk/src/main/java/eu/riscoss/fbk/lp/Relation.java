@@ -1,6 +1,5 @@
 package eu.riscoss.fbk.lp;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Relation
@@ -11,7 +10,7 @@ public class Relation
 	private Node				target;				// target node for this relation
 	private LinkedList<Node>	sources;			// source nodes for this relation
 	private float				weight		= 1;
-	private String				mnemonic		= "";
+	private String				mnemonic	= "";
 	
 	
 	public Relation()
@@ -51,11 +50,6 @@ public class Relation
 		return denSolver.solve( this );
 	}
 	
-//	String getName()
-//	{
-//		return myName;
-//	}
-	
 	public Node getTarget()
 	{
 		return target;
@@ -86,15 +80,12 @@ public class Relation
 		sources.addAll( additionalChildren );
 	}
 	
-	// sets the proper links with the nodes involved in this relation
-	// after the construction of the relation
-	public void informNodes() {
-		// tells the parent it is the parent
-		target.addToParenthood(this);
-		// tells the children they are the children
-		for (Iterator<Node> nodeIt = sources.iterator();
-				nodeIt.hasNext();)
-			((Node)nodeIt.next()).addToChildhood(this);
+	public void informNodes()
+	{
+		target.addIncomingRelation(this);
+		
+		for( Node node : sources )
+			node.addOutgoingRelation( this );
 	}
 
 	public void setSatSolver( Solver solver )
@@ -125,5 +116,5 @@ public class Relation
 		return mnemonic;
 	}
 }
-///:~
+
 

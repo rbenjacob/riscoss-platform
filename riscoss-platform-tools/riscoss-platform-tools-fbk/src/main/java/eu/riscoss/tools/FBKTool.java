@@ -1,18 +1,21 @@
 package eu.riscoss.tools;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eu.riscoss.api.RISCOSSPlatform;
 import eu.riscoss.api.Tool;
+import eu.riscoss.api.model.GoalModel;
+import eu.riscoss.api.model.ImpactModel;
+import eu.riscoss.api.model.Indicator;
+import eu.riscoss.api.model.RiskModel;
 import eu.riscoss.api.model.Scope;
 import eu.riscoss.fbk.io.XmlLoader;
 import eu.riscoss.fbk.io.XmlTransformer;
@@ -37,11 +40,10 @@ public class FBKTool implements Tool
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FBKTool.class);
 	
-	@SuppressWarnings("unused")
 	private final RISCOSSPlatform platform;
-
+	
 	private Map<String,String> conf;
-    
+	
 	public FBKTool(RISCOSSPlatform riscossPlatform)
 	{
 		this.platform = riscossPlatform;
@@ -76,7 +78,7 @@ public class FBKTool implements Tool
 			}
 			catch( CloneNotSupportedException e ) {
 				System.err.println( "Skipping relation " + r );
-//				e.printStackTrace();
+				//				e.printStackTrace();
 			}
 		}
 		
@@ -105,7 +107,7 @@ public class FBKTool implements Tool
 		try {
 			innerxml = new XmlTransformer().IStarML2InnerXml( istarml );
 			
-//			System.out.println( innerxml );
+			//			System.out.println( innerxml );
 		}
 		catch( Exception ex ) {
 			ex.printStackTrace();
@@ -114,7 +116,7 @@ public class FBKTool implements Tool
 		XmlNode xml = XmlNode.loadString( innerxml );
 		
 		Program program = new Program();
-
+		
 		new XmlLoader().load( xml, program );
 		
 		return program.getModel();
@@ -150,65 +152,53 @@ public class FBKTool implements Tool
 		return list;
 	}
 	
-    private String readFile( String file )
-    {
-    	try
-    	{
-	        BufferedReader reader = new BufferedReader( new FileReader (file));
-	        String         line = null;
-	        StringBuilder  stringBuilder = new StringBuilder();
-	        String         ls = System.getProperty("line.separator");
 	
-	        while( ( line = reader.readLine() ) != null ) {
-	            stringBuilder.append( line );
-	            stringBuilder.append( ls );
-	        }
-	        
-	        reader.close();
-	
-	        return stringBuilder.toString();
-    	}
-    	catch( Exception ex )
-    	{
-    		ex.printStackTrace();
-    		return "";
-    	}
-    }
-    
 	@Override public void execute( Scope target, Map<String, String> parameters)
 	{
 		Program program = new Program();
 		
-		for( File file : fileList( conf.get( "staticRiskmodel" ) ) )
+		for( RiskModel rm : platform.getRiskModels() )
 		{
-			System.out.println( "Loading " + file.getName() );
-			
-			String riskmodel = readFile( file.getAbsolutePath() );
-			
-			load( riskmodel, program );
+			load( rm.getXml(), program );
 		}
 		
-		for( File file : fileList( conf.get( "staticGoalmodel" ) ) )
+		for( GoalModel gm : platform.getGoalModels() )
 		{
-			System.out.println( "Loading " + file.getName() );
-			
-			String goalmodel = readFile( file.getAbsolutePath() );
-			
-			Model nm = iStarML2Model( goalmodel );
+			Model nm = iStarML2Model( gm.getXml() );
 			
 			merge( program.getModel(), nm );
 		}
 		
-		for( File file : fileList( conf.get( "staticImpactmodel" ) ) )
+		for( ImpactModel im : platform.getImpactModels() )
 		{
-			System.out.println( "Loading " + file.getName() );
+			load( im.getXml(), program );
+		}
+		
+		List<Indicator> indicators = platform.getIndicators( target, 0, Integer.MAX_VALUE );
+		
+		for( Indicator indicator : indicators )
+		{
+			Proposition p = program.getModel().getProposition( indicator.getType() );
 			
-			String impactmodel = readFile( file.getAbsolutePath() );
+			if( p == null )
+			{
+				System.err.println( "Element " + indicator.getType() + " not found" );
+				
+				continue;
+			}
 			
-			load( impactmodel, program );
+			try
+			{
+				program.getScenario().addConstraint( p.getId(), "st", indicator.getValue() );
+			}
+			catch( Exception ex )
+			{
+				ex.printStackTrace();
+			}
 		}
 		
 		new XmlWriter().write( program, System.out );
+		
 		
 		String reasonerName = parameters.get( "query" );
 		
@@ -219,6 +209,7 @@ public class FBKTool implements Tool
 		
 		analysis.run( program );
 		
+		Map<String,String> quickReport = new TreeMap<String,String>();
 		
 		XmlReport report = new XmlReport();
 		report.setFilters( new XmlReport.Filter() {
@@ -232,6 +223,52 @@ public class FBKTool implements Tool
 			for( Solution sol : analysis.getResult().solutions() )
 			{
 				report.addSolution( sol );
+				
+				for( String var : sol.variables() )
+				{
+					for( String field : sol.fields( var ) )
+					{
+						if( field.equals( "threat" ) )
+						{
+							for( String val : sol.values( var, field ) )
+							{
+								quickReport.put( var, val );
+								break;
+							}
+						}
+						else if( field.equals( "threated" ) )
+						{
+							for( String val : sol.values( var, field ) )
+							{
+								quickReport.put( var, val );
+								break;
+							}
+						}
+						else if( field.equals( "st" ) )
+						{
+							for( String val : sol.values( var, field ) )
+							{
+								quickReport.put( var, val );
+								break;
+							}
+						}
+					}
+					
+//					XmlNode node = xsol.add( "variable" );
+//					node.setAttr( "name", var );
+//					for( String field : sol.fields( var ) )
+//					{
+//						for( String val : sol.values( var, field ) )
+//						{
+//							if( filter.contains( val ) )
+//							{
+//								XmlNode child = node.add( "property" );
+//								child.setAttr( "label", field );
+//								child.setAttr( "value", val );
+//							}
+//						}
+//					}
+				}
 			}
 		}
 		catch (Exception e)
@@ -246,7 +283,10 @@ public class FBKTool implements Tool
 		 */
 		report.print( System.out );
 		
-//		new XmlWriter().write( program, System.out );
+		for( String k : quickReport.keySet() )
+			System.out.println( k + "\t" + quickReport.get( k ) );
+		
+		//		new XmlWriter().write( program, System.out );
 	}
 	
 	private Analysis selectAnalysis( String analysisName )
@@ -271,12 +311,12 @@ public class FBKTool implements Tool
 	{
 		return Status.DONE;
 	}
-
+	
 	@Override public void stop()
 	{
 		LOGGER.info("Stopping");
 	}
-
+	
 	public void setToolConfigurationProvider(Map<String, String> map)
 	{
 		this.conf = map;

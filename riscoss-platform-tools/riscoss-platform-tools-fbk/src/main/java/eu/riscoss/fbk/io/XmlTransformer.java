@@ -763,6 +763,7 @@ public class XmlTransformer {
 		private Element node;
 
 		private String extractId(Attributes attr) {
+			
 			return attr.getValue( "id" );
 			
 //			String val = attr.getValue("name");
