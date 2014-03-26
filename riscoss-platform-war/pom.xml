@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>riscoss-platform</artifactId>
+    <groupId>eu.riscoss</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>riscoss-platform-war</artifactId>
+  <packaging>war</packaging>
+
+  <name>RISCOSS Platform - WAR</name>
+
+  <properties>
+    <xwiki.extension.features>org.xwiki.enterprise:xwiki-enterprise-web</xwiki.extension.features>
+    <xwiki.extension.distribution.ui>eu.riscoss:riscoss-platform-ui-mainwiki</xwiki.extension.distribution.ui>
+    <xwiki.extension.distribution.wikiui>eu.riscoss:riscoss-platform-ui-wiki</xwiki.extension.distribution.wikiui>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-web</artifactId>
+      <version>${xwiki.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Inject XWiki's configuration (only xwiki.cfg, not hibernate.cfg.xml) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>xwiki-configuration-resources</id>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
