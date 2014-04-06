@@ -42,6 +42,7 @@
       <artifactId>xwiki-enterprise-ui-wiki</artifactId>
       <version>${xwiki.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 

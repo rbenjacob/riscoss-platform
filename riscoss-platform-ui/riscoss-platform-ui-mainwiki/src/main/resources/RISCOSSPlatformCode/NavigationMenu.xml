@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>RISCOSSPlatformCode</web>
+  <name>NavigationMenu</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>xwiki:RISCOSSPlatformCode.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1395829797000</creationDate>
+  <date>1396794990000</date>
+  <contentUpdateDate>1396794990000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>RISCOSSPlatformCode.NavigationMenu</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>18f5712f-2d20-45a5-8e6c-2e4b782df37d</guid>
+    <property>
+      <cache>forbid</cache>
+    </property>
+    <property>
+      <code>var XWiki = (function(XWiki) {
+  /* Initialization */
+  function init() {
+    var newScopeActionElements = $$('a.newScopeAction');
+    for(i = 0; i &lt; newScopeActionElements.length; i++) {
+      var element = newScopeActionElements[i];
+      element.observe('click', function(event) {
+        XWiki.RISCOSSPlatform.openCreateScopeDialog();
+      });
+    }
+    
+    
+    var bindNewEntityAction = function(element, scopeName, scopeId) {
+      element.observe('click', function(event) {
+        XWiki.RISCOSSPlatform.openCreateEntityDialog(scopeName, scopeId);
+      });
+    };
+    
+    var newEntityActionElements = $$('a.newEntityAction');
+    for(i = 0; i &lt; newEntityActionElements.length; i++) {
+      var element = newEntityActionElements[i];
+      if(element.getAttribute('scope')) {
+        var stringComponents = element.getAttribute('scope').split('|');
+        var scopeTitle = stringComponents[0];
+        var scopeId = stringComponents[1];
+        
+        bindNewEntityAction(element, scopeTitle, scopeId);
+      
+      }
+    }
+  }
+  
+  (XWiki.domIsLoaded &amp;&amp; init()) || document.observe('xwiki:dom:loaded', init);
+  
+  return XWiki;
+}(XWiki || {}));</code>
+    </property>
+    <property>
+      <name>Navigation menu JS</name>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.UIExtensionClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <content>
+        <disabled>0</disabled>
+        <name>content</name>
+        <number>3</number>
+        <prettyName>Extension Content</prettyName>
+        <rows>10</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </content>
+      <extensionPointId>
+        <disabled>0</disabled>
+        <name>extensionPointId</name>
+        <number>1</number>
+        <prettyName>Extension Point ID</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </extensionPointId>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>2</number>
+        <prettyName>Extension ID</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parameters>
+        <disabled>0</disabled>
+        <name>parameters</name>
+        <number>4</number>
+        <prettyName>Extension Parameters</prettyName>
+        <rows>10</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </parameters>
+      <scope>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>scope</name>
+        <number>5</number>
+        <prettyName>Extension Scope</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>wiki=Current Wiki|user=Current User|global=Global</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </scope>
+    </class>
+    <name>RISCOSSPlatformCode.NavigationMenu</name>
+    <number>0</number>
+    <className>XWiki.UIExtensionClass</className>
+    <guid>3f681290-10f4-430f-a594-7d1dce3693c4</guid>
+    <property>
+      <content>{{menu type="horizontal fixedWidth"}}{{include reference="xwiki:RISCOSSPlatformCode.NavigationMenu" /}}{{/menu}}</content>
+    </property>
+    <property>
+      <extensionPointId>org.xwiki.platform.template.header.after</extensionPointId>
+    </property>
+    <property>
+      <name>xwiki:RISCOSSPlatformCode.NavigationMenu</name>
+    </property>
+    <property>
+      <parameters/>
+    </property>
+    <property>
+      <scope>global</scope>
+    </property>
+  </object>
+  <content>{{velocity}}
+$xwiki.jsx.use("xwiki:RISCOSSPlatformScopeManagerCode.CreateScope") ##
+$xwiki.jsx.use("xwiki:RISCOSSPlatformScopeManagerCode.CreateEntity") ##
+$xwiki.jsx.use("xwiki:RISCOSSPlatformCode.NavigationMenu") ##
+#if(!$isGuest)
+  #set($scopes = $services.query.xwql("SELECT doc.fullName, doc.title FROM Document doc, doc.object(RISCOSSPlatformScopeManagerCode.ScopeClass) as scope WHERE doc.space = 'RISCOSSPlatformScopes'").execute())
+  #set($mainWikiId = $services.wiki.mainWikiId)
+  #set($currentWikiId = $services.wiki.currentWikiId)
+  #if($mainWikiId == $currentWikiId)
+* Domain Manager
+  #else
+    #set($wikiName = $services.wiki.getById($services.wiki.getCurrentWikiId()).prettyName)
+* $services.localization.render("riscossPlatform.scopeManager.domain") **$wikiName**
+* $services.localization.render("riscossPlatform.scopeManager.new")
+    #foreach($scope in $scopes)
+** [[$scope[1]&gt;&gt;||class="newEntityAction" scope="$scope[1]|$scope[0]"]] ## The scope attribute contains the title and the id separated by |
+
+    #end
+** ----
+** [[$services.localization.render("riscossPlatform.scopeManager.scope")&gt;&gt;||class="newScopeAction"]]
+* View
+** [[Scopes&gt;&gt;RISCOSSPlatformScopes.WebHome]]
+** [[Entities&gt;&gt;RISCOSSPlatformEntities.WebHome]]
+  #end
+#end
+{{/velocity}}</content>
+</xwikidoc>
