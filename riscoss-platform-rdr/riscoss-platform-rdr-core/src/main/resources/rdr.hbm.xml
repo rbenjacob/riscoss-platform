@@ -1,0 +1,25 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="eu.riscoss.rdr.api.model.Session" table="RISK_DATA_SESSION">
+    <id name="id" column="RISK_DATA_SESSION_ID"/>   
+    <property name="startDate" type="timestamp" not-null="true" column="RISK_DATA_SESSION_START_DATE" />
+    <property name="endDate" type="timestamp" column="RISK_DATA_SESSION_END_DATE" />
+  </class>
+
+  <class name="eu.riscoss.rdr.api.model.RiskData" table="RISK_DATA">
+    <composite-id>
+      <key-property name="id" column="RISK_DATA_ID"/>    
+      <key-many-to-one name="session" column="RISK_DATA_SESSION_ID"/>
+      <key-property name="target" column="RISK_DATA_TARGET" />
+    </composite-id>        
+    <property name="date" type="timestamp" column="RISK_DATA_DATE" />
+    <property name="type" column="RISK_DATA_TYPE">
+      <type name="org.hibernate.type.EnumType">
+        <param name="enumClass">eu.riscoss.rdr.api.model.RiskDataType</param>        
+      </type>
+    </property>
+    <property name="value" type="text" column="RISK_DATA_VALUE"/>
+  </class>
+</hibernate-mapping>
