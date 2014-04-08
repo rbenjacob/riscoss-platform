@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396777260000</creationDate>
-  <date>1396798243000</date>
-  <contentUpdateDate>1396791094000</contentUpdateDate>
+  <creationDate>1396803389000</creationDate>
+  <date>1396909769000</date>
+  <contentUpdateDate>1396803389000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render("riscossPlatform.scopeManager.createEntity.title")</title>
   <defaultTemplate/>
@@ -166,45 +165,18 @@
     });
   };
   
-  XWiki.RISCOSSPlatform.openCreateEntityDialog = function(scopeName, scopeId) {
-    /* Use velocity to get the create entity page that will be displayed in the popup dialog. */
-    var createEntityPageURL = XWiki.Document.URLTemplate;
-    createEntityPageURL = createEntityPageURL.replace('__action__', 'view');
-    createEntityPageURL = createEntityPageURL.replace('__space__', 'RISCOSSPlatformScopeManagerCode');
-    createEntityPageURL = createEntityPageURL.replace('__page__', 'CreateEntity')
-    createEntityPageURL = createEntityPageURL + '?xpage=plain&amp;scopeId=' + scopeId;
+  XWiki.RISCOSSPlatform.initializeCreateEntityDialog = function(dialog) {
+    var form = dialog.content;
+    initializeCreateEntityForm(form);
     
-    /* The div that will be used as the dialog content. It contains a loader icon at the beginning. */
-    var contentDiv = new Element('div', {'class' : 'imgcenter'}).update("&lt;img src=\"$xwiki.getSkinFile('icons/xwiki/ajax-loader-large.gif')\"/&gt;");
-    
-    /* Create the dialog instance and show it. */
-    var dialog = new XWiki.widgets.ModalPopup(contentDiv, {}, {
-        verticalPosition : 'middle',
-        title : '$services.localization.render("riscossPlatform.scopeManager.createEntity.title") ' + scopeName,
-        removeOnClose : true
-      });
-    
-    dialog.showDialog();
-    
-    var updateTarget = contentDiv.up();
-    
-    /* Asynchronously load the create scope page content and show it in the dialog when ready. */
-    new Ajax.Updater(updateTarget, createEntityPageURL, {
-      /* Once the content is ready, bind the cancel button to an action that will clode the dialog. */
-      onComplete : function() {
-        var form = updateTarget.down('.createEntityForm');
-        initializeCreateEntityForm(form);
-        
-        var cancelButton = form.down('.secondary');
-        cancelButton.observe('click', function(event) {
-          event.stop();
-          dialog.closeDialog();
-        });
-      }
+    var cancelButton = form.down('.secondary');
+    cancelButton.observe('click', function(event) {
+      event.stop();
+      dialog.closeDialog();
     });
-  };
-
-  /* This is used to initialize the create scope forms that are present in the loaded page. */
+  }
+   
+  /* This is used to initialize the create scope forms that are present in the loaded page, if any. */
   var createEntityForms = $$('.createEntityForm');
   for(i = 0; i &lt; createEntityForms.length; i++) {
     initializeCreateEntityForm(createEntityForms[i]);
@@ -220,7 +192,7 @@
       <parse>1</parse>
     </property>
     <property>
-      <use>onDemand</use>
+      <use>currentPage</use>
     </property>
   </object>
   <content>{{velocity}}

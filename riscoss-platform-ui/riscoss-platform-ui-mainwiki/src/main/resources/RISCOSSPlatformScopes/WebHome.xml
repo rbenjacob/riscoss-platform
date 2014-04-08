@@ -20,26 +20,39 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformEntities</web>
+  <web>RISCOSSPlatformScopes</web>
   <name>WebHome</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformScopes.WebHome</parent>
+  <parent>xwiki:Main.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396803554000</creationDate>
-  <date>1396957381000</date>
-  <contentUpdateDate>1396957365000</contentUpdateDate>
+  <creationDate>1396957214000</creationDate>
+  <date>1396957214000</date>
+  <contentUpdateDate>1396957214000</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render("riscossPlatform.scopeManager.entitiesList.title")</title>
+  <title>$services.localization.render("riscossPlatform.scopeManager.scopesList.title")</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{include document="xwiki:RISCOSSPlatformEntities.WebHome" context="new" /}}</content>
+  <content>{{velocity}}
+#set($columns = ["doc.name", "parent"])
+#set($columnsProperties = {
+    "doc.name" : { "type" : "text" , "size" : 20, "link" : "view"},
+    "parent" : { "type" : "text", "html": "true"}    
+})
+#set($options = { 
+   "className":"RISCOSSPlatformScopeManagerCode.ScopeClass",
+   "translationPrefix" : "riscossPlatform.scopeManager.scopesTable.",
+   "tagCloud" : false,
+   "rowCount": 10
+})
+#livetable("scopes" $columns $columnsProperties $options)
+{{/velocity}}</content>
 </xwikidoc>

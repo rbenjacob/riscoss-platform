@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1395829797000</creationDate>
-  <date>1396794990000</date>
-  <contentUpdateDate>1396794990000</contentUpdateDate>
+  <creationDate>1396803391000</creationDate>
+  <date>1396909653000</date>
+  <contentUpdateDate>1396909602000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -42,133 +41,6 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>RISCOSSPlatformCode.NavigationMenu</name>
-    <number>0</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>18f5712f-2d20-45a5-8e6c-2e4b782df37d</guid>
-    <property>
-      <cache>forbid</cache>
-    </property>
-    <property>
-      <code>var XWiki = (function(XWiki) {
-  /* Initialization */
-  function init() {
-    var newScopeActionElements = $$('a.newScopeAction');
-    for(i = 0; i &lt; newScopeActionElements.length; i++) {
-      var element = newScopeActionElements[i];
-      element.observe('click', function(event) {
-        XWiki.RISCOSSPlatform.openCreateScopeDialog();
-      });
-    }
-    
-    
-    var bindNewEntityAction = function(element, scopeName, scopeId) {
-      element.observe('click', function(event) {
-        XWiki.RISCOSSPlatform.openCreateEntityDialog(scopeName, scopeId);
-      });
-    };
-    
-    var newEntityActionElements = $$('a.newEntityAction');
-    for(i = 0; i &lt; newEntityActionElements.length; i++) {
-      var element = newEntityActionElements[i];
-      if(element.getAttribute('scope')) {
-        var stringComponents = element.getAttribute('scope').split('|');
-        var scopeTitle = stringComponents[0];
-        var scopeId = stringComponents[1];
-        
-        bindNewEntityAction(element, scopeTitle, scopeId);
-      
-      }
-    }
-  }
-  
-  (XWiki.domIsLoaded &amp;&amp; init()) || document.observe('xwiki:dom:loaded', init);
-  
-  return XWiki;
-}(XWiki || {}));</code>
-    </property>
-    <property>
-      <name>Navigation menu JS</name>
-    </property>
-    <property>
-      <parse>1</parse>
-    </property>
-    <property>
-      <use>onDemand</use>
-    </property>
-  </object>
   <object>
     <class>
       <name>XWiki.UIExtensionClass</name>
@@ -255,9 +127,9 @@
     </property>
   </object>
   <content>{{velocity}}
-$xwiki.jsx.use("xwiki:RISCOSSPlatformScopeManagerCode.CreateScope") ##
-$xwiki.jsx.use("xwiki:RISCOSSPlatformScopeManagerCode.CreateEntity") ##
-$xwiki.jsx.use("xwiki:RISCOSSPlatformCode.NavigationMenu") ##
+$xwiki.jsx.use("xwiki:RISCOSSPlatformScopeManagerCode.CreateScope") ## Needed for the XWiki.RISCOSSPlatform.initializeCreateScopeDialog callback
+$xwiki.jsx.use("xwiki:RISCOSSPlatformScopeManagerCode.CreateEntity") ## Needed for the XWiki.RISCOSSPlatform.initializeCreateEntityDialog callback
+$xwiki.jsx.use("xwiki:RISCOSSPlatformCode.ShowInDialog") ##
 #if(!$isGuest)
   #set($scopes = $services.query.xwql("SELECT doc.fullName, doc.title FROM Document doc, doc.object(RISCOSSPlatformScopeManagerCode.ScopeClass) as scope WHERE doc.space = 'RISCOSSPlatformScopes'").execute())
   #set($mainWikiId = $services.wiki.mainWikiId)
@@ -269,11 +141,10 @@ $xwiki.jsx.use("xwiki:RISCOSSPlatformCode.NavigationMenu") ##
 * $services.localization.render("riscossPlatform.scopeManager.domain") **$wikiName**
 * $services.localization.render("riscossPlatform.scopeManager.new")
     #foreach($scope in $scopes)
-** [[$scope[1]&gt;&gt;||class="newEntityAction" scope="$scope[1]|$scope[0]"]] ## The scope attribute contains the title and the id separated by |
-
+** [[$scope[1]&gt;&gt;RISCOSSPlatformScopeManagerCode.CreateEntity||queryString="xpage=plain&amp;scopeId=$scope[0]" class="openDialog" title="$services.localization.render("riscossPlatform.scopeManager.createEntity.title") $scope[1]" callback="XWiki.RISCOSSPlatform.initializeCreateEntityDialog"]]
     #end
 ** ----
-** [[$services.localization.render("riscossPlatform.scopeManager.scope")&gt;&gt;||class="newScopeAction"]]
+** [[$services.localization.render("riscossPlatform.scopeManager.scope")&gt;&gt;RISCOSSPlatformScopeManagerCode.CreateScope||queryString="xpage=plain" class="openDialog" title="$services.localization.render("riscossPlatform.scopeManager.createScope.title")" callback="XWiki.RISCOSSPlatform.initializeCreateScopeDialog"]]
 * View
 ** [[Scopes&gt;&gt;RISCOSSPlatformScopes.WebHome]]
 ** [[Entities&gt;&gt;RISCOSSPlatformEntities.WebHome]]

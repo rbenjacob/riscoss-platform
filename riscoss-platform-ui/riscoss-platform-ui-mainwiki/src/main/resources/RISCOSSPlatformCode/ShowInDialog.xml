@@ -20,21 +20,21 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformScopeManagerCode</web>
-  <name>CreateScope</name>
+  <web>RISCOSSPlatformCode</web>
+  <name>ShowInDialog</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>xwiki:RISCOSSPlatformScopeManagerCode.WebHome</parent>
+  <parent>xwiki:RISCOSSPlatformCode.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396803389000</creationDate>
-  <date>1396909874000</date>
-  <contentUpdateDate>1396803389000</contentUpdateDate>
+  <creationDate>1396908701000</creationDate>
+  <date>1396910138000</date>
+  <contentUpdateDate>1396910138000</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render("riscossPlatform.scopeManager.createScope.title")</title>
+  <title>Show in dialog JSX</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -113,112 +113,95 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.CreateScope</name>
+    <name>RISCOSSPlatformCode.ShowInDialog</name>
     <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>422613f2-6dd2-4aaa-9a1f-0c7c82f3ac62</guid>
+    <guid>bd5732e7-9450-4548-815e-c4c3e966bdd7</guid>
     <property>
       <cache>forbid</cache>
     </property>
     <property>
-      <code>var XWiki = (function(XWiki) {
-  XWiki.RISCOSSPlatform = XWiki.RISCOSSPlatform || {};
-  
-  /* Setup the validation logic for a create scope form. */
-  var initializeCreateScopeForm = function(form) {
-    var showErrorMessage = function(element, message) {
-      if(!element.classList.contains('xErrorField')) {
-        element.addClassName('xErrorField');
-        element.insert({'after' : '&lt;div class="xErrorMsg"&gt;' + message + '&lt;/div&gt;'});
-      }
-    };
+      <code>var XWiki = (function(XWiki) {    
+  var openInModalPopup = function(title, position, href, callbackString) {
+    /* The div that will be used as the dialog content. It contains a loader icon at the beginning. */
+    var contentDiv = new Element('div', {'class' : 'imgcenter'}).update("&amp;lt;img src=\"$xwiki.getSkinFile('icons/xwiki/ajax-loader-large.gif')\"/&amp;gt;");    
     
-    var removeErrorMessage = function(element) {
-      if(element.classList.contains('xErrorField')) {
-        element.removeClassName('xErrorField');
-        var errorMessage = element.next('.xErrorMsg');
-        errorMessage &amp;&amp; errorMessage.remove();
-      }
-    };
+    /* Create the dialog instance and show it. */
+    var dialog = new XWiki.widgets.ModalPopup(contentDiv, {}, {
+      verticalPosition : position,
+      title : title,
+      removeOnClose : true
+    });
     
-    var scopeId = form.down('.scopeId');
-    var scopeName = form.down('.scopeName');
+    dialog.showDialog();
     
-    scopeId.focus();
+    var updateTarget = contentDiv.up();
     
-    form.observe('submit', function(event) {
-      if(scopeId.value.strip().length == 0) {
-        showErrorMessage(scopeId, '$services.localization.render("riscossPlatform.scopeManager.createScope.scopeIdMissingMessage")');
-        event.stop();
-      }
-      else {
-        removeErrorMessage(scopeId);
-      }
-      
-      if(scopeName.value.strip().length == 0) {
-        showErrorMessage(scopeName, '$services.localization.render("riscossPlatform.scopeManager.createScope.scopeNameMissingMessage")');
-        event.stop();
-      }
-      else {
-        removeErrorMessage(scopeName);
-      }
+    /* Asynchronously load the create scope page content and show it in the dialog when ready. */
+    new Ajax.Updater(updateTarget, href, {
+      onComplete : function() {
+        /* Change the content attribute to the new content, otherwise it will point to the original contentDiv containing the loader icon. */
+        dialog.content = updateTarget;
+        
+        /* Find the function by navigating the sub-objects. */
+        components = callbackString.split('.');
+        callback = window;
+        for(i = 0; i &lt; components.length; i++) {
+          callback = callback[components[i]];
+          if(!callback) {
+            break
+          }
+        }
+
+        if(callback) {
+          callback(dialog);
+        }
+      },
+      evalScripts: true
     });
   };
   
-  XWiki.RISCOSSPlatform.initializeCreateScopeDialog = function(dialog) {
-    var form = dialog.content;
-    initializeCreateScopeForm(form);
-    
-    var cancelButton = form.down('.secondary');
-    cancelButton.observe('click', function(event) {
+  var bindClickEvent = function(element) {
+    element.observe('click', function(event) {
       event.stop();
-      dialog.closeDialog();
+      openInModalPopup(element.title, 'middle', element.href, element.getAttribute('callback'));
     });
   }
-      
-
-  /* This is used to initialize the create scope forms that are present in the loaded page, if any. */
-  var createScopeForms = $$('.createScopeForm');
-  for(i = 0; i &lt; createScopeForms.length; i++) {
-    initializeCreateScopeForm(createScopeForms[i]);
+  
+  var links = $$('a.openDialog');
+  for(i = 0; i &lt; links.length; i++) {
+    var link = links[i];
+    bindClickEvent(link);
   }
   
+  
   return XWiki;
-}(XWiki || {}));</code>
+}(XWiki || {}))</code>
     </property>
     <property>
-      <name>Validation</name>
+      <name/>
     </property>
     <property>
-      <parse>1</parse>
+      <parse/>
     </property>
     <property>
       <use>currentPage</use>
     </property>
   </object>
-  <content>{{velocity}}
-{{html}}
-&lt;form action="$xwiki.getURL("RISCOSSPlatformScopes.WebHome", "create")" method="POST" class="xform third createScopeForm"&gt;
-  &lt;input type="hidden" name="tocreate" value="page"/&gt;
-  &lt;input type="hidden" name="parent" value="RISCOSSPlatformScopes.WebHome"/&gt;
-  &lt;input type="hidden" name="space" value="RISCOSSPlatformScopes"/&gt;
-  &lt;input type="hidden" name="template" value="xwiki:RISCOSSPlatformScopeManagerCode.ScopeTemplate"/&gt;
-  &lt;dl&gt;
-    &lt;dt&gt;&lt;label for="page"&gt;$services.localization.render("riscossPlatform.scopeManager.createScope.scopeId")&lt;/label&gt;&lt;dt&gt;
-    &lt;dd&gt;&lt;input type="text" name="page" class="scopeId"/&gt;&lt;/dd&gt;
-    &lt;dt&gt;&lt;label for="title"&gt;$services.localization.render("riscossPlatform.scopeManager.createScope.scopeName")&lt;/label&gt;&lt;dt&gt;
-    &lt;dd&gt;&lt;input type="text" name="title" class="scopeName"/&gt;&lt;/dd&gt;
-  &lt;/dl&gt;
-  &lt;div class="buttons"&gt;
-    &lt;span class="buttonwrapper"&gt;
-      &lt;input type="submit" value="$services.localization.render("create")" class="button"/&gt;
-    &lt;/span&gt;
-    &lt;span class="buttonwrapper"&gt;
-      &lt;a class="secondary button" href="#"&gt;$services.localization.render("cancel")&lt;/a&gt;
-    &lt;/span&gt;
-  &lt;/div&gt;
-&lt;/form&gt;
+  <content>This page contains a JSX that allows to show the target of a link as the content of a dialog.
 
-{{/html}}
-{{/velocity}}</content>
+Just add the ##openDialog## class to the ##a## element and the link target will be open in the dialog.
+
+Additional attributes that can be specified:
+
+* ##title## for the dialog title
+* ##callback## the name of a function (not a function definition!) that will be called once the dialog is displayed and its content fully loaded. This function will be passed a reference to the dialog itself.
+
+== Example
+
+{{code language="html"}}
+  [[Show this page in a dialog!&gt;&gt;ShowInDialog||queryString="xpage=plain" class="openDialog" title="Show in dialog" callback="alert"]]
+{{/code}}
+
+[[Show this page in a dialog!&gt;&gt;ShowInDialog||queryString="xpage=plain" class="openDialog" title="Show in dialog" callback="alert"]]</content>
 </xwikidoc>

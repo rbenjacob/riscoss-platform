@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396781294000</creationDate>
-  <date>1396793167000</date>
-  <contentUpdateDate>1396793167000</contentUpdateDate>
+  <creationDate>1396803389000</creationDate>
+  <date>1396803389000</date>
+  <contentUpdateDate>1396803389000</contentUpdateDate>
   <version>1.1</version>
   <title>Entity Class</title>
   <defaultTemplate/>

@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396794392000</creationDate>
-  <date>1396794411000</date>
-  <contentUpdateDate>1396794411000</contentUpdateDate>
+  <creationDate>1396803554000</creationDate>
+  <date>1396957266000</date>
+  <contentUpdateDate>1396957266000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render("riscossPlatform.scopeManager.scopesList.title")</title>
   <defaultTemplate/>
