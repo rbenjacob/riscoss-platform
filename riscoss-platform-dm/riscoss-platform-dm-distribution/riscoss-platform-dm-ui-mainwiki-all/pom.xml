@@ -26,19 +26,19 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>riscoss-platform-distribution</artifactId>
+    <artifactId>riscoss-platform-dm-distribution</artifactId>
     <groupId>eu.riscoss</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>riscoss-platform-ui-wiki-all</artifactId>
+  <artifactId>riscoss-platform-dm-ui-mainwiki-all</artifactId>
   <packaging>xar</packaging>
 
-  <name>RISCOSS Platform - UI - Wiki all</name>
+  <name>RISCOSS Platform - Domain Manager - UI - Main wiki all</name>
 
   <dependencies>
     <dependency>
       <groupId>eu.riscoss</groupId>
-      <artifactId>riscoss-platform-ui-wiki</artifactId>
+      <artifactId>riscoss-platform-dm-ui-mainwiki</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
       <scope>provided</scope>

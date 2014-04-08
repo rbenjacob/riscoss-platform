@@ -6,4 +6,12 @@ RISCOSS will deliver a decision-making management platform integrated in a busin
 
 This is the main repository for the RISCOSS Platform code.
 
+# Project structure
+
+The project structure reflects the structure of the RISCOSS Platform architecture:
+
+* riscoss-platform-dm contains the code of the Domain Manager (DM)
+* riscoss-platform-rdr contains the code for the Risk Data Repository (RDR)
+
+
 
