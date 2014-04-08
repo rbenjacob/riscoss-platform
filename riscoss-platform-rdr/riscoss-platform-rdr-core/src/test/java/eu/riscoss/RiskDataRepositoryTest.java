@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.BeforeClass;
@@ -100,7 +101,8 @@ public class RiskDataRepositoryTest
 
         riskDataRepository.closeSession(session2);
 
-        List<RiskData> riskData = riskDataRepository.getRiskData(0, 5);
+        Session session = riskDataRepository.getClosedSessions(0, 1).get(0);
+        List<RiskData> riskData = riskDataRepository.getRiskData(session, 0, 5);
 
         assertTrue(riskData.size() == 5);
         assertEquals(riskData.get(0).getSession().getId(), session2.getId());
@@ -112,7 +114,8 @@ public class RiskDataRepositoryTest
 
         riskDataRepository.closeSession(session1);
 
-        riskData = riskDataRepository.getRiskData(0, 5);
+        session = riskDataRepository.getClosedSessions(0, 1).get(0);
+        riskData = riskDataRepository.getRiskData(session, 0, 5);
 
         assertTrue(riskData.size() == 3);
     }
@@ -130,6 +133,47 @@ public class RiskDataRepositoryTest
         riskData.setValue("10");
         riskDataRepository.storeRiskData(session, riskData);
 
+    }
+
+    public void getOpenClosedSessions() throws Exception
+    {
+        List<Session> openSessions = new ArrayList<Session>();
+        for (int i = 0; i < 2; i++) {
+            openSessions.add(riskDataRepository.createSession());
+        }
+
+        List<Session> closedSessions = new ArrayList<Session>();
+        for (int i = 0; i < 3; i++) {
+            Session session = riskDataRepository.createSession();
+            riskDataRepository.closeSession(session);
+            closedSessions.add(session);
+        }
+
+        List<Session> sessions = riskDataRepository.getOpenSessions(0, 10);
+        for (Session session : sessions) {
+            boolean found = false;
+            for (Session openSession : openSessions) {
+                if (session.getId().equals(openSession.getId())) {
+                    found = true;
+                    break;
+                }
+            }
+
+            assertTrue(found);
+        }
+        
+        sessions = riskDataRepository.getClosedSessions(0, 10);
+        for (Session session : sessions) {
+            boolean found = false;
+            for (Session closedSession : closedSessions) {
+                if (session.getId().equals(closedSession.getId())) {
+                    found = true;
+                    break;
+                }
+            }
+
+            assertTrue(found);
+        }
     }
 
 }

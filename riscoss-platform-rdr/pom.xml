@@ -37,5 +37,7 @@
 
   <modules>
     <module>riscoss-platform-rdr-core</module>
+    <module>riscoss-platform-rdr-rest</module>
+    <module>riscoss-platform-rdr-war</module>
   </modules>
 </project>
