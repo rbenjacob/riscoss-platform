@@ -20,26 +20,26 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformEntities</web>
+  <web>RISCOSSPlatformScopeManagerCode</web>
   <name>WebHome</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>Main.SpaceIndex</parent>
+  <parent>Main.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397232646000</creationDate>
-  <date>1397326125000</date>
-  <contentUpdateDate>1397232681000</contentUpdateDate>
+  <creationDate>1397139330000</creationDate>
+  <date>1397141333000</date>
+  <contentUpdateDate>1397141333000</contentUpdateDate>
   <version>1.1</version>
-  <title>WebHome</title>
+  <title>$services.localization.render("riscossPlatform.scopeManager")</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{include document="xwiki:RISCOSSPlatformEntities.WebHome" context="new"/}}</content>
+  <content>{{include document="xwiki:RISCOSSPlatformScopeManagerCode.WebHome" context="new" /}}</content>
 </xwikidoc>

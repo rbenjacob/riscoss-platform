@@ -20,26 +20,58 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformEntities</web>
-  <name>WebHome</name>
+  <web>RISCOSSPlatformScopeManagerCode</web>
+  <name>EntityViewSheet</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>Main.SpaceIndex</parent>
+  <parent>RISCOSSPlatformScopeManagerCode.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397232646000</creationDate>
-  <date>1397326125000</date>
-  <contentUpdateDate>1397232681000</contentUpdateDate>
+  <creationDate>1397227498000</creationDate>
+  <date>1397227530000</date>
+  <contentUpdateDate>1397227527000</contentUpdateDate>
   <version>1.1</version>
-  <title>WebHome</title>
+  <title>EntityViewSheet</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{include document="xwiki:RISCOSSPlatformEntities.WebHome" context="new"/}}</content>
+  <object>
+    <class>
+      <name>XWiki.SheetDescriptorClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <action>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>action</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Action</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </action>
+    </class>
+    <name>RISCOSSPlatformScopeManagerCode.EntityViewSheet</name>
+    <number>0</number>
+    <className>XWiki.SheetDescriptorClass</className>
+    <guid>106dae48-e6af-4122-9c8a-9a1550ee984d</guid>
+    <property>
+      <action>view</action>
+    </property>
+  </object>
+  <content>Hello world</content>
 </xwikidoc>

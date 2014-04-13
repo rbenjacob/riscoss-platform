@@ -31,10 +31,10 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1396803390000</creationDate>
-  <date>1396803390000</date>
-  <contentUpdateDate>1396803390000</contentUpdateDate>
+  <date>1397141506000</date>
+  <contentUpdateDate>1397125738000</contentUpdateDate>
   <version>1.1</version>
-  <title>RISCOSS Platform</title>
+  <title>RISCOSS Platform Domain Manager</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -525,5 +525,26 @@ JJNMMskkk0wyySSTTDLJJJNMMskkk0wyySSTTDLJxMj/A+IKv9FKHLl+AAAAAElFTkSuQmCC
   </object>
   <content>{{html wiki="true"}}
 &lt;p style="text-align: center"&gt;[[image:riscoss-logo.png]]&lt;/p&gt;
-{{/html}}</content>
+{{/html}}
+
+= Available domains
+
+{{velocity}}
+## Load the User Picker style for the wiki owner column.
+#set($discard = $xwiki.ssfx.use('uicomponents/widgets/userpicker/userPicker.css'))
+#set($columns = ['wikiprettyname', 'description', 'owner', 'doc.creationDate'])
+#set($columnsProperties = {
+    'wikiprettyname' : { 'type' : 'text', 'link' : 'field' },
+    'description' : { 'type' : 'text' , 'size' : 50, 'html' : 'true' },
+    'owner' : { 'type' : 'text', 'size' : 10, 'html' : 'true' },
+    'doc.creationDate' : { 'type' : 'date', 'size' : 10, 'html' : 'false'}
+})
+#set($options = {
+   'className' : 'XWiki.XWikiServerClass',
+   'rowCount' : 10,
+   'resultPage' : 'WikiManager.WikisLiveTableResults',
+   'translationPrefix' : 'platform.wiki.browse.'
+})
+#livetable('wikis', $columns, $columnsProperties, $options)
+{{/velocity}}</content>
 </xwikidoc>
