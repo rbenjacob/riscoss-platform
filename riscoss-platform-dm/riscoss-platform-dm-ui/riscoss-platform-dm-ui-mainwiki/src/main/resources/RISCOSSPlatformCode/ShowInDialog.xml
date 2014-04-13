@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -25,13 +26,13 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>xwiki:RISCOSSPlatformCode.WebHome</parent>
+  <parent>RISCOSSPlatformCode.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1396908701000</creationDate>
-  <date>1396910138000</date>
+  <date>1397385828000</date>
   <contentUpdateDate>1396910138000</contentUpdateDate>
   <version>1.1</version>
   <title>Show in dialog JSX</title>
