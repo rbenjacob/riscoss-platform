@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,19 +20,19 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformScopeManagerCode</web>
+  <web>RISCOSSPlatformLayerManagerCode</web>
   <name>Translations</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>xwiki:RISCOSSPlatformScopeManagerCode.WebHome</parent>
+  <parent>RISCOSSPlatformLayerManagerCode.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396803389000</creationDate>
-  <date>1397339646000</date>
-  <contentUpdateDate>1397339646000</contentUpdateDate>
+  <creationDate>1397660717000</creationDate>
+  <date>1397660750000</date>
+  <contentUpdateDate>1397660674000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -69,48 +68,48 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </scope>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.Translations</name>
+    <name>RISCOSSPlatformLayerManagerCode.Translations</name>
     <number>0</number>
     <className>XWiki.TranslationDocumentClass</className>
-    <guid>ecd0de7f-91ec-443b-91d9-ab0d2b5db444</guid>
+    <guid>98c2f836-2780-4f34-8bbc-e17213dbed12</guid>
     <property>
       <scope>GLOBAL</scope>
     </property>
   </object>
-  <content>riscossPlatform.scopeManager=Scope manager
-riscossPlatform.scopeManager.newScope=New scope
-riscossPlatform.scopeManager.newEntity=New entity
-riscossPlatform.scopeManager.scopeIndex=Scope index
-riscossPlatform.scopeManager.entityIndex=Entity index
-riscossPlatform.scopeManager.rdids=Risk Data associated IDs
-riscossPlatform.scopeManager.scope=Scope
+  <content>riscossPlatform.layerManager=Layer manager
+riscossPlatform.layerManager.newLayer=New layer
+riscossPlatform.layerManager.newEntity=New entity
+riscossPlatform.layerManager.layerIndex=Layer index
+riscossPlatform.layerManager.entityIndex=Entity index
+riscossPlatform.layerManager.rdids=Risk Data associated IDs
+riscossPlatform.layerManager.layer=Layer
+riscossPlatform.layerManager.layerName=Layer name
 
-riscossPlatform.scopeManager.parent=Parent
-riscossPlatform.scopeManager.properties=Properties
-riscossPlatform.scopeManager.scopesList.title=RISCOSS Platform Scopes
-riscossPlatform.scopeManager.entitiesList.title=RISCOSS Platform Entities
+riscossPlatform.layerManager.parent=Parent
+riscossPlatform.layerManager.properties=Properties
+riscossPlatform.layerManager.layersList.title=RISCOSS Platform Layers
+riscossPlatform.layerManager.entitiesList.title=RISCOSS Platform Entities
 
-riscossPlatform.scopeManager.scopesTable.scope=Scope name
-riscossPlatform.scopeManager.scopesTable.parent=Parent
-riscossPlatform.scopeManager.scopesTable.createEntityLink=
+riscossPlatform.layerManager.layersTable.layer=Layer name
+riscossPlatform.layerManager.layersTable.parent=Parent
+riscossPlatform.layerManager.layersTable.createEntityLink=
 
-riscossPlatform.scopeManager.entitiesTable.entity=Entity name
-riscossPlatform.scopeManager.entitiesTable.scope=Scope
-riscossPlatform.scopeManager.entitiesTable.emptyvalue=None
+riscossPlatform.layerManager.entitiesTable.entity=Entity name
+riscossPlatform.layerManager.entitiesTable.layer=Layer
+riscossPlatform.layerManager.entitiesTable.emptyvalue=None
 
-riscossPlatform.scopeManager.createScope.title=Create scope
-riscossPlatform.scopeManager.createScope.scopeId=Scope ID
-riscossPlatform.scopeManager.createScope.scopeName=Scope Name
-riscossPlatform.scopeManager.createScope.scopeIdMissingMessage=Please provide a scope ID
-riscossPlatform.scopeManager.createScope.scopeNameMissingMessage=Please provide a scope name
-riscossPlatform.scopeManager.createScope.scopePropertyDefinition=Scope {0} property definition
+riscossPlatform.layerManager.createLayer.title=Create layer
+riscossPlatform.layerManager.createLayer.layerId=Layer ID
+riscossPlatform.layerManager.createLayer.layerName=Layer Name
+riscossPlatform.layerManager.createLayer.layerIdMissingMessage=Please provide a layer ID
+riscossPlatform.layerManager.createLayer.layerNameMissingMessage=Please provide a layer name
+riscossPlatform.layerManager.createLayer.layerPropertyDefinition=Layer {0} property definition
 
-riscossPlatform.scopeManager.createEntity.title=Create entity
-riscossPlatform.scopeManager.createEntity.entityId={0} ID
-riscossPlatform.scopeManager.createEntity.entityName={0} Name
-riscossPlatform.scopeManager.createEntity.entityIdMissingMessage=Please provide an entity ID
-riscossPlatform.scopeManager.createEntity.entityNameMissingMessage=Please provide an entity name
-
+riscossPlatform.layerManager.createEntity.title=Create entity
+riscossPlatform.layerManager.createEntity.entityId={0} ID
+riscossPlatform.layerManager.createEntity.entityName={0} Name
+riscossPlatform.layerManager.createEntity.entityIdMissingMessage=Please provide an entity ID
+riscossPlatform.layerManager.createEntity.entityNameMissingMessage=Please provide an entity name
 
 </content>
 </xwikidoc>

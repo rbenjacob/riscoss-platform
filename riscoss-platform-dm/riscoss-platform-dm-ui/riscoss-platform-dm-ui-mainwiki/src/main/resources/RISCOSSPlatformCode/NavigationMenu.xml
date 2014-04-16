@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1396803391000</creationDate>
-  <date>1397417233000</date>
-  <contentUpdateDate>1397417233000</contentUpdateDate>
+  <date>1397661170000</date>
+  <contentUpdateDate>1397661170000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -145,28 +145,28 @@ $xwiki.jsx.use("xwiki:RISCOSSPlatformCode.ShowInDialog") ##
 ##
 #if(!$isGuest)
   #if($mainWikiId != $currentWikiId)
-    #set($scopes = $services.query.xwql("SELECT doc.fullName, doc.title FROM Document doc, doc.object(RISCOSSPlatformScopeManagerCode.ScopeClass) as scope WHERE doc.space = 'RISCOSSPlatformScopes'").execute())
-* $services.localization.render("riscossPlatform.scopeManager")
+    #set($layers = $services.query.xwql("SELECT doc.fullName, doc.title FROM Document doc, doc.object(RISCOSSPlatformLayerManagerCode.LayerClass) as layer WHERE doc.space = 'RISCOSSPlatformLayers'").execute())
+* $services.localization.render("riscossPlatform.layerManager")
 ** #generateCreateDialogLink({
-     "space": "RISCOSSPlatformScopes",
-     "template": "xwiki:RISCOSSPlatformScopeManagerCode.ScopeTemplate",
-     "linkLabel": $services.localization.render("riscossPlatform.scopeManager.newScope"),
-     "dialogTitle": $services.localization.render("riscossPlatform.scopeManager.newScope"),
-     "fieldLabel": $services.localization.render("riscossPlatform.scopeManager.scopeName")
+     "space": "RISCOSSPlatformLayers",
+     "template": "xwiki:RISCOSSPlatformLayerManagerCode.LayerTemplate",
+     "linkLabel": $services.localization.render("riscossPlatform.layerManager.newLayer"),
+     "dialogTitle": $services.localization.render("riscossPlatform.layerManager.newLayer"),
+     "fieldLabel": $services.localization.render("riscossPlatform.layerManager.layerName")
    })
-** $services.localization.render("riscossPlatform.scopeManager.newEntity")
-    #foreach($scope in $scopes)
+** $services.localization.render("riscossPlatform.layerManager.newEntity")
+    #foreach($layer in $layers)
 *** #generateCreateDialogLink({
       "space": "RISCOSSPlatformEntities", 
-      "template": "${scope[0]}Template", 
-      "linkLabel": $scope[1], 
-      "dialogTitle": "$services.localization.render('riscossPlatform.scopeManager.createEntity.title') $scope[1]", 
-      "fieldLabel": "$services.localization.render('riscossPlatform.scopeManager.createEntity.entityName', $scope[1])"
+      "template": "${layer[0]}Template", 
+      "linkLabel": $layer[1], 
+      "dialogTitle": "$services.localization.render('riscossPlatform.layerManager.createEntity.title') $layer[1]", 
+      "fieldLabel": "$services.localization.render('riscossPlatform.layerManager.createEntity.entityName', $layer[1])"
     })
     #end
 ** ----
-** [[$services.localization.render("riscossPlatform.scopeManager.scopeIndex")&gt;&gt;RISCOSSPlatformScopes.WebHome]]
-** [[$services.localization.render("riscossPlatform.scopeManager.entityIndex")&gt;&gt;RISCOSSPlatformEntities.WebHome]]
+** [[$services.localization.render("riscossPlatform.layerManager.layerIndex")&gt;&gt;RISCOSSPlatformLayers.WebHome]]
+** [[$services.localization.render("riscossPlatform.layerManager.entityIndex")&gt;&gt;RISCOSSPlatformEntities.WebHome]]
 * $services.localization.render("riscossPlatform.riskConfigurationManager")
 ** #generateCreateDialogLink({
       "space": "RISCOSSPlatformRiskConfigurations",
@@ -190,9 +190,9 @@ $xwiki.jsx.use("xwiki:RISCOSSPlatformCode.ShowInDialog") ##
       "fieldLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.riskCategoryName")
     })
 ** ----
-** [[$services.localization.render("riscossPlatform.scopeManager.riskConfigurationIndex")&gt;&gt;RISCOSSPlatformRiskConfigurations.WebHome]]
-** [[$services.localization.render("riscossPlatform.scopeManager.goalModelIndex")&gt;&gt;RISCOSSPlatformGoalModels.WebHome]]
-** [[$services.localization.render("riscossPlatform.scopeManager.riskCategoryIndex")&gt;&gt;RISCOSSPlatformRiskCategories.WebHome]]
+** [[$services.localization.render("riscossPlatform.layerManager.riskConfigurationIndex")&gt;&gt;RISCOSSPlatformRiskConfigurations.WebHome]]
+** [[$services.localization.render("riscossPlatform.layerManager.goalModelIndex")&gt;&gt;RISCOSSPlatformGoalModels.WebHome]]
+** [[$services.localization.render("riscossPlatform.layerManager.riskCategoryIndex")&gt;&gt;RISCOSSPlatformRiskCategories.WebHome]]
   #end  
 #end
 {{/velocity}}</content>

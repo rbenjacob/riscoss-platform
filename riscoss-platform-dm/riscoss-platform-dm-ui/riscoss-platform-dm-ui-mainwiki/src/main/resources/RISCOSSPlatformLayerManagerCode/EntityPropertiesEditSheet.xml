@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,19 +20,19 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformScopeManagerCode</web>
-  <name>EntityClassEditSheet</name>
+  <web>RISCOSSPlatformLayerManagerCode</web>
+  <name>EntityPropertiesEditSheet</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>AppWithinMinutes.WebHome</parent>
+  <parent>RISCOSSPlatformLayerManagerCode.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396803389000</creationDate>
-  <date>1397228145000</date>
-  <contentUpdateDate>1397228145000</contentUpdateDate>
+  <creationDate>1397675382000</creationDate>
+  <date>1397675382000</date>
+  <contentUpdateDate>1397675382000</contentUpdateDate>
   <version>1.1</version>
   <title>#if(!$doc.name.endsWith('Sheet'))Class: #end$stringtool.removeEnd($doc.name, 'Class')</title>
   <defaultTemplate/>
@@ -171,10 +170,10 @@ vQx64I+NPuAAAAAASUVORK5CYII=
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.EntityClassEditSheet</name>
+    <name>RISCOSSPlatformLayerManagerCode.EntityPropertiesEditSheet</name>
     <number>1</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>bb3a7b56-69ee-4667-becd-ec462bc3e8c1</guid>
+    <guid>1cfed7d5-5d40-4059-ae37-52b04ee62a75</guid>
     <property>
       <cache>long</cache>
     </property>
@@ -377,10 +376,10 @@ return XWiki;
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.EntityClassEditSheet</name>
+    <name>RISCOSSPlatformLayerManagerCode.EntityPropertiesEditSheet</name>
     <number>2</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>af2aecb3-7b9f-41f6-83d8-4af00ca00626</guid>
+    <guid>dafdc11b-9251-47d0-a0a2-a74d8908aa35</guid>
     <property>
       <cache>long</cache>
     </property>
@@ -987,10 +986,10 @@ return XWiki;
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </level>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.EntityClassEditSheet</name>
+    <name>RISCOSSPlatformLayerManagerCode.EntityPropertiesEditSheet</name>
     <number>0</number>
     <className>XWiki.RequiredRightClass</className>
-    <guid>08ed0e7a-f7e3-49ee-acd1-adae20527878</guid>
+    <guid>eed586dd-d2ce-43f3-8b2e-2a3415012468</guid>
     <property>
       <level>programming</level>
     </property>
@@ -1019,10 +1018,10 @@ return XWiki;
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </action>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.EntityClassEditSheet</name>
+    <name>RISCOSSPlatformLayerManagerCode.EntityPropertiesEditSheet</name>
     <number>0</number>
     <className>XWiki.SheetDescriptorClass</className>
-    <guid>12c0af5e-156f-45b2-bac4-46d188855dcc</guid>
+    <guid>f6fd4533-cd43-4d2a-8f03-395ae2026834</guid>
     <property>
       <action>edit</action>
     </property>
@@ -1099,10 +1098,10 @@ return XWiki;
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.EntityClassEditSheet</name>
+    <name>RISCOSSPlatformLayerManagerCode.EntityPropertiesEditSheet</name>
     <number>0</number>
     <className>XWiki.StyleSheetExtension</className>
-    <guid>2bb69154-ced9-4d07-a7f3-7f814341cbe4</guid>
+    <guid>c70a914e-e5b7-4d02-98e7-adb84a1431be</guid>
     <property>
       <cache>long</cache>
     </property>
@@ -1321,10 +1320,10 @@ return XWiki;
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.EntityClassEditSheet</name>
+    <name>RISCOSSPlatformLayerManagerCode.EntityPropertiesEditSheet</name>
     <number>1</number>
     <className>XWiki.StyleSheetExtension</className>
-    <guid>6b608f3b-46c3-4286-ae47-495a096fe3b9</guid>
+    <guid>15085da3-e7fa-41a6-939f-e8b1daf2e98a</guid>
     <property>
       <cache>long</cache>
     </property>
@@ -1388,6 +1387,145 @@ return XWiki;
     </property>
     <property>
       <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiComments</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <author>
+        <disabled>0</disabled>
+        <name>author</name>
+        <number>1</number>
+        <prettyName>Author</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </author>
+      <comment>
+        <disabled>0</disabled>
+        <name>comment</name>
+        <number>5</number>
+        <prettyName>Comment</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </comment>
+      <date>
+        <dateFormat>dd/MM/yyyy HH:mm:ss</dateFormat>
+        <disabled>0</disabled>
+        <emptyIsToday>1</emptyIsToday>
+        <name>date</name>
+        <number>4</number>
+        <picker>1</picker>
+        <prettyName>Date</prettyName>
+        <size>20</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+      </date>
+      <highlight>
+        <disabled>0</disabled>
+        <name>highlight</name>
+        <number>2</number>
+        <prettyName>Highlighted Text</prettyName>
+        <rows>2</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </highlight>
+      <originalSelection>
+        <disabled>0</disabled>
+        <name>originalSelection</name>
+        <number>9</number>
+        <prettyName>Original Selection</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </originalSelection>
+      <replyto>
+        <disabled>0</disabled>
+        <name>replyto</name>
+        <number>3</number>
+        <numberType>integer</numberType>
+        <prettyName>Reply To</prettyName>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
+      </replyto>
+      <selection>
+        <disabled>0</disabled>
+        <name>selection</name>
+        <number>6</number>
+        <prettyName>Selection</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </selection>
+      <selectionLeftContext>
+        <disabled>0</disabled>
+        <name>selectionLeftContext</name>
+        <number>7</number>
+        <prettyName>Selection Left Context</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </selectionLeftContext>
+      <selectionRightContext>
+        <disabled>0</disabled>
+        <name>selectionRightContext</name>
+        <number>8</number>
+        <prettyName>Selection Right Context</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </selectionRightContext>
+      <state>
+        <disabled>0</disabled>
+        <name>state</name>
+        <number>11</number>
+        <prettyName>State</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </state>
+      <target>
+        <disabled>0</disabled>
+        <name>target</name>
+        <number>10</number>
+        <prettyName>Target</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </target>
+    </class>
+    <name>RISCOSSPlatformLayerManagerCode.EntityPropertiesEditSheet</name>
+    <number>0</number>
+    <className>XWiki.XWikiComments</className>
+    <guid>3166332f-d44a-49df-85e1-553e517e87ff</guid>
+    <property>
+      <author>XWiki.Admin</author>
+    </property>
+    <property>
+      <comment>This sheet is a fork of the AWM class edit sheet that has been adapted in order to add an EntityClass object to the template. This object is initialized with the layer the entity belongs to.
+
+With the patched oldcore which allows object creation this will not be needed anymore and we might start using directly the AWM original sheet.</comment>
+    </property>
+    <property>
+      <date>2014-04-16 21:08:58.341</date>
+    </property>
+    <property>
+      <replyto/>
     </property>
   </object>
   <content>{{groovy}}
@@ -1859,9 +1997,9 @@ xcontext.put('propertyCustomDisplayer', new PropertyCustomDisplayer(xcontext))
     #set($discard = $templateDoc.updateObjectFromRequest($doc.fullName))
     #set($discard = $templateDoc.setHidden(true))
     
-    ##RISCOSS: Add and Entity object to tag the pages created with this template as scope entities
-    #set($entityObject = $templateDoc.getObject("RISCOSSPlatformScopeManagerCode.EntityClass", true))
-    $entityObject.set("scope", $doc.fullName)
+    ##RISCOSS: Add and Entity object to tag the pages created with this template as entities in a layer
+    #set($entityObject = $templateDoc.getObject("RISCOSSPlatformLayerManagerCode.EntityClass", true))
+    $entityObject.set("layer", $doc.fullName)
     ##RISCOSS
     
     #set($discard = $templateDoc.save($services.localization.render('platform.appwithinminutes.classEditorTemplateSaveComment'), $minorEdit))

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,21 +20,21 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformScopeManagerCode</web>
-  <name>ScopeTemplate</name>
+  <web>RISCOSSPlatformLayerManagerCode</web>
+  <name>LayerTemplate</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformScopeManagerCode.ScopeClass</parent>
+  <parent>RISCOSSPlatformLayerManagerCode.LayerClass</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396803389000</creationDate>
-  <date>1396803389000</date>
-  <contentUpdateDate>1396803389000</contentUpdateDate>
+  <creationDate>1397660539000</creationDate>
+  <date>1397660983000</date>
+  <contentUpdateDate>1397660983000</contentUpdateDate>
   <version>1.1</version>
-  <title>Scope Template</title>
+  <title>Layer Template</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -44,7 +43,7 @@
   <hidden>false</hidden>
   <object>
     <class>
-      <name>RISCOSSPlatformScopeManagerCode.ScopeClass</name>
+      <name>RISCOSSPlatformLayerManagerCode.LayerClass</name>
       <customClass/>
       <customMapping/>
       <defaultViewSheet/>
@@ -92,7 +91,7 @@
         <separators/>
         <size>1</size>
         <sort>none</sort>
-        <sql>SELECT doc.fullName FROM XWikiDocument doc, BaseObject obj WHERE doc.fullName = obj.name AND obj.className = 'RISCOSSPlatformScopeManagerCode.ScopeClass' AND doc.space &lt;&gt; 'RISCOSSPlatformScopeManagerCode' AND doc.fullName &lt;&gt; '$doc.fullName'</sql>
+        <sql>SELECT doc.fullName FROM XWikiDocument doc, BaseObject obj WHERE doc.fullName = obj.name AND obj.className = 'RISCOSSPlatformLayerManagerCode.LayerClass' AND doc.space = 'RISCOSSPlatformLayers' AND doc.fullName &lt;&gt; '$doc.fullName'</sql>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>
@@ -100,15 +99,15 @@
         <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
       </parent>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.ScopeTemplate</name>
+    <name>RISCOSSPlatformLayerManagerCode.LayerTemplate</name>
     <number>0</number>
-    <className>RISCOSSPlatformScopeManagerCode.ScopeClass</className>
-    <guid>9d886a1e-4daf-43b5-af07-727fbfe835ad</guid>
+    <className>RISCOSSPlatformLayerManagerCode.LayerClass</className>
+    <guid>5a647787-005a-4467-a00e-3d81fed695f5</guid>
     <property>
       <parent/>
     </property>
   </object>
   <content>This is the template used for newly created scopes.
 
-It basically contains a [[RISCOSSPlatformScopeManagerCode.ScopeClass]] with a parent set to none.</content>
+It basically contains a [[RISCOSSPlatformLayerManagerCode.LayerClass]] with a parent set to none.</content>
 </xwikidoc>

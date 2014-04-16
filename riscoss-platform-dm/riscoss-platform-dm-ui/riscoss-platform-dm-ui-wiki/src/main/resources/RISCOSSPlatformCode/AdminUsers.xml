@@ -31,7 +31,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1397415078000</creationDate>
-  <date>1397415967000</date>
+  <date>1397417765000</date>
   <contentUpdateDate>1397415967000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render("riscossPlatform.domain") '$services.wiki.getById($services.wiki.getCurrentWikiId()).prettyName' $services.localization.render("riscossPlatform.adminUsers.title")</title>

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,8 +20,8 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformScopeManagerCode</web>
-  <name>EntityClass</name>
+  <web>RISCOSSPlatformLayerManagerCode</web>
+  <name>LayerClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -31,11 +30,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397233879000</creationDate>
-  <date>1397233879000</date>
-  <contentUpdateDate>1397233879000</contentUpdateDate>
+  <creationDate>1397660408000</creationDate>
+  <date>1397665305000</date>
+  <contentUpdateDate>1397665305000</contentUpdateDate>
   <version>1.1</version>
-  <title>Entity Class</title>
+  <title>Layer Class</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -43,7 +42,7 @@
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
   <class>
-    <name>RISCOSSPlatformScopeManagerCode.EntityClass</name>
+    <name>RISCOSSPlatformLayerManagerCode.LayerClass</name>
     <customClass/>
     <customMapping/>
     <defaultViewSheet/>
@@ -51,40 +50,53 @@
     <defaultWeb/>
     <nameField/>
     <validationScript/>
-    <rdids>
+    <parent>
       <cache>0</cache>
-      <customDisplay/>
+      <classname/>
+      <customDisplay>{{velocity}}
+#set($propertyClass = $object.getxWikiClass().get($name))
+#if ($type == 'edit')
+  #set($selectName = "${prefix}${name}")
+  {{html clean="false" wiki="false"}}
+    &lt;select name="$selectName"&gt;
+    #if($!value == "")
+      &lt;option value='' selected='selected'&gt;None&lt;/option&gt;
+    #else
+      &lt;option value=''&gt;None&lt;/option&gt;
+    #end
+    #foreach($key in $propertyClass.getListValues())
+      #set($checked = '')
+      #if($value == $key)
+        #set($checked = "selected='selected'")
+      #end
+      &lt;option value="$key" $checked&gt;$key&lt;/option&gt;
+    #end
+    &lt;/select&gt;
+  {{/html}}
+#else
+  $doc.displayView($propertyClass, $prefix, $object)
+#end
+{{/velocity}}</customDisplay>
       <disabled>0</disabled>
-      <displayType>input</displayType>
+      <displayType>select</displayType>
+      <idField/>
       <multiSelect>0</multiSelect>
-      <name>rdids</name>
+      <name>parent</name>
       <number>2</number>
-      <picker>0</picker>
-      <prettyName>Risk Data IDs</prettyName>
-      <relationalStorage>0</relationalStorage>
+      <picker>1</picker>
+      <prettyName>parent</prettyName>
+      <relationalStorage>1</relationalStorage>
       <separator> </separator>
-      <separators> ,|</separators>
+      <separators/>
       <size>1</size>
       <sort>none</sort>
+      <sql>SELECT doc.fullName FROM XWikiDocument doc, BaseObject obj WHERE doc.fullName = obj.name AND obj.className = 'RISCOSSPlatformLayerManagerCode.LayerClass' AND doc.space = 'RISCOSSPlatformLayers' AND doc.fullName &lt;&gt; '$doc.fullName'</sql>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
-      <values/>
-      <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-    </rdids>
-    <scope>
-      <customDisplay/>
-      <disabled>0</disabled>
-      <name>scope</name>
-      <number>1</number>
-      <picker>0</picker>
-      <prettyName>Scope</prettyName>
-      <size>30</size>
-      <unmodifiable>0</unmodifiable>
-      <validationMessage/>
-      <validationRegExp/>
-      <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-    </scope>
+      <valueField/>
+      <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
+    </parent>
   </class>
   <object>
     <class>
@@ -110,12 +122,44 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.EntityClass</name>
+    <name>RISCOSSPlatformLayerManagerCode.LayerClass</name>
     <number>0</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>4dc4d5e9-428c-437c-a954-725dc6bce53b</guid>
+    <guid>4fe35fbf-75f5-4e8f-bbeb-318466ba8447</guid>
     <property>
-      <sheet>xwiki:RISCOSSPlatformScopeManagerCode.EntitySheet</sheet>
+      <sheet>xwiki:RISCOSSPlatformLayerManagerCode.LayerEditSheet</sheet>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.ClassSheetBinding</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <sheet>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>sheet</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Sheet</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </sheet>
+    </class>
+    <name>RISCOSSPlatformLayerManagerCode.LayerClass</name>
+    <number>1</number>
+    <className>XWiki.ClassSheetBinding</className>
+    <guid>b7840ad1-e461-49e2-aa4c-7c5071b720da</guid>
+    <property>
+      <sheet>xwiki:RISCOSSPlatformLayerManagerCode.LayerViewSheet</sheet>
     </property>
   </object>
   <object>
@@ -142,10 +186,10 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.EntityClass</name>
+    <name>RISCOSSPlatformLayerManagerCode.LayerClass</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
-    <guid>9867feda-53d2-47af-943d-a061ec29f6ed</guid>
+    <guid>bf40a52f-05f4-4baa-90d1-4a6e0d0abb4c</guid>
     <property>
       <sheet>XWiki.ClassSheet</sheet>
     </property>

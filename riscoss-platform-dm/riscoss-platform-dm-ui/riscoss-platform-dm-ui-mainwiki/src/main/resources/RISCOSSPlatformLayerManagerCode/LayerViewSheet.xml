@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,19 +20,19 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformScopeManagerCode</web>
-  <name>ScopeViewSheet</name>
+  <web>RISCOSSPlatformLayerManagerCode</web>
+  <name>LayerViewSheet</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>xwiki:RISCOSSPlatformScopeManagerCode.WebHome</parent>
+  <parent>RISCOSSPlatformLayerManagerCode.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396803389000</creationDate>
-  <date>1396803389000</date>
-  <contentUpdateDate>1396803389000</contentUpdateDate>
+  <creationDate>1397660582000</creationDate>
+  <date>1397660750000</date>
+  <contentUpdateDate>1397660570000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -66,18 +65,18 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </action>
     </class>
-    <name>RISCOSSPlatformScopeManagerCode.ScopeViewSheet</name>
+    <name>RISCOSSPlatformLayerManagerCode.LayerViewSheet</name>
     <number>0</number>
     <className>XWiki.SheetDescriptorClass</className>
-    <guid>ff5acf9c-4874-4f3e-a91e-81c70ceafd03</guid>
+    <guid>d04e6c41-7095-4a77-9c32-51e3242c7534</guid>
     <property>
       <action>view</action>
     </property>
   </object>
   <content>{{velocity}}
-|= $services.localization.render("riscossPlatform.scopeManager.parent") | $doc.display("parent")
+|= $services.localization.render("riscossPlatform.layerManager.parent") | $doc.display("parent")
 #set($class = $doc.getObject($doc.fullName, true).xWikiClass)
-|= $services.localization.render("riscossPlatform.scopeManager.properties") | (((
+|= $services.localization.render("riscossPlatform.layerManager.properties") | (((
 #foreach($prop in $class.properties)
 * $prop.prettyName
 #end
