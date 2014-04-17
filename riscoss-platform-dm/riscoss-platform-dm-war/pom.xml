@@ -53,6 +53,12 @@
       <artifactId>xwiki-platform-legacy-oldcore</artifactId>
       <version>${xwiki.version}</version>
       <classifier>objectpolicy</classifier>
+      <exclusions>
+        <exclusion>  <!-- Don't drag all the dependencies otherwise it will put xwiki-platform-oldcore in the final package. We just need this single jar. -->
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>      
     </dependency>
   </dependencies>
 
