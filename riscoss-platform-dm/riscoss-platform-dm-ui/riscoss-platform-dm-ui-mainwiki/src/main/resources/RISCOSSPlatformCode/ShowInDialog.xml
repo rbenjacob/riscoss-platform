@@ -31,7 +31,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1396908701000</creationDate>
-  <date>1397385828000</date>
+  <date>1397743965000</date>
   <contentUpdateDate>1396910138000</contentUpdateDate>
   <version>1.1</version>
   <title>Show in dialog JSX</title>
@@ -168,13 +168,18 @@
     });
   }
   
-  var links = $$('a.openDialog');
-  for(i = 0; i &lt; links.length; i++) {
-    var link = links[i];
-    bindClickEvent(link);
+  function init() {
+    var links = $$('a.openDialog');
+    for(i = 0; i &lt; links.length; i++) {
+      var link = links[i];
+      bindClickEvent(link);
+    }
   }
   
-  
+  //Wait for dom load
+  (XWiki.domIsLoaded &amp;&amp; init()) || document.observe("xwiki:dom:loaded", init);
+   
+  //End XWiki augmentation
   return XWiki;
 }(XWiki || {}))</code>
     </property>
