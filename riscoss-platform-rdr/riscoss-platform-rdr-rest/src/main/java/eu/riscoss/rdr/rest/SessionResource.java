@@ -30,18 +30,28 @@ import eu.riscoss.rdr.api.model.Session;
 @Path("/sessions/{id}")
 public class SessionResource
 {
+    public static final String LAST_CLOSED = "lastclosed";
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam(value = "id") String id, @QueryParam(value = "offset") int offset,
-        @QueryParam(value = "limit") @DefaultValue(value = "20") int limit)
+            @QueryParam(value = "limit") @DefaultValue(value = "20") int limit,
+            @QueryParam(value = "target") String target)
     {
         RiskDataRepository riskDataRepository = RiskDataRepositoryProvider.getRiskDataRepository();
 
         Session session = null;
-        if ("lastclosed".compareToIgnoreCase(id) == 0) {
-            List<Session> sessions = riskDataRepository.getClosedSessions(0, 1);
-            if (sessions.size() > 0) {
-                session = sessions.get(0);
+        if (LAST_CLOSED.compareToIgnoreCase(id) == 0) {
+            if (target != null) {
+                List<Session> sessions = riskDataRepository.getClosedSessions(target, 0, 1);
+                if (sessions.size() > 0) {
+                    session = sessions.get(0);
+                }
+            } else {
+                List<Session> sessions = riskDataRepository.getClosedSessions(0, 1);
+                if (sessions.size() > 0) {
+                    session = sessions.get(0);
+                }
             }
         } else {
             session = riskDataRepository.getSession(id);
@@ -130,5 +140,4 @@ public class SessionResource
 
         return Response.status(Status.ACCEPTED).build();
     }
-
 }

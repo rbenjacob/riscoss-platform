@@ -27,26 +27,38 @@ public class RiskDataResource
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam(value = "id") String id, @QueryParam(value = "offset") int offset,
-        @QueryParam(value = "limit") @DefaultValue(value = "20") int limit)
+            @QueryParam(value = "limit") @DefaultValue(value = "20") int limit,
+            @QueryParam(value = "target") String target)
     {
         RiskDataRepository riskDataRepository = RiskDataRepositoryProvider.getRiskDataRepository();
 
         Session session = null;
-        if ("lastclosed".compareToIgnoreCase(id) == 0) {
-            List<Session> sessions = riskDataRepository.getClosedSessions(0, 1);
-            if (sessions.size() > 0) {
-                session = sessions.get(0);
+        if (SessionResource.LAST_CLOSED.compareToIgnoreCase(id) == 0) {
+            if (target != null) {
+                List<Session> sessions = riskDataRepository.getClosedSessions(target, 0, 1);
+                if (sessions.size() > 0) {
+                    session = sessions.get(0);
+                }
+            } else {
+                List<Session> sessions = riskDataRepository.getClosedSessions(0, 1);
+                if (sessions.size() > 0) {
+                    session = sessions.get(0);
+                }
             }
         } else {
             session = riskDataRepository.getSession(id);
-
         }
 
         if (session == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        List<RiskData> riskData = riskDataRepository.getRiskData(session, offset, limit);
+        List<RiskData> riskData;
+        if (target != null) {
+            riskData = riskDataRepository.getRiskData(session, target, offset, limit);
+        } else {
+            riskData = riskDataRepository.getRiskData(session, offset, limit);
+        }
 
         /* Build response */
         JsonObject response = new JsonObject();
@@ -57,9 +69,9 @@ public class RiskDataResource
             response.addProperty("endDate", endDate.getTime());
         }
         response.addProperty("open", session.isOpen());
-        
+
         JsonObject riskDataObject = new JsonObject();
-        
+
         riskDataObject.addProperty("offset", offset);
         riskDataObject.addProperty("limit", limit);
 
@@ -74,12 +86,11 @@ public class RiskDataResource
 
             results.add(object);
         }
-        
+
         riskDataObject.add("results", results);
 
         response.add("riskData", riskDataObject);
 
         return Response.ok(Utils.getGson().toJson(response)).build();
     }
-
 }

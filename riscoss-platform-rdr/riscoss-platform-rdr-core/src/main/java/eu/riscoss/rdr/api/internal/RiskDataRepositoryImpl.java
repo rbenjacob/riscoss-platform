@@ -71,7 +71,32 @@ public class RiskDataRepositoryImpl implements RiskDataRepository
 
         return Collections.EMPTY_LIST;
     }
-    
+
+    @Override
+    public List<Session> getSessions(String target, int offset, int limit)
+    {
+        org.hibernate.Session hibernateSession = hibernateSessionProvider.getSession();
+        hibernateSession.beginTransaction();
+
+        try {
+            Query query = hibernateSession.createQuery(
+                    "SELECT DISTINCT S FROM RiskData AS RD, Session AS S WHERE RD.session.id = S.id  AND RD.target = :target ORDER BY S.startDate DESC");
+            query.setParameter("target", target);
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+            List<Session> sessions = query.list();
+
+            return sessions;
+        } catch (Exception e) {
+            logger.error("Unable to get sessions.", e);
+            hibernateSession.getTransaction().rollback();
+        } finally {
+            hibernateSession.getTransaction().commit();
+        }
+
+        return Collections.EMPTY_LIST;
+    }
+
     @Override
     public List<Session> getOpenSessions(int offset, int limit)
     {
@@ -79,7 +104,8 @@ public class RiskDataRepositoryImpl implements RiskDataRepository
         hibernateSession.beginTransaction();
 
         try {
-            Query query = hibernateSession.createQuery("FROM Session AS S WHERE S.endDate IS NULL ORDER BY S.startDate DESC");
+            Query query =
+                    hibernateSession.createQuery("FROM Session AS S WHERE S.endDate IS NULL ORDER BY S.startDate DESC");
             query.setFirstResult(offset);
             query.setMaxResults(limit);
             List<Session> sessions = query.list();
@@ -94,7 +120,33 @@ public class RiskDataRepositoryImpl implements RiskDataRepository
 
         return Collections.EMPTY_LIST;
     }
-    
+
+    @Override
+    public List<Session> getOpenSessions(String target, int offset, int limit)
+    {
+        org.hibernate.Session hibernateSession = hibernateSessionProvider.getSession();
+        hibernateSession.beginTransaction();
+
+        try {
+            Query query =
+                    hibernateSession.createQuery(
+                            "SELECT DISTINCT S FROM RiskData RD, Session AS S WHERE RD.session.id = S.id  AND RD.target = :target AND S.endDate IS NULL ORDER BY S.startDate DESC");
+            query.setParameter("target", target);
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+            List<Session> sessions = query.list();
+
+            return sessions;
+        } catch (Exception e) {
+            logger.error("Unable to get sessions.", e);
+            hibernateSession.getTransaction().rollback();
+        } finally {
+            hibernateSession.getTransaction().commit();
+        }
+
+        return Collections.EMPTY_LIST;
+    }
+
     @Override
     public List<Session> getClosedSessions(int offset, int limit)
     {
@@ -102,7 +154,8 @@ public class RiskDataRepositoryImpl implements RiskDataRepository
         hibernateSession.beginTransaction();
 
         try {
-            Query query = hibernateSession.createQuery("FROM Session AS S WHERE S.endDate IS NOT NULL ORDER BY S.endDate DESC");
+            Query query = hibernateSession.createQuery(
+                    "FROM Session AS S WHERE S.endDate IS NOT NULL ORDER BY S.endDate DESC");
             query.setFirstResult(offset);
             query.setMaxResults(limit);
             List<Session> sessions = query.list();
@@ -117,7 +170,33 @@ public class RiskDataRepositoryImpl implements RiskDataRepository
 
         return Collections.EMPTY_LIST;
     }
-    
+
+    @Override
+    public List<Session> getClosedSessions(String target, int offset, int limit)
+    {
+        org.hibernate.Session hibernateSession = hibernateSessionProvider.getSession();
+        hibernateSession.beginTransaction();
+
+        try {
+            Query query = hibernateSession
+                    .createQuery(
+                            "SELECT DISTINCT S FROM RiskData RD, Session AS S WHERE RD.session.id = S.id  AND RD.target = :target AND S.endDate IS NOT NULL ORDER BY S.endDate DESC");
+            query.setParameter("target", target);
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+            List<Session> sessions = query.list();
+
+            return sessions;
+        } catch (Exception e) {
+            logger.error("Unable to get sessions.", e);
+            hibernateSession.getTransaction().rollback();
+        } finally {
+            hibernateSession.getTransaction().commit();
+        }
+
+        return Collections.EMPTY_LIST;
+    }
+
     @Override
     public List<RiskData> getRiskData(Session session, int offset, int limit)
     {
@@ -127,6 +206,31 @@ public class RiskDataRepositoryImpl implements RiskDataRepository
         try {
             Query query = hibernateSession.createQuery("FROM RiskData AS RD WHERE RD.session.id = :sessionId");
             query.setParameter("sessionId", session.getId());
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+            List<RiskData> riskData = query.list();
+
+            return riskData;
+        } catch (Exception e) {
+            e.printStackTrace();
+            hibernateSession.getTransaction().rollback();
+        } finally {
+            hibernateSession.getTransaction().commit();
+        }
+
+        return Collections.EMPTY_LIST;
+    }
+
+    @Override
+    public List<RiskData> getRiskData(Session session, String target, int offset, int limit)
+    {
+        org.hibernate.Session hibernateSession = hibernateSessionProvider.getSession();
+        hibernateSession.beginTransaction();
+
+        try {
+            Query query = hibernateSession.createQuery("FROM RiskData AS RD WHERE RD.session.id = :sessionId AND RD.target = :target");
+            query.setParameter("sessionId", session.getId());
+            query.setParameter("target", target);
             query.setFirstResult(offset);
             query.setMaxResults(limit);
             List<RiskData> riskData = query.list();
@@ -155,7 +259,6 @@ public class RiskDataRepositoryImpl implements RiskDataRepository
         } else {
             throw new SessionClosedException(String.format("Session %s is closed", session.getId()));
         }
-
     }
 
     public Session getSession(String id)
@@ -179,7 +282,6 @@ public class RiskDataRepositoryImpl implements RiskDataRepository
         }
 
         return null;
-
     }
 
     private void hibernateStore(Object object)
@@ -194,5 +296,4 @@ public class RiskDataRepositoryImpl implements RiskDataRepository
             session.getTransaction().commit();
         }
     }
-
 }

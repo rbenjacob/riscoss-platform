@@ -2,7 +2,6 @@ package eu.riscoss.rdr.rest;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,12 +10,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import eu.riscoss.rdr.Utils;
@@ -26,21 +22,45 @@ import eu.riscoss.rdr.api.model.Session;
 @Path("/sessions")
 public class SessionsResource
 {
+    private static String OPEN = "open";
+
+    private static String CLOSED = "closed";
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String get(@QueryParam(value = "offset") int offset,
-        @QueryParam(value = "limit") @DefaultValue(value = "20") int limit)
+            @QueryParam(value = "limit") @DefaultValue(value = "20") int limit,
+            @QueryParam(value = "target") String target, @QueryParam(value = "status") String status)
     {
         RiskDataRepository riskDataRepository = RiskDataRepositoryProvider.getRiskDataRepository();
 
-        List<Session> sessions = riskDataRepository.getSessions(offset, limit);
+        List<Session> sessions;
+        if (target != null) {
+            if (OPEN.equalsIgnoreCase(status)) {
+                sessions = riskDataRepository.getOpenSessions(target, offset, limit);
+            } else if (CLOSED.equalsIgnoreCase(status)) {
+                sessions = riskDataRepository.getClosedSessions(target, offset, limit);
+            } else {
+                sessions = riskDataRepository.getSessions(target, offset, limit);
+            }
+        } else {
+            if (OPEN.equalsIgnoreCase(status)) {
+                sessions = riskDataRepository.getOpenSessions(offset, limit);
+            } else if (CLOSED.equalsIgnoreCase(status)) {
+                sessions = riskDataRepository.getClosedSessions(offset, limit);
+            } else {
+                sessions = riskDataRepository.getSessions(offset, limit);
+            }
+        }
 
         /* Build the response representation */
         JsonObject response = new JsonObject();
+
         response.addProperty("offset", offset);
         response.addProperty("limit", limit);
 
         JsonArray sessionsArray = new JsonArray();
+
         for (Session session : sessions) {
             JsonObject sessionObject = new JsonObject();
             sessionObject.addProperty("id", session.getId());
