@@ -42,6 +42,11 @@
   </properties>
 
   <dependencies>
+      <dependency>
+          <groupId>eu.riscoss</groupId>
+          <artifactId>riscoss-platform-dm-script</artifactId>
+          <version>${project.version}</version>
+      </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-web</artifactId>
