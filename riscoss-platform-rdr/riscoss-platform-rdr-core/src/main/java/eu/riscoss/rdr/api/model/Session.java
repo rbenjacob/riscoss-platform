@@ -48,4 +48,9 @@ public class Session
     {
         this.endDate = endDate;
     }
+
+    public String toString()
+    {
+        return String.format("[%s %s %s]", id, startDate, endDate);
+    }
 }

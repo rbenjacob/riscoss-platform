@@ -150,11 +150,10 @@ public class RiskDataRepositoryTest
             closedSessions.add(session);
         }
 
-        List<Session> sessions = riskDataRepository.getOpenSessions(0, 10);
-        for (Session session : sessions) {
+        for (Session openSession : openSessions) {
             boolean found = false;
-            for (Session openSession : openSessions) {
-                if (session.getId().equals(openSession.getId())) {
+            for (Session session : riskDataRepository.getOpenSessions(0, 10)) {
+                if (openSession.getId().equals(session.getId())) {
                     found = true;
                     break;
                 }
@@ -163,11 +162,10 @@ public class RiskDataRepositoryTest
             assertTrue(found);
         }
 
-        sessions = riskDataRepository.getClosedSessions(0, 10);
-        for (Session session : sessions) {
+        for (Session closedSession : closedSessions) {
             boolean found = false;
-            for (Session closedSession : closedSessions) {
-                if (session.getId().equals(closedSession.getId())) {
+            for (Session session : riskDataRepository.getClosedSessions(0, 10)) {
+                if (closedSession.getId().equals(session.getId())) {
                     found = true;
                     break;
                 }
