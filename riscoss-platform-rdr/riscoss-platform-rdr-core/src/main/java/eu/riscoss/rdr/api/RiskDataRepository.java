@@ -2,33 +2,14 @@ package eu.riscoss.rdr.api;
 
 import java.util.List;
 
-import eu.riscoss.rdr.SessionClosedException;
-import eu.riscoss.rdr.api.model.RiskData;
-import eu.riscoss.rdr.api.model.Session;
+import eu.riscoss.rdr.api.internal.RiskDataEntity;
+import eu.riscoss.rdr.model.RiskData;
 
 public interface RiskDataRepository
 {
-    Session createSession();
+    List<RiskData> getRiskData(String target, int offset, int limit);
 
-    void closeSession(Session session);
+    List<RiskData> getRiskData(String target, String id, int offset, int limit);
 
-    Session getSession(String sessionId);
-
-    List<Session> getSessions(int offset, int limit);
-
-    List<Session> getSessions(String target, int offset, int limit);
-
-    List<Session> getClosedSessions(int offset, int limit);
-
-    List<Session> getClosedSessions(String target, int offset, int limit);
-
-    List<Session> getOpenSessions(int offset, int limit);
-
-    List<Session> getOpenSessions(String target, int offset, int limit);
-
-    List<RiskData> getRiskData(Session session, int offset, int limit);
-
-    List<RiskData> getRiskData(Session session, String target, int offset, int limit);
-
-    void storeRiskData(Session session, RiskData riskData) throws SessionClosedException;
+    void storeRiskData(RiskData riskData);
 }

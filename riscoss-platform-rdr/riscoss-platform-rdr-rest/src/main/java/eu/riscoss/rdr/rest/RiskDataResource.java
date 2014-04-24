@@ -5,75 +5,51 @@ import java.util.List;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import eu.riscoss.rdr.Utils;
+import eu.riscoss.rdr.RiskDataFactory;
 import eu.riscoss.rdr.api.RiskDataRepository;
-import eu.riscoss.rdr.api.model.RiskData;
-import eu.riscoss.rdr.api.model.Session;
+import eu.riscoss.rdr.model.Evidence;
+import eu.riscoss.rdr.model.RiskData;
+import eu.riscoss.rdr.model.RiskDataType;
 
-@Path("/sessions/{id}/data")
+@Path("/")
 public class RiskDataResource
 {
+    private static final Gson gson = new Gson();
+
     @GET
+    @Path("/{target}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@PathParam(value = "id") String id, @QueryParam(value = "offset") int offset,
-            @QueryParam(value = "limit") @DefaultValue(value = "20") int limit,
-            @QueryParam(value = "target") String target)
+    public Response get(@PathParam(value = "target") String target, @QueryParam(value = "offset") int offset,
+            @QueryParam(value = "limit") @DefaultValue(value = "20") int limit, @QueryParam(value = "id") String id)
+
     {
         RiskDataRepository riskDataRepository = RiskDataRepositoryProvider.getRiskDataRepository();
 
-        Session session = null;
-        if (SessionResource.LAST_CLOSED.compareToIgnoreCase(id) == 0) {
-            if (target != null) {
-                List<Session> sessions = riskDataRepository.getClosedSessions(target, 0, 1);
-                if (sessions.size() > 0) {
-                    session = sessions.get(0);
-                }
-            } else {
-                List<Session> sessions = riskDataRepository.getClosedSessions(0, 1);
-                if (sessions.size() > 0) {
-                    session = sessions.get(0);
-                }
-            }
-        } else {
-            session = riskDataRepository.getSession(id);
-        }
-
-        if (session == null) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-
         List<RiskData> riskData;
-        if (target != null) {
-            riskData = riskDataRepository.getRiskData(session, target, offset, limit);
+        if (id != null) {
+            riskData = riskDataRepository.getRiskData(target, id, offset, limit);
         } else {
-            riskData = riskDataRepository.getRiskData(session, offset, limit);
+            riskData = riskDataRepository.getRiskData(target, offset, limit);
         }
 
         /* Build response */
         JsonObject response = new JsonObject();
-        response.addProperty("id", session.getId());
-        response.addProperty("startDate", session.getStartDate().getTime());
-        Date endDate = session.getEndDate();
-        if (endDate != null) {
-            response.addProperty("endDate", endDate.getTime());
-        }
-        response.addProperty("open", session.isOpen());
-
-        JsonObject riskDataObject = new JsonObject();
-
-        riskDataObject.addProperty("offset", offset);
-        riskDataObject.addProperty("limit", limit);
+        response.addProperty("offset", offset);
+        response.addProperty("limit", limit);
 
         JsonArray results = new JsonArray();
         for (RiskData rd : riskData) {
@@ -82,15 +58,67 @@ public class RiskDataResource
             object.addProperty("target", rd.getTarget());
             object.addProperty("date", rd.getDate().getTime());
             object.addProperty("type", rd.getType().toString());
-            object.addProperty("value", rd.getValue().toString());
+
+            JsonElement value = null;
+
+            switch (rd.getType()) {
+                case NUMBER:
+                    value = gson.toJsonTree(rd.getValue());
+                    break;
+                case EVIDENCE:
+                    Evidence evidence = (Evidence) rd.getValue();
+                    double[] values = { evidence.getPositive(), evidence.getNegative() };
+                    value = gson.toJsonTree(values).getAsJsonArray();
+                    break;
+            }
+
+            object.add("value", value);
 
             results.add(object);
         }
 
-        riskDataObject.add("results", results);
+        response.add("results", results);
 
-        response.add("riskData", riskDataObject);
+        return Response.ok(gson.toJson(response)).build();
+    }
 
-        return Response.ok(Utils.getGson().toJson(response)).build();
+    @POST
+    public Response post(String body)
+    {
+        RiskDataRepository riskDataRepository = RiskDataRepositoryProvider.getRiskDataRepository();
+
+        JsonArray riskDataArray;
+        try {
+            riskDataArray = gson.fromJson(body, JsonArray.class);
+        } catch (Exception e) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+
+        for (int i = 0; i < riskDataArray.size(); i++) {
+            JsonObject riskDataObject = riskDataArray.get(i).getAsJsonObject();
+
+            String id = riskDataObject.get("id").getAsString();
+            String target = riskDataObject.get("target").getAsString();
+            RiskDataType type = RiskDataType.valueOf(riskDataObject.get("type").getAsString().toUpperCase());
+
+            JsonElement valueElement = riskDataObject.get("value");
+
+            Object value = null;
+            switch (type) {
+                case NUMBER:
+                    value = valueElement.getAsDouble();
+                    break;
+                case EVIDENCE:
+                    JsonArray array = valueElement.getAsJsonArray();
+                    value = new Evidence(array.get(0).getAsDouble(), array.get(1).getAsDouble());
+                    break;
+            }
+
+            RiskData riskData = RiskDataFactory.createRiskData(id, target, new Date(), type, value);
+
+            riskDataRepository.storeRiskData(riskData);
+        }
+
+        return Response.status(Response.Status.ACCEPTED).build();
     }
 }

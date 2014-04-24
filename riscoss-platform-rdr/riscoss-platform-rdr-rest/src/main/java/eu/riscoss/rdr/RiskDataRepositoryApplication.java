@@ -9,29 +9,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eu.riscoss.rdr.rest.RiskDataResource;
-import eu.riscoss.rdr.rest.SessionResource;
-import eu.riscoss.rdr.rest.SessionsResource;
 
 public class RiskDataRepositoryApplication extends Application
 {
     Logger logger = LoggerFactory.getLogger(RiskDataRepositoryApplication.class);
 
-    private HashSet<Class< ? >> classes;
+    private HashSet<Class<?>> classes;
 
     public RiskDataRepositoryApplication()
     {
         logger.info("Initializing Risk Data Repository");
 
-        classes = new HashSet<Class< ? >>();
-        classes.add(SessionsResource.class);
-        classes.add(SessionResource.class);
+        classes = new HashSet<Class<?>>();
         classes.add(RiskDataResource.class);
     }
 
     @Override
-    public Set<Class< ? >> getClasses()
+    public Set<Class<?>> getClasses()
     {
         return classes;
     }
-
 }

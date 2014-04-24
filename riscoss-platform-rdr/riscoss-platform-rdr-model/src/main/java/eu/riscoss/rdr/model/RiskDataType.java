@@ -1,4 +1,4 @@
-package eu.riscoss.rdr.api.model;
+package eu.riscoss.rdr.model;
 
 public enum RiskDataType
 {
