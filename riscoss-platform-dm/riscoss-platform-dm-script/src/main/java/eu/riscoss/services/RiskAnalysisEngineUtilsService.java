@@ -34,9 +34,14 @@ public class RiskAnalysisEngineUtilsService
         return riskAnalysisEngine.getField(chunk, FieldType.OUTPUT_VALUE);
     }
 
-    public String getDescription(RiskAnalysisEngine riskAnalysisEngine, Chunk chunk) {
+    public String getDescription(RiskAnalysisEngine riskAnalysisEngine, Chunk chunk)
+    {
         return riskAnalysisEngine.getField(chunk, FieldType.DESCRIPTION).getValue();
+    }
 
+    public String getQuestion(RiskAnalysisEngine riskAnalysisEngine, Chunk chunk)
+    {
+        return riskAnalysisEngine.getField(chunk, FieldType.QUESTION).getValue();
     }
 
     public Evidence createEvidence(double p, double n)
