@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,8 +32,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1396803391000</creationDate>
-  <date>1397731298000</date>
-  <contentUpdateDate>1397731298000</contentUpdateDate>
+  <date>1398594459000</date>
+  <contentUpdateDate>1398594459000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -193,7 +194,17 @@ $xwiki.jsx.use("xwiki:RISCOSSPlatformCode.ShowInDialog") ##
 ** [[$services.localization.render("riscossPlatform.riskConfigurationManager.riskConfigurationIndex")&gt;&gt;RISCOSSPlatformRiskConfigurations.WebHome]]
 ** [[$services.localization.render("riscossPlatform.riskConfigurationManager.goalModelIndex")&gt;&gt;RISCOSSPlatformGoalModels.WebHome]]
 ** [[$services.localization.render("riscossPlatform.riskConfigurationManager.riskCategoryIndex")&gt;&gt;RISCOSSPlatformRiskCategories.WebHome]]
+* Risk Analysis
+** #generateCustomCreateDialogLink({     
+     "action": "$xwiki.getURL('RISCOSSPlatformRiskAnalysisManagerCode.SetRiskAnalysisSessionData')",
+     "linkLabel": "New risk analysis session",
+     "dialogTitle": "New risk analysis session",
+     "fieldLabel": "Session name"
+   })
+** ----
+** [[Risk analysis sessions&gt;&gt;RISCOSSPlatformRiskAnalysisSessions.WebHome]]   
   #end  
 #end
+
 {{/velocity}}</content>
 </xwikidoc>

@@ -22,7 +22,7 @@
 
 <xwikidoc>
   <web>RISCOSSPlatformCode</web>
-  <name>Create</name>
+  <name>CustomCreate</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -31,9 +31,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397321106000</creationDate>
-  <date>1397666232000</date>
-  <contentUpdateDate>1397666232000</contentUpdateDate>
+  <creationDate>1398093620000</creationDate>
+  <date>1398094663000</date>
+  <contentUpdateDate>1398093705000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($request.formTitle) $request.formTitle #else Create #end</title>
   <defaultTemplate/>
@@ -114,10 +114,10 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>RISCOSSPlatformCode.Create</name>
+    <name>RISCOSSPlatformCode.CustomCreate</name>
     <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>94245c00-75ba-4e62-aee0-89693e3d2e87</guid>
+    <guid>9108918f-d150-41bb-80ec-9679f799ab8b</guid>
     <property>
       <cache>forbid</cache>
     </property>
@@ -190,18 +190,14 @@
     </property>
   </object>
   <content>{{velocity}}
-#if(!($request.space &amp;&amp; $request.template &amp;&amp; $request.fieldLabel))
+#if(!($request.action &amp;&amp; $request.fieldLabel))
   {{error}}Missing parameter{{/error}}
 #else
 {{html}}
-&lt;form action="$xwiki.getURL("${request.space}.WebHome", "create")" method="POST" class="xform third createForm"&gt;
-  &lt;input type="hidden" name="tocreate" value="page"/&gt;
-  &lt;input type="hidden" name="parent" value="${request.space}.WebHome"/&gt;
-  &lt;input type="hidden" name="space" value="${request.space}"/&gt;
-  &lt;input type="hidden" name="template" value="${request.template}"/&gt;
+&lt;form action="$request.action" method="POST" class="xform third createForm"&gt;
   &lt;dl&gt;
     &lt;dt&gt;&lt;label for="page"&gt;$request.fieldLabel&lt;/label&gt;&lt;dt&gt;
-    &lt;dd&gt;&lt;input type="text" name="page" class="targetName"/&gt;&lt;/dd&gt;
+    &lt;dd&gt;&lt;input type="text" name="targetName" class="targetName"/&gt;&lt;/dd&gt;
   &lt;/dl&gt;
   &lt;div class="buttons"&gt;
     &lt;span class="buttonwrapper"&gt;
