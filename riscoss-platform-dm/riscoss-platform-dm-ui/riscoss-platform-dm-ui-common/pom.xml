@@ -28,14 +28,14 @@
   <parent>
     <artifactId>riscoss-platform-dm-ui</artifactId>
     <groupId>eu.riscoss</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.18</version>
   </parent>
   <artifactId>riscoss-platform-dm-ui-common</artifactId>
   <packaging>xar</packaging>
 
   <name>RISCOSS Platform - Domain Manager - UI - Common</name>
 
-  <dependencies>    
+  <dependencies>
     <!-- Needed for XWiki.XWikiPreferences -->
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
