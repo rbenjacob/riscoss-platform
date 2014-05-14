@@ -36,48 +36,11 @@
   <name>RISCOSS Platform - Domain Manager - UI - Common</name>
 
   <dependencies>
-    <!-- Needed for XWiki.XWikiPreferences -->
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-ui-wiki</artifactId>
+      <artifactId>xwiki-enterprise-ui-admin-user</artifactId>
       <version>${xwiki.version}</version>
       <type>xar</type>
-      <scope>provided</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.xwiki.commons</groupId>
-        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
-        <version>${xwiki.version}</version>
-        <configuration>
-          <transformations>
-            <!-- Change the default Color Theme -->
-            <transformation>
-              <artifact>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</artifact>
-              <file>XWiki/XWikiPreferences.xml</file>
-              <xpath>/xwikidoc/object/property/colorTheme</xpath>
-              <value>ColorThemes.RISCOSS</value>
-            </transformation>
-            <!-- Change the copyright -->
-            <transformation>
-              <artifact>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</artifact>
-              <file>XWiki/XWikiPreferences.xml</file>
-              <xpath>/xwikidoc/object/property/webcopyright</xpath>
-              <value><![CDATA[© 2012-2014 <a href="http://www.riscoss.eu">RISCOSS</a> Consortium]]></value>
-            </transformation>
-            <!-- Change the footer -->
-            <transformation>
-              <artifact>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</artifact>
-              <file>XWiki/XWikiPreferences.xml</file>
-              <xpath>/xwikidoc/object/property/version</xpath>
-              <value><![CDATA[RISCOSS Platform Version ${project.version}]]></value>
-            </transformation>
-          </transformations>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
