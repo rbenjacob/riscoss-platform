@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,8 +20,8 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformRiskConfigurationManagerCode</web>
-  <name>RiskCategoryClass</name>
+  <web>RISCOSSPlatformRiskAnalysisManagerCode</web>
+  <name>RiskEvaluationClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -31,11 +30,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397399725000</creationDate>
-  <date>1397399725000</date>
-  <contentUpdateDate>1397399725000</contentUpdateDate>
+  <creationDate>1398098428000</creationDate>
+  <date>1398098036000</date>
+  <contentUpdateDate>1398098036000</contentUpdateDate>
   <version>1.1</version>
-  <title>RiskCategory Class</title>
+  <title>RiskEvaluation Class</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -43,7 +42,7 @@
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
   <class>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryClass</name>
+    <name>RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass</name>
     <customClass/>
     <customMapping/>
     <defaultViewSheet/>
@@ -51,86 +50,35 @@
     <defaultWeb/>
     <nameField/>
     <validationScript/>
-    <description>
+    <result>
       <customDisplay/>
       <disabled>0</disabled>
       <editor>---</editor>
-      <name>description</name>
-      <number>1</number>
+      <name>result</name>
+      <number>2</number>
       <picker>0</picker>
-      <prettyName>Description</prettyName>
+      <prettyName>result</prettyName>
       <rows>5</rows>
       <size>40</size>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
       <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-    </description>
+    </result>
+    <riskConfiguration>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <name>riskConfiguration</name>
+      <number>1</number>
+      <picker>0</picker>
+      <prettyName>riskConfiguration</prettyName>
+      <size>30</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+    </riskConfiguration>
   </class>
-  <object>
-    <class>
-      <name>XWiki.ClassSheetBinding</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <sheet>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>sheet</name>
-        <number>1</number>
-        <picker>0</picker>
-        <prettyName>Sheet</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </sheet>
-    </class>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryClass</name>
-    <number>0</number>
-    <className>XWiki.ClassSheetBinding</className>
-    <guid>0ebc7d80-b1d1-42f9-b770-7758df1a31b9</guid>
-    <property>
-      <sheet>xwiki:RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryViewSheet</sheet>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.ClassSheetBinding</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <sheet>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>sheet</name>
-        <number>1</number>
-        <picker>0</picker>
-        <prettyName>Sheet</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </sheet>
-    </class>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryClass</name>
-    <number>1</number>
-    <className>XWiki.ClassSheetBinding</className>
-    <guid>dd5ee3ec-3898-4388-91af-6c644f94535c</guid>
-    <property>
-      <sheet>xwiki:RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryEditSheet</sheet>
-    </property>
-  </object>
   <object>
     <class>
       <name>XWiki.DocumentSheetBinding</name>
@@ -155,10 +103,10 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryClass</name>
+    <name>RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
-    <guid>e85e4b40-c2f0-4d6d-8fee-a06c2c99e933</guid>
+    <guid>800ea5ab-9d44-4208-b713-0c426117e21c</guid>
     <property>
       <sheet>XWiki.ClassSheet</sheet>
     </property>

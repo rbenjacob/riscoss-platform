@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>RISCOSSPlatformRiskAnalysisManagerCode</web>
+  <name>RiskAnalysisSessionViewSheet</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1398106496000</creationDate>
+  <date>1398203367000</date>
+  <contentUpdateDate>1398202989000</contentUpdateDate>
+  <version>1.1</version>
+  <title>#if($doc.name == 'RiskAnalysisSessionSheet')RiskAnalysisSession Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>04ef4195-bf16-4a2a-b1d6-9697c2b22b51</guid>
+    <property>
+      <cache>forbid</cache>
+    </property>
+    <property>
+      <code>var drawEvidence = function(canvas, p, n) {
+    var context = canvas.getContext("2d")
+    var width = canvas.width;
+    var height = canvas.height;
+
+    context.beginPath();
+    context.rect(0, 0, canvas.width, canvas.height);
+    context.stroke();
+    
+    context.beginPath();
+    context.rect(0, 0, canvas.width * p, canvas.height / 2);
+    context.fillStyle = 'green';
+    context.fill();
+    context.beginPath();
+    context.rect(0, canvas.height / 2, canvas.width * n, canvas.height);
+    context.fillStyle = 'red';
+    context.fill();
+}
+
+var displayData = function(element, riskConfiguration, data) {
+  element.setStyle({display: ''});
+  
+  var html = '&lt;table&gt;\n'
+  for(key in data) {
+    html = html + '&lt;tr&gt;&lt;td&gt;' + data[key].description + '&lt;/td&gt;&lt;td&gt;&lt;canvas id="' + riskConfiguration + "_" + key + '" width="200" height="30"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
+  }
+  html = html + '&lt;/table&gt;\n';
+  
+  element.update(html);
+  
+  for(key in data) {
+    var canvas = $(riskConfiguration + '_' + key);
+    drawEvidence(canvas, data[key].evidence.positive,  data[key].evidence.negative);
+  }
+}
+
+var resultElements = $$('div.resultData')
+for(i = 0; i &lt; resultElements.length; i++) {
+  var resultElement = resultElements[i];
+  var data = JSON.parse(resultElement.innerText);
+  console.log(data);
+  displayData(resultElement, resultElement.getAttribute('riskConfiguration'), data);
+}</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.SheetDescriptorClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <action>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>action</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Action</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </action>
+    </class>
+    <name>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet</name>
+    <number>0</number>
+    <className>XWiki.SheetDescriptorClass</className>
+    <guid>8f0b1e7b-7811-4ca7-9148-e307e9adec25</guid>
+    <property>
+      <action>view</action>
+    </property>
+  </object>
+  <content>{{velocity}}
+$xwiki.jsx.use("xwiki:RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet")
+#set($riskAnalysisSessionObject = $doc.getObject('RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass'))
+#set($targetEntity = $xwiki.getDocument($riskAnalysisSessionObject.getProperty('entity').value))
+
+; Target entity
+: $targetEntity.title
+
+#set($riskEvaluations = $doc.getObjects('RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass'))
+|= Risk configuration |= |=
+#foreach($riskEvaluation in $riskEvaluations)
+  #set($riskConfiguration = $xwiki.getDocument($riskEvaluation.getProperty('riskConfiguration').value))
+| $riskConfiguration.title | (((
+  #if($riskEvaluation.getProperty('result').value == '')
+{{html wiki="true"}}
+    &lt;form action="$xwiki.getURL('RISCOSSPlatformRiskAnalysisManagerCode.Evaluate')" method="POST"&gt;
+      &lt;input type="hidden" name="riskAnalysisSession" value="$doc.fullName"/&gt;
+      &lt;input type="hidden" name="riskConfiguration" value="$riskConfiguration.fullName"/&gt;
+      &lt;input type="hidden" name="entity" value="$targetEntity.fullName"/&gt;
+      &lt;input type="submit" value="Evaluate" class="button"/&gt;
+    &lt;/form&gt;
+{{/html}}
+  #else 
+    Evaluation DONE 
+  #end 
+))) | (((
+  {{html}}
+    #if($riskEvaluation.getProperty('result').value != '')
+      &lt;div class="resultData" style="display: none" riskConfiguration="$riskConfiguration.fullName"&gt;$riskEvaluation.getProperty('result').value&lt;/div&gt;
+    #end
+  {{/html}}
+)))
+#end
+{{/velocity}}</content>
+</xwikidoc>
