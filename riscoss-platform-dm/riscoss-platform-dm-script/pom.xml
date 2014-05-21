@@ -55,4 +55,11 @@
       <version>${xwiki.version}</version>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>local-repository</id>
+      <url>file://${basedir}/local-repository</url>
+    </repository>
+  </repositories>
 </project>

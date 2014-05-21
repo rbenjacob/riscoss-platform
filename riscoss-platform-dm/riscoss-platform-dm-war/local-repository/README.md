@@ -9,5 +9,5 @@ xwiki-platform-legacy-oldcore-6.0-rc-1-objectpolicy.jar has been obtained in the
 7) mvn clean install
 8) Install the jar in the local repository patched-jars with the following command:
    
-   mvn org.apache.maven.plugins:maven-install-plugin:2.3.1:install-file -Dfile=PATH_TO/xwiki-platform-legacy-oldcore-6.0-rc-1-objectpolicy.jar -DgroupId=org.xwiki.platform -DartifactId=xwiki-platform-legacy-oldcore -Dversion=6.0-rc-1 -Dclassifier=objectpolicy -Dpackaging=jar -DlocalRepositoryPath=PATH_TO/patched-jars
+   mvn org.apache.maven.plugins:maven-install-plugin:2.3.1:install-file -Dfile=PATH_TO/xwiki-platform-legacy-oldcore-6.0-rc-1-objectpolicy.jar -DgroupId=org.xwiki.platform -DartifactId=xwiki-platform-legacy-oldcore -Dversion=6.0-rc-1 -Dclassifier=objectpolicy -Dpackaging=jar -DlocalRepositoryPath=PATH_TO/local-repository
 

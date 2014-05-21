@@ -59,11 +59,11 @@
       <version>${xwiki.version}</version>
       <classifier>objectpolicy</classifier>
       <exclusions>
-        <exclusion>  <!-- Don't drag all the dependencies otherwise it will put xwiki-platform-oldcore in the final package. We just need this single jar. -->
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
+        <exclusion>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-oldcore</artifactId>
         </exclusion>
-      </exclusions>      
+      </exclusions>
     </dependency>
   </dependencies>
 
@@ -95,17 +95,12 @@
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <!-- We exclude the oldcore in the overlay expansion so that we have a /target/xwiki-... directory ready to be 
-               used as a webapp -->
-          <overlays>
-            <overlay>
-              <groupId>org.xwiki.enterprise</groupId>
-              <artifactId>xwiki-enterprise-web</artifactId>
-              <excludes>
-                <exclude>WEB-INF/lib/xwiki-platform-legacy-oldcore-*.jar</exclude>
-              </excludes>
-            </overlay>
-          </overlays>
+          <packagingExcludes>
+            %regex[WEB-INF/lib/xwiki-platform-legacy-oldcore-[0-9].[0-9].jar],
+            %regex[WEB-INF/lib/xwiki-platform-oldcore-[0-9].[0-9].jar],
+            %regex[WEB-INF/lib/xwiki-platform-legacy-oldcore-[0-9].[0.9]-SNAPSHOT.jar],
+            %regex[WEB-INF/lib/xwiki-platform-oldcore-[0-9].[0-9]-SNAPSHOT.jar]
+          </packagingExcludes>
         </configuration>
       </plugin>
     </plugins>
@@ -113,8 +108,8 @@
 
   <repositories>
     <repository>
-      <id>local-repo</id>
-      <url>file://${basedir}/patched-jars</url>
+      <id>local-repository</id>
+      <url>file://${basedir}/local-repository</url>
     </repository>
   </repositories>
 </project>
