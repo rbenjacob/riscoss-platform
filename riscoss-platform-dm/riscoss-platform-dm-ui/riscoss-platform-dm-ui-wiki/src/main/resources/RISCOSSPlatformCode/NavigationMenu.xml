@@ -124,7 +124,7 @@
       <parameters/>
     </property>
     <property>
-      <scope>global</scope>
+      <scope>wiki</scope>
     </property>
   </object>
   <content>{{include document="RISCOSSPlatformCode.Macros"/}}{{velocity}}
