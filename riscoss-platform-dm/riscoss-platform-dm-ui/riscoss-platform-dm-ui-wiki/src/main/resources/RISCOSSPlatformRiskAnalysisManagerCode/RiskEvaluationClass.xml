@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1398098441000</creationDate>
-  <date>1398098441000</date>
-  <contentUpdateDate>1398098441000</contentUpdateDate>
+  <creationDate>1398098428000</creationDate>
+  <date>1398098036000</date>
+  <contentUpdateDate>1398098036000</contentUpdateDate>
   <version>1.1</version>
   <title>RiskEvaluation Class</title>
   <defaultTemplate/>
@@ -107,7 +106,7 @@
     <name>RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
-    <guid>c59b8e80-32d8-4d9a-bd3e-ecd5a8703e5c</guid>
+    <guid>800ea5ab-9d44-4208-b713-0c426117e21c</guid>
     <property>
       <sheet>XWiki.ClassSheet</sheet>
     </property>

@@ -26,7 +26,7 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>xwiki:RISCOSSPlatformCode.WebHome</parent>
+  <parent>RISCOSSPlatformCode.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
@@ -112,13 +112,13 @@
     <className>XWiki.UIExtensionClass</className>
     <guid>3f681290-10f4-430f-a594-7d1dce3693c4</guid>
     <property>
-      <content>{{menu type="horizontal fixedWidth"}}{{include reference="xwiki:RISCOSSPlatformCode.NavigationMenu" /}}{{/menu}}</content>
+      <content>{{menu type="horizontal fixedWidth"}}{{include reference="RISCOSSPlatformCode.NavigationMenu" /}}{{/menu}}</content>
     </property>
     <property>
       <extensionPointId>org.xwiki.platform.template.header.after</extensionPointId>
     </property>
     <property>
-      <name>xwiki:RISCOSSPlatformCode.NavigationMenu</name>
+      <name>RISCOSSPlatformCode.NavigationMenu</name>
     </property>
     <property>
       <parameters/>
@@ -127,9 +127,9 @@
       <scope>global</scope>
     </property>
   </object>
-  <content>{{include document="xwiki:RISCOSSPlatformCode.Macros"/}}{{velocity}}
-$xwiki.jsx.use("xwiki:RISCOSSPlatformCode.Create") ## Needed for the XWiki.RISCOSSPlatform.initializeCreateDialog callback
-$xwiki.jsx.use("xwiki:RISCOSSPlatformCode.ShowInDialog") ##
+  <content>{{include document="RISCOSSPlatformCode.Macros"/}}{{velocity}}
+$xwiki.jsx.use("RISCOSSPlatformCode.Create") ## Needed for the XWiki.RISCOSSPlatform.initializeCreateDialog callback
+$xwiki.jsx.use("RISCOSSPlatformCode.ShowInDialog") ##
 #set($mainWikiId = $services.wiki.mainWikiId) ##
 #set($currentWikiId = $services.wiki.currentWikiId) ##
 ##
@@ -150,7 +150,7 @@ $xwiki.jsx.use("xwiki:RISCOSSPlatformCode.ShowInDialog") ##
 * $services.localization.render("riscossPlatform.layerManager")
 ** #generateCreateDialogLink({
      "space": "RISCOSSPlatformLayers",
-     "template": "xwiki:RISCOSSPlatformLayerManagerCode.LayerTemplate",
+     "template": "RISCOSSPlatformLayerManagerCode.LayerTemplate",
      "linkLabel": $services.localization.render("riscossPlatform.layerManager.newLayer"),
      "dialogTitle": $services.localization.render("riscossPlatform.layerManager.newLayer"),
      "fieldLabel": $services.localization.render("riscossPlatform.layerManager.layerName")
@@ -171,21 +171,21 @@ $xwiki.jsx.use("xwiki:RISCOSSPlatformCode.ShowInDialog") ##
 * $services.localization.render("riscossPlatform.riskConfigurationManager")
 ** #generateCreateDialogLink({
       "space": "RISCOSSPlatformRiskConfigurations",
-      "template": "xwiki:RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationTemplate",
+      "template": "RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationTemplate",
       "linkLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.newRiskConfiguration"),
       "dialogTitle": $services.localization.render("riscossPlatform.riskConfigurationManager.newRiskConfiguration"),
       "fieldLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.riskConfigurationName")
     })
 ** #generateCreateDialogLink({
       "space": "RISCOSSPlatformGoalModels",
-      "template": "xwiki:RISCOSSPlatformRiskConfigurationManagerCode.GoalModelTemplate",
+      "template": "RISCOSSPlatformRiskConfigurationManagerCode.GoalModelTemplate",
       "linkLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.newGoalModel"),
       "dialogTitle": $services.localization.render("riscossPlatform.riskConfigurationManager.newGoalModel"),
       "fieldLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.goalModelName")
     })
 ** #generateCreateDialogLink({
       "space": "RISCOSSPlatformRiskCategories",
-      "template": "xwiki:RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryTemplate",
+      "template": "RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryTemplate",
       "linkLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.newRiskCategory"),
       "dialogTitle": $services.localization.render("riscossPlatform.riskConfigurationManager.newRiskCategory"),
       "fieldLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.riskCategoryName")

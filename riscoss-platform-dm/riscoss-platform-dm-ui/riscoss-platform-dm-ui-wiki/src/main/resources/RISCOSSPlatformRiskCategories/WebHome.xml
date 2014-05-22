@@ -26,14 +26,14 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformRiskCategories.WebHome</parent>
+  <parent>Main.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397397565000</creationDate>
-  <date>1397405268000</date>
-  <contentUpdateDate>1397405268000</contentUpdateDate>
+  <creationDate>1397404184000</creationDate>
+  <date>1397409462000</date>
+  <contentUpdateDate>1397405710000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render("riscossPlatform.riskConfigurationManager.riskCategoriesList.title")</title>
   <defaultTemplate/>
@@ -42,5 +42,18 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{include document="xwiki:RISCOSSPlatformRiskCategories.WebHome" context="new" /}}</content>
+  <content>{{velocity}}
+#set($columns = ["doc.name", "description"])
+#set($columnsProperties = {
+    "doc.name" : { "type" : "text" , "size" : 20, "link" : "view"},
+    "description" : { "type" : "text" , "html" : "true",  "filterable" : "false", "sortable" : "false"}
+})
+#set($options = { 
+   "className":"RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryClass",
+   "translationPrefix" : "riscossPlatform.riskConfigurationManager.riskCategoriesTable.",
+   "tagCloud" : false,
+   "rowCount": 10
+})
+#livetable("riskCategories" $columns $columnsProperties $options)
+{{/velocity}}</content>
 </xwikidoc>

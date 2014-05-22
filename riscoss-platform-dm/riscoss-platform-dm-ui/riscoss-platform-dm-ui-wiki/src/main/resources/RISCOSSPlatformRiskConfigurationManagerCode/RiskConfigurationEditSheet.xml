@@ -383,9 +383,9 @@ How it works:
   <content>{{velocity}}
 $xwiki.jsfx.use('uicomponents/widgets/upload.js', true)
 $xwiki.ssfx.use('uicomponents/widgets/upload.css', true)
-$xwiki.jsx.use("xwiki:RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationEditSheet")
+$xwiki.jsx.use('RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationEditSheet')
 
-#set($layers = $services.query.xwql("select doc.fullName, doc.title from Document doc, doc.object(RISCOSSPlatformLayerManagerCode.LayerClass) as layer").execute())
+#set($layers = $services.query.xwql("select doc.fullName, doc.title from Document doc, doc.object(RISCOSSPlatformLayerManagerCode.LayerClass) as layer where doc.space='RISCOSSPlatformLayers'").execute())
 
 #set($object = $doc.getObject('RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationClass'))
 #set($class = $object.xWikiClass)

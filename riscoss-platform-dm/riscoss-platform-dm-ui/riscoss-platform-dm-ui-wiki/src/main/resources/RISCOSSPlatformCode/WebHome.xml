@@ -31,16 +31,20 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397410017000</creationDate>
-  <date>1397410041000</date>
-  <contentUpdateDate>1397410041000</contentUpdateDate>
+  <creationDate>1396803391000</creationDate>
+  <date>1397743360000</date>
+  <contentUpdateDate>1397412870000</contentUpdateDate>
   <version>1.1</version>
   <title>RISCOSS Platform Code</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.1</syntaxId>
+  <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
-  <content>{{include document="xwiki:RISCOSSPlatformCode.WebHome" context="new"/}}</content>
+  <content>This space contains code used throughout the RISCOSS Platform
+
+{{velocity}}
+{{documents space="$doc.space" id="spaceindex"/}}
+{{/velocity}}</content>
 </xwikidoc>

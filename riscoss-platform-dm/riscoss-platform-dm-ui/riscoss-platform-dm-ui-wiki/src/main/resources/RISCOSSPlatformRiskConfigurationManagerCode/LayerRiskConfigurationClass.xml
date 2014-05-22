@@ -31,9 +31,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1398197935000</creationDate>
-  <date>1398197935000</date>
-  <contentUpdateDate>1398197935000</contentUpdateDate>
+  <creationDate>1397746113000</creationDate>
+  <date>1398197926000</date>
+  <contentUpdateDate>1398197926000</contentUpdateDate>
   <version>1.1</version>
   <title>LayerRiskConfiguration Class</title>
   <defaultTemplate/>
@@ -118,7 +118,7 @@
     <name>RISCOSSPlatformRiskConfigurationManagerCode.LayerRiskConfigurationClass</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
-    <guid>37621677-15db-4c1d-a606-08dfebf59912</guid>
+    <guid>84961fe8-f141-44f2-bbe2-da97d9f3c9a9</guid>
     <property>
       <sheet>XWiki.ClassSheet</sheet>
     </property>

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,16 +30,49 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1398093043000</creationDate>
-  <date>1398097001000</date>
-  <contentUpdateDate>1398093515000</contentUpdateDate>
+  <creationDate>1398096998000</creationDate>
+  <date>1398602576000</date>
+  <contentUpdateDate>1398602541000</contentUpdateDate>
   <version>1.1</version>
-  <title>CreateRiskAnalysisSession</title>
+  <title>Create risk analysis session</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{include document="xwiki:RISCOSSPlatformRiskAnalysisManagerCode.CreateRiskAnalysisSession"/}}</content>
+  <content>{{velocity}}
+#if(!($request.sessionName &amp;&amp; $request.targetEntity &amp;&amp;$request.riskConfigurations))
+  {{error}} Missing parameters {{/error}}  
+#else
+  #set($ok = true)
+  #set($ok = $ok &amp;&amp; $xwiki.exists("RISCOSSPlatformEntities.${request.targetEntity}"))
+  $request.targetEntity $ok
+  #foreach($riskConfiguration in $request.getParameterValues('riskConfigurations'))
+    #set($ok = $ok &amp;&amp; $xwiki.exists("RISCOSSPlatformRiskConfigurations.${riskConfiguration}"))
+    $riskConfiguration $ok
+  #end
+  
+  #if($ok)
+    #set($riskAnalysisSession = $xwiki.getDocument("RISCOSSPlatformRiskAnalysisSessions.${request.sessionName}"))
+    #set($riskAnalysisSessionObject = $riskAnalysisSession.getObject("RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass", true))
+    $riskAnalysisSessionObject.set("entity", "RISCOSSPlatformEntities.${request.targetEntity}")
+    
+    #foreach($riskConfiguration in $request.getParameterValues('riskConfigurations'))
+      #set($n = $riskAnalysisSession.createNewObject("RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass"))
+      #set($riskEvaluationObject = $riskAnalysisSession.getObject("RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass", $n))
+      $riskEvaluationObject.set("riskConfiguration", "RISCOSSPlatformRiskConfigurations.${riskConfiguration}")
+      $riskEvaluationObject.set("result", "")
+    #end  
+    
+    $riskAnalysisSession.save()
+    
+    $response.sendRedirect($riskAnalysisSession.getURL())
+  #else
+    {{error}} Something is missing {{/error}}
+  #end
+#end
+
+
+{{/velocity}}</content>
 </xwikidoc>

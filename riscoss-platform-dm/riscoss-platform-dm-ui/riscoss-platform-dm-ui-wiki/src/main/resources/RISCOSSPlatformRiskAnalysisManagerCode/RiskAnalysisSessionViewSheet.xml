@@ -208,7 +208,7 @@ for(i = 0; i &lt; resultElements.length; i++) {
     </property>
   </object>
   <content>{{velocity}}
-$xwiki.jsx.use("xwiki:RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet")
+$xwiki.jsx.use("RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet")
 #set($riskAnalysisSessionObject = $doc.getObject('RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass'))
 #set($targetEntity = $xwiki.getDocument($riskAnalysisSessionObject.getProperty('entity').value))
 

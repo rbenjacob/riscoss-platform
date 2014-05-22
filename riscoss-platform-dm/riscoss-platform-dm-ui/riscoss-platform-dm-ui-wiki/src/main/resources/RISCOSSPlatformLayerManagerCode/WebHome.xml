@@ -31,16 +31,20 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397661257000</creationDate>
-  <date>1397661272000</date>
-  <contentUpdateDate>1397661272000</contentUpdateDate>
+  <creationDate>1397660750000</creationDate>
+  <date>1397660698000</date>
+  <contentUpdateDate>1397660698000</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render("riscossPlatform.layerManager")</title>
+  <title>RISCOSS Platform Layer Manager Code</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{include document="xwiki:RISCOSSPlatformLayerManagerCode.WebHome" context="new" /}}</content>
+  <content>This space contains the code for the RISCOSS Platform Layer Manager component
+
+{{velocity}}
+{{documents space="$doc.space" id="spaceindex"/}}
+{{/velocity}}</content>
 </xwikidoc>

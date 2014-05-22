@@ -31,9 +31,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397746557000</creationDate>
-  <date>1397746557000</date>
-  <contentUpdateDate>1397746557000</contentUpdateDate>
+  <creationDate>1396988797000</creationDate>
+  <date>1397746545000</date>
+  <contentUpdateDate>1397746545000</contentUpdateDate>
   <version>1.1</version>
   <title>RiskConfiguration Class</title>
   <defaultTemplate/>
@@ -142,9 +142,9 @@
     <name>RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationClass</name>
     <number>0</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>024c2c59-9ee7-497c-8de8-decb936438c6</guid>
+    <guid>e2c1198b-c519-470b-a3f0-7e5e6b07787c</guid>
     <property>
-      <sheet>xwiki:RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationViewSheet</sheet>
+      <sheet>RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationViewSheet</sheet>
     </property>
   </object>
   <object>
@@ -174,9 +174,9 @@
     <name>RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationClass</name>
     <number>1</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>6cb7f120-3373-4e56-81a8-7860801ffd93</guid>
+    <guid>e34c3079-4d49-4ff2-bd63-e05050172b71</guid>
     <property>
-      <sheet>xwiki:RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationEditSheet</sheet>
+      <sheet>RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationEditSheet</sheet>
     </property>
   </object>
   <object>
@@ -206,7 +206,7 @@
     <name>RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationClass</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
-    <guid>049238e4-33b5-4512-8c20-e44d43863226</guid>
+    <guid>235d3690-385b-4a5b-a189-d98a4f4baf20</guid>
     <property>
       <sheet>XWiki.ClassSheet</sheet>
     </property>

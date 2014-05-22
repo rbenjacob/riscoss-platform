@@ -31,9 +31,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397406512000</creationDate>
-  <date>1397406512000</date>
-  <contentUpdateDate>1397406512000</contentUpdateDate>
+  <creationDate>1396988786000</creationDate>
+  <date>1397406287000</date>
+  <contentUpdateDate>1397406287000</contentUpdateDate>
   <version>1.1</version>
   <title>GoalModel Class</title>
   <defaultTemplate/>
@@ -107,9 +107,9 @@
     <name>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</name>
     <number>0</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>65b787eb-7b80-48ca-a230-76d79cb1926f</guid>
+    <guid>183823c8-3e78-4194-9d49-0e36fc12103a</guid>
     <property>
-      <sheet>xwiki:RISCOSSPlatformRiskConfigurationManagerCode.GoalModelViewSheet</sheet>
+      <sheet>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelViewSheet</sheet>
     </property>
   </object>
   <object>
@@ -139,9 +139,9 @@
     <name>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</name>
     <number>1</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>f0a6d428-0770-4db7-8b19-f754c5485b26</guid>
+    <guid>595dd2f9-79f6-4160-adc5-324252b52a36</guid>
     <property>
-      <sheet>xwiki:RISCOSSPlatformRiskConfigurationManagerCode.GoalModelEditSheet</sheet>
+      <sheet>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelEditSheet</sheet>
     </property>
   </object>
   <object>
@@ -171,7 +171,7 @@
     <name>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
-    <guid>5f9e2ab5-1987-495b-b5c6-e2e6a4dac647</guid>
+    <guid>3ac3f84e-d2c7-4216-adc5-14b97cb5b5c8</guid>
     <property>
       <sheet>XWiki.ClassSheet</sheet>
     </property>

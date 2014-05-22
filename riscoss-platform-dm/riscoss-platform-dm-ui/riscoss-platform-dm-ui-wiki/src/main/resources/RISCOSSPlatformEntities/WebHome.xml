@@ -26,14 +26,14 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>Main.SpaceIndex</parent>
+  <parent>Main.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397232646000</creationDate>
-  <date>1397662025000</date>
-  <contentUpdateDate>1397662025000</contentUpdateDate>
+  <creationDate>1396957383000</creationDate>
+  <date>1397662038000</date>
+  <contentUpdateDate>1397661997000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render("riscossPlatform.layerManager.entitiesList.title")</title>
   <defaultTemplate/>
@@ -42,5 +42,17 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{include document="xwiki:RISCOSSPlatformEntities.WebHome" context="new"/}}</content>
+  <content>{{velocity}}
+#set($columns = ['entity', 'layer'])
+#set($columnsProperties = {
+    'entity' : { 'type' : 'text', 'link' : 'field', 'sortable' : 'true', 'filterable' : 'true'},    
+    'layer' : { 'type' : 'text', 'link' : 'field', 'sortable' : 'true', 'filterable' : 'true' }
+})
+#set($options = {
+   'resultPage' : 'RISCOSSPlatformLayerManagerCode.EntitiesLiveTableResults',
+   'rowCount' : 10,
+   'translationPrefix' : 'riscossPlatform.layerManager.entitiesTable.'
+})
+#livetable('entities', $columns, $columnsProperties, $options)
+{{/velocity}}</content>
 </xwikidoc>
