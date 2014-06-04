@@ -55,4 +55,22 @@
       <type>xar</type>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>        
+        <configuration>
+          <transformations>
+            <transformation>
+              <artifact>org.xwiki.platform:xwiki-platform-menu-ui</artifact>
+              <file>Menu/MenuMacro.xml</file>
+              <xpath>/xwikidoc/object/property/visibility</xpath>
+              <value>Current Wiki</value>
+            </transformation>
+          </transformations>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
