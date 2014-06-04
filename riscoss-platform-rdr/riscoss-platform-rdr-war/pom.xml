@@ -5,7 +5,7 @@
   <parent>
     <artifactId>riscoss-platform-rdr</artifactId>
     <groupId>eu.riscoss</groupId>
-    <version>0.18</version>
+    <version>0.20-SNAPSHOT</version>
   </parent>
   <artifactId>riscoss-platform-rdr-war</artifactId>
   <packaging>war</packaging>
