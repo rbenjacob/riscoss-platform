@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396991284000</creationDate>
-  <date>1397911910000</date>
-  <contentUpdateDate>1397911910000</contentUpdateDate>
+  <creationDate>1400844757000</creationDate>
+  <date>1402508270000</date>
+  <contentUpdateDate>1402437606000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'RiskConfigurationSheet')RiskConfiguration Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <defaultTemplate/>
@@ -123,7 +122,7 @@
     </property>
     <property>
       <code>var XWiki = (function(XWiki) {
-  var bindFileUploader = function(input, responseContainer) {
+  var bindFileUploader = function(input, responseContainer) {    
     new XWiki.FileUploader(input, {
       autoUpload: true,
       progressAutohide: true,
@@ -131,30 +130,48 @@
       responseURL: XWiki.currentDocument.getURL('get', 'xpage=attachmentslist'),
       responseContainer: responseContainer
     });
-  }
+  }  
   
-  function init() {
+  function init() {    
     var fileInputs = $$('input[type="file"]');
-    for(i = 0; i &lt; fileInputs.length; i++) {      
+    for(i = 0; i &lt; fileInputs.length; i++) {           
       bindFileUploader(fileInputs[i], $('invisiblediv'));
     }
     
+    var nextRiskModelObjectNumber = parseInt($("nextRiskModelObjectNumber").value);
+    
     document.observe('xwiki:html5upload:message', function(e) {
-      if("UPLOAD_FINISHED" == e.memo.content) {        
-        $(e.srcElement.id + ':text').update(e.memo.parameters.name);
-        $(e.srcElement.id + ':value').value = e.memo.parameters.name;
+      if("UPLOAD_FINISHED" == e.memo.content) {
+        var layer = e.srcElement.getAttribute("layer");
+        var modelsDiv = $("riskModels:" + layer);
+        
+        var div = document.createElement("div");
+        var text = document.createTextNode(e.memo.parameters.name);
+        div.appendChild(text);
+        var input = document.createElement("input");
+        input.type = "hidden";        
+        input.name = "RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass_" + nextRiskModelObjectNumber + "_data";
+        input.value = e.memo.parameters.name;        
+        div.appendChild(input);
+        input = document.createElement("input");
+        input.name = "RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass_" + nextRiskModelObjectNumber + "_layer";        
+        input.type = "hidden";
+        input.value = layer;
+        div.appendChild(input);
+        
+        nextRiskModelObjectNumber++;
+        
+        modelsDiv.appendChild(div);
       }
-    });        
+    });
   }
   
   //Wait for dom load
   (XWiki.domIsLoaded &amp;&amp; init()) || document.observe('xwiki:dom:loaded', init);
-  
+
   //End XWiki augmentation
   return XWiki;
-} (XWiki || {}))
-
-</code>
+} (XWiki || {}))</code>
     </property>
     <property>
       <name/>
@@ -328,18 +345,18 @@
     <property>
       <comment>This sheet is pretty complex. Here it is a description of how it works:
 
-1. For every layer we generate a box that contains all the relevant artifact that can be associated to a layer. These are basically the fields defined in the RISCOSSPlatformRiskConfigurationManagerCode.LayerRiskConfigurationClass (i.e., riskModel, impactModel, and whatever will be needed for the analysis)
+1. For every layer we generate a box that contains all the relevant artifact that can be associated to a layer. These are basically all the RiskModelClass objects that are associated to the layer.
 1. The box will contain the following elements, each one identified by an id:
-11. A file upload input type. Its id can be arbitrary but we chose to use "artifact:layer" (e.g., "riskModel:OSS Component")
-11. A span where the name of the uploaded artifact will be displayed. Its id is in the form: "artifact:layer:text" where "artifact:layer" is the same used for 2.1
-11. A hidden input that will be used to save the uploaded artifact name to the appropriate object. Its id is in the form "artifact:layer:value". The input uses the XWiki object notation in order to identify the object where to store the information
-11. A hidden input that defines the value of the layer property of the target object where to store the information.
+11. A file upload input type. Its id can be arbitrary but we chose to use "upload:layer" (e.g., "upload:OSS Component"). This input has a layer attribute that is used to link it to a div whose id must be "riskModels:THEVALUEOFHTELAYERATTRIBUTE"
+11. A div where the list of the uploaded model will be displayed. Its id is in the form: "riskModels:layer" where "layer" is the same used as layer attribute for 2.1
+11. A Javascript that will create the needed hidden inputs for saving the uploaded model names in the correspon RiskModelClass objects. It's interesting how this Javascript knows about the ids to use: when the page is generated, the number of the currently define RiskModelClass objects is calculated and stored in an input field whose id is "nextRiskModelObjectNumber". The Javascript will create object ids starting from this number.
 
 Outside the box there are the following elements defined:
 
 1. A hidden input whose id is "uploadTargetURL" that is used to communicate to the JavaScript script where to upload the files. We need to put this here because if we put $doc.getURL('upload') in the JavaScript we end up with the URL of the sheet, instead of that of the document
 1. A hidden input for enabling the updateOrCreate object policy
 1. An invisible div which is used to make the html5uploader not to display anything after the upload is finished
+1. An input field whose id is "nextRiskModelObjectNumber" used to tell the Javascript code which object id must be used as a starting point
 
 ----
 
@@ -348,8 +365,8 @@ How it works:
 1. The script iterates on every layer
 1. For each layer the box is generated. This box basic contains all the information for filling the fields of RISCOSSPlatformRiskConfigurationManagerCode.LayerRiskConfigurationClass
 1. The JavaScript is initialized and all the file inputs are bound to the html5uploader
-1. The id of the different inputs/span are used to link things together. So when an upload triggered by an input whose id is "X" finishes, then the name of the uploaded file will be set in all the linked entities (i.e., the span and the hidden input)
-1. When everything is completed and the user saves the document then a RISCOSSPlatformRiskConfigurationManagerCode.LayerRiskConfigurationClass object for every layer is created with the proper information stored in the corresponding fields (thanks to the object policy updateOrCreate)
+1. The id of the different inputs/span are used to link things together. So when an upload triggered by an input whose id is "X" finishes, then the name of the uploaded file will be added using an hidden input in the corresponding div
+1. When everything is completed and the user saves the document then a RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass object for every layer is created with the proper information stored in the corresponding fields (thanks to the object policy updateOrCreate)
 </comment>
     </property>
     <property>
@@ -394,32 +411,34 @@ $xwiki.jsx.use('RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationEdi
 : $doc.display($prop.getName())
 #end
 
-#set($i = 0)
+#set($riskModels = 0)
 #foreach($layer in $layers)
-  #set($layerRiskConfiguration = $doc.getObject("RISCOSSPlatformRiskConfigurationManagerCode.LayerRiskConfigurationClass", "layer", $layer[0]))
 
 {{box title="== Models for layer '$layer[1]'"}}
 
-{{html wiki="true"}}
-&lt;input type="hidden" name="RISCOSSPlatformRiskConfigurationManagerCode.LayerRiskConfigurationClass_${i}_layer" value="$layer[0]"/&gt;
+{{html}}
 
-; **Risk model:**
-: &lt;span id="riskModel:${layer[1]}:text"&gt;$!layerRiskConfiguration.getProperty("riskModel").value&lt;/span&gt;&lt;input id="riskModel:${layer[1]}:value" type="hidden" name="RISCOSSPlatformRiskConfigurationManagerCode.LayerRiskConfigurationClass_${i}_riskModel" value="$!layerRiskConfiguration.getProperty("riskModel").value"/&gt;&lt;input type="file" name="filepath" id="riskModel:${layer[1]}" /&gt;
-
-; **Impact model:**
-: &lt;span id="impactModel:${layer[1]}:text"&gt;$!layerRiskConfiguration.getProperty("impactModel").value&lt;/span&gt;&lt;input id="impactModel:${layer[1]}:value" type="hidden" name="RISCOSSPlatformRiskConfigurationManagerCode.LayerRiskConfigurationClass_${i}_impactModel" value="$!layerRiskConfiguration.getProperty("impactModel").value"/&gt;&lt;input type="file" name="filepath" id="impactModel:${layer[1]}" /&gt;
+&lt;div id="riskModels:$layer[0]"&gt;
+#foreach($riskModel in $doc.getObjects("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass", "layer", $layer[0]))
+  &lt;div&gt;
+    $riskModel.getProperty("data").value
+  &lt;/div&gt;
+  #set($riskModels = $riskModels + 1)
+#end
+&lt;/div&gt;
+&lt;input type="file" name="filepath" id="upload:$layer[0]" layer="$layer[0]"/&gt;
 
 {{/html}}
 
 {{/box}}
 
-  #set($i = $i + 1)
 #end
 
 {{html}}
+&lt;input id="nextRiskModelObjectNumber" type="hidden" value="$riskModels"/&gt;
 &lt;input id="uploadTargetURL" type="hidden" name="uploadTargetURL" value="$doc.getURL('upload')"/&gt;
 &lt;input type="hidden" name="objectPolicy" value="updateOrCreate"/&gt;
-&lt;div id="invisiblediv" style="display:none"&gt;&lt;/div&gt; 
+&lt;div id="invisiblediv" style="display: none"&gt;&lt;/div&gt; 
 {{/html}}
 
 {{/velocity}}

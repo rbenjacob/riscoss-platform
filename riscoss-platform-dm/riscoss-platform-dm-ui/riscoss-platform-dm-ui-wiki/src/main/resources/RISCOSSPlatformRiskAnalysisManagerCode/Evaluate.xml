@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1398604023000</creationDate>
-  <date>1398605572000</date>
-  <contentUpdateDate>1398605572000</contentUpdateDate>
+  <creationDate>1400844756000</creationDate>
+  <date>1402440350000</date>
+  <contentUpdateDate>1402440350000</contentUpdateDate>
   <version>1.1</version>
   <title>Evaluate '$request.entity'</title>
   <defaultTemplate/>
@@ -49,11 +49,13 @@
   #set($entityDocument = $xwiki.getDocument($request.entity))
   #set($layer = $entityDocument.getObject("RISCOSSPlatformLayerManagerCode.EntityClass").getProperty("layer").value)
   #set($riskConfigurationDocument = $xwiki.getDocument($request.riskConfiguration))  
-  #set($layerRiskConfiguration = $riskConfigurationDocument.getObject("RISCOSSPlatformRiskConfigurationManagerCode.LayerRiskConfigurationClass", "layer", $layer))
-  #set($riskModel = $riskConfigurationDocument.getAttachment($layerRiskConfiguration.getProperty("riskModel").value).getContentAsString())
   #set($rae = $services.riscoss.riskAnalysisEngineService.createInstance())
-  $rae.loadModel($riskModel)    
-
+  #set($riskModels = $riskConfigurationDocument.getObjects("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass", "layer", $layer))  
+  #foreach($riskModel in $riskModels) 
+    #set($riskModelData = $riskConfigurationDocument.getAttachment($riskModel.getProperty("data").value).getContentAsString())
+    $rae.loadModel($riskModelData)
+  #end
+   
   #if($request.evaluate)
         
     #set($evidences = {})
