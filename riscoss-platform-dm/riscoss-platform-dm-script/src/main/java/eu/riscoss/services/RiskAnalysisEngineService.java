@@ -6,6 +6,6 @@ import eu.riscoss.reasoner.RiskAnalysisEngine;
 public class RiskAnalysisEngineService
 {
     public RiskAnalysisEngine createInstance() {
-        return (RiskAnalysisEngine) ReasoningLibrary.get().createRiskStructure();
+        return ReasoningLibrary.get().createRiskAnalysisEngine();
     }
 }

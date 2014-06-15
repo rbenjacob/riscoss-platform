@@ -1,5 +1,6 @@
 package eu.riscoss.rdr.rest;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import com.google.gson.JsonObject;
 
 import eu.riscoss.rdr.RiskDataFactory;
 import eu.riscoss.rdr.api.RiskDataRepository;
+import eu.riscoss.rdr.model.Distribution;
 import eu.riscoss.rdr.model.Evidence;
 import eu.riscoss.rdr.model.RiskData;
 import eu.riscoss.rdr.model.RiskDataType;
@@ -70,6 +72,10 @@ public class RiskDataResource
                     double[] values = { evidence.getPositive(), evidence.getNegative() };
                     value = gson.toJsonTree(values).getAsJsonArray();
                     break;
+                case DISTRIBUTION:
+                    Distribution distribution = (Distribution) rd.getValue();
+                    value = gson.toJsonTree(distribution.getValues()).getAsJsonArray();
+                    break;
             }
 
             object.add("value", value);
@@ -111,6 +117,15 @@ public class RiskDataResource
                 case EVIDENCE:
                     JsonArray array = valueElement.getAsJsonArray();
                     value = new Evidence(array.get(0).getAsDouble(), array.get(1).getAsDouble());
+                    break;
+                case DISTRIBUTION:
+                    array = valueElement.getAsJsonArray();
+                    List<Double> values = new ArrayList<Double>();
+                    for (int j = 0; j < array.size(); j++) {
+                        values.add(array.get(j).getAsDouble());
+                    }
+
+                    value = new Distribution(values.toArray(new Double[0]));
                     break;
             }
 

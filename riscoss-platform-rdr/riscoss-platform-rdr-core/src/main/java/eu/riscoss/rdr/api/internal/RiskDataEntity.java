@@ -1,12 +1,15 @@
 package eu.riscoss.rdr.api.internal;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import eu.riscoss.rdr.model.Distribution;
 import eu.riscoss.rdr.model.Evidence;
 import eu.riscoss.rdr.model.RiskDataType;
 
@@ -57,6 +60,8 @@ public class RiskDataEntity implements Serializable
                 return deserializeNumber(serializedValue);
             case EVIDENCE:
                 return deserializeEvidence(serializedValue);
+            case DISTRIBUTION:
+                return deserializeDistribution(serializedValue);
             default:
                 return null;
         }
@@ -95,6 +100,9 @@ public class RiskDataEntity implements Serializable
         } else if (object instanceof Evidence) {
             type = RiskDataType.EVIDENCE;
             serializedValue = serializeEvidence((Evidence) object);
+        } else if (object instanceof Distribution) {
+            type = RiskDataType.DISTRIBUTION;
+            serializedValue = serializeDistribution((Distribution) object);
         } else {
             throw new IllegalArgumentException(String.format("Unsupported type: %s", object.getClass().getName()));
         }
@@ -172,6 +180,30 @@ public class RiskDataEntity implements Serializable
         JsonArray jsonArray = new JsonArray();
         jsonArray.add(gson.fromJson(String.format("%f", evidence.getPositive()), JsonElement.class));
         jsonArray.add(gson.fromJson(String.format("%f", evidence.getNegative()), JsonElement.class));
+
+        return gson.toJson(jsonArray);
+    }
+
+    private Distribution deserializeDistribution(String value)
+    {
+        List<Double> values = new ArrayList<Double>();
+
+        JsonElement jsonElement = gson.fromJson(value, JsonElement.class);
+        JsonArray jsonArray = jsonElement.getAsJsonArray();
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            values.add(jsonArray.get(i).getAsDouble());
+        }
+
+        return new Distribution(values.toArray(new Double[0]));
+    }
+
+    private String serializeDistribution(Distribution distribution)
+    {
+        JsonArray jsonArray = new JsonArray();
+        for (Double d : distribution.getValues()) {
+            jsonArray.add(gson.fromJson(String.format("%s", d), JsonElement.class));
+        }
 
         return gson.toJson(jsonArray);
     }
