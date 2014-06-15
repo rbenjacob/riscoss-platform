@@ -32,8 +32,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1398106496000</creationDate>
-  <date>1398203367000</date>
-  <contentUpdateDate>1398202989000</contentUpdateDate>
+  <date>1402848961000</date>
+  <contentUpdateDate>1402847446000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'RiskAnalysisSessionSheet')RiskAnalysisSession Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <defaultTemplate/>
@@ -122,7 +122,8 @@
       <cache>forbid</cache>
     </property>
     <property>
-      <code>var drawEvidence = function(canvas, p, n) {
+      <code>var XWiki = (function(XWiki) {
+  var drawEvidence = function(canvas, p, n) {
     var context = canvas.getContext("2d")
     var width = canvas.width;
     var height = canvas.height;
@@ -139,32 +140,51 @@
     context.rect(0, canvas.height / 2, canvas.width * n, canvas.height);
     context.fillStyle = 'red';
     context.fill();
-}
-
-var displayData = function(element, riskConfiguration, data) {
-  element.setStyle({display: ''});
-  
-  var html = '&lt;table&gt;\n'
-  for(key in data) {
-    html = html + '&lt;tr&gt;&lt;td&gt;' + data[key].description + '&lt;/td&gt;&lt;td&gt;&lt;canvas id="' + riskConfiguration + "_" + key + '" width="200" height="30"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
   }
-  html = html + '&lt;/table&gt;\n';
-  
-  element.update(html);
-  
-  for(key in data) {
-    var canvas = $(riskConfiguration + '_' + key);
-    drawEvidence(canvas, data[key].evidence.positive,  data[key].evidence.negative);
-  }
-}
 
-var resultElements = $$('div.resultData')
-for(i = 0; i &lt; resultElements.length; i++) {
-  var resultElement = resultElements[i];
-  var data = JSON.parse(resultElement.innerText);
-  console.log(data);
-  displayData(resultElement, resultElement.getAttribute('riskConfiguration'), data);
-}</code>
+  var displayData = function(element, riskConfiguration, data) {
+    element.setStyle({display: ''});
+  
+    var html = '&lt;table&gt;\n'
+    for(key in data) {
+      html = html + '&lt;tr&gt;&lt;td&gt;' + data[key].DESCRIPTION + '&lt;/td&gt;';
+    
+      if(data[key].TYPE == 'EVIDENCE') {
+        html = html + '&lt;td&gt;&lt;canvas id="' + riskConfiguration + '_' + key + '" width="200" height="30"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
+      } else if(data[key].TYPE == 'INTEGER' || data[key].TYPE == 'REAL') {
+        html = html + '&lt;td&gt;' + data[key].VALUE + '&lt;/td&gt;&lt;/tr&gt;\n';
+      } else if(data[key].TYPE == 'DISTRIBUTION') {
+        html = html + '&lt;td&gt;&lt;canvas id="' + riskConfiguration + '_' + key + '" width="200" height="30"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
+      }      
+    }
+  
+    html = html + '&lt;/table&gt;\n';
+  
+    element.update(html);
+  
+    for(key in data) {    
+      if(data[key].TYPE == "EVIDENCE") {
+        var canvas = $(riskConfiguration + '_' + key);
+        drawEvidence(canvas, data[key].VALUE.positive,  data[key].VALUE.negative);
+      }    
+    }
+  }
+
+  function init() {
+    var resultElements = $$('div.resultData')
+    for(i = 0; i &lt; resultElements.length; i++) {
+      var resultElement = resultElements[i];
+      var data = JSON.parse(resultElement.innerText);
+      displayData(resultElement, resultElement.getAttribute('riskConfiguration'), data);
+    }
+  }
+  
+  //Wait for dom load
+  (XWiki.domIsLoaded &amp;&amp; init()) || document.observe('xwiki:dom:loaded', init);
+
+  //End XWiki augmentation
+  return XWiki;
+} (XWiki || {}))</code>
     </property>
     <property>
       <name/>

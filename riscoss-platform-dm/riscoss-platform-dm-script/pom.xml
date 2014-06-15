@@ -42,7 +42,7 @@
     <dependency>
       <groupId>eu.riscoss</groupId>
       <artifactId>riscoss-reasoner</artifactId>
-      <version>0.18</version>
+      <version>m20-alpha-140612-2</version>
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
@@ -53,6 +53,18 @@
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-script</artifactId>
       <version>${xwiki.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
     </dependency>
   </dependencies>
 
