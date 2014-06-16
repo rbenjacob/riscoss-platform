@@ -30,8 +30,8 @@
   <parent>RISCOSSPlatformRiskAnalysisManagerCode.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1402851991000</date>
-  <contentUpdateDate>1402851991000</contentUpdateDate>
+  <date>1402920802000</date>
+  <contentUpdateDate>1402920802000</contentUpdateDate>
   <version>1.1</version>
   <title>Evaluate '$request.entity'</title>
   <comment/>
@@ -134,7 +134,7 @@
             #else
               #set($value = $riskData.get($inputChunk.id).values.get($i))
             #end
-          &lt;td&gt;&lt;input type="text" name="${inputChunk}" value="$!value"/&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;input type="text" name="${inputChunk.id}" value="$!value"/&gt;&lt;/td&gt;
             #set($i = $i + 1)
           #end
         &lt;/tr&gt;

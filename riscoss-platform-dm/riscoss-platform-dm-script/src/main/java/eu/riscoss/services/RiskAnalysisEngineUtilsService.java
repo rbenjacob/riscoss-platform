@@ -94,7 +94,12 @@ public class RiskAnalysisEngineUtilsService
             Field field = riskAnalysisEngine.getField(chunk, FieldType.OUTPUT_VALUE);
 
             Map<String, Object> item = new HashMap<String, Object>();
-            item.put("DESCRIPTION", riskAnalysisEngine.getField(chunk, FieldType.DESCRIPTION).getValue());
+            Field descriptionField = riskAnalysisEngine.getField(chunk, FieldType.DESCRIPTION);
+            if (descriptionField != null) {
+                item.put("DESCRIPTION", riskAnalysisEngine.getField(chunk, FieldType.DESCRIPTION).getValue());
+            } else {
+                item.put("DESCRIPTION", chunk.getId());
+            }
             item.put("TYPE", field.getDataType());
             item.put("VALUE", field.getValue());
 
@@ -115,6 +120,7 @@ public class RiskAnalysisEngineUtilsService
                 switch (field.getDataType()) {
                     case INTEGER:
                         if (value instanceof Integer) {
+                            field.setValue(value);
                             riskAnalysisEngine.setField(chunk, FieldType.INPUT_VALUE, field);
                         } else {
                             logger.warn(String.format(
