@@ -30,7 +30,7 @@
   <parent>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1402923671000</date>
+  <date>1403108984000</date>
   <contentUpdateDate>1402851107000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'RiskAnalysisSessionSheet')RiskAnalysisSession Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
@@ -172,7 +172,8 @@ $xwiki.jsx.use("RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSh
     context.fill();
   }
   
-  var drawDistribution = function(canvas, v) {            
+  var drawDistribution = function(canvas, v) {
+    var colors = ["#298a08", "#86b404", "#ffbf00", "#fa5858", "#ff0000"];
     var context = canvas.getContext("2d")
     var width = canvas.width;
     var height = canvas.height;
@@ -182,17 +183,20 @@ $xwiki.jsx.use("RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSh
     context.stroke();
     
     var barHeight = Math.floor(canvas.height / v.length);
+    var fontSize = Math.min(barHeight, 10) ;
+    context.font = "bold " + fontSize + "px sans-serif"    
+    var maxTextWidth = context.measureText('999.99%').width;
+        
     for(i = 0; i &lt; v.length; i++) {
       context.beginPath();
-      context.rect(0, i * barHeight, Math.floor(canvas.width * v[i]), barHeight);
-      if(i % 2) {
-        context.fillStyle = 'green';
-      }
-      else {
-        context.fillStyle = 'lightgreen';
-      }
+      context.rect(0, i * barHeight, Math.floor(canvas.width  * v[i]), barHeight);
+      context.fillStyle = colors[i];      
       context.fill();
-    }    
+      context.fillStyle = '#303030';
+      context.textBaseline = "top";
+      
+      context.fillText('' + Math.floor(10000 * v[i]) / 100 + "%", Math.min((canvas.width * v[i]) + 5, canvas.width - maxTextWidth - 5), (barHeight * i) + (barHeight - fontSize) / 2);
+    }
   }
 
   var displayData = function(element, riskConfiguration, data) {
