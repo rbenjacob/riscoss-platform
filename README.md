@@ -13,5 +13,7 @@ The project structure reflects the structure of the RISCOSS Platform architectur
 * riscoss-platform-dm contains the code of the Domain Manager (DM)
 * riscoss-platform-rdr contains the code for the Risk Data Repository (RDR)
 
+Please refer to the [RISCOSS White Paper](http://www.riscoss.eu/bin/download/Discover/Whitepaper/RISCOSS-Whitepaper.pdf) for a more detailed description.
+
 
 
