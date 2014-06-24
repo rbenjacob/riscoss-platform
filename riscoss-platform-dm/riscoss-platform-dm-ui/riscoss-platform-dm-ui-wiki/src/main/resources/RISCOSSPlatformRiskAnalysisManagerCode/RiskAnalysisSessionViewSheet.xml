@@ -30,7 +30,7 @@
   <parent>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1403601653000</date>
+  <date>1403613218000</date>
   <contentUpdateDate>1402851107000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'RiskAnalysisSessionSheet')RiskAnalysisSession Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
@@ -216,7 +216,7 @@ $xwiki.jsx.use("RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSh
     var html = '&lt;table&gt;\n'
     for(type in dataByType) {
       var currentData = dataByType[type];
-      html = html + '&lt;tr&gt;&lt;th colspan="2" style="text-align: center"&gt;Results of type '+ type + '&lt;/th&gt;&lt;/tr&gt;'
+      html = html + '&lt;tr&gt;&lt;th colspan="2"&gt;&amp;nbsp;&lt;/th&gt;&lt;/tr&gt;'
       for(key in currentData) {
         html = html + '&lt;tr&gt;&lt;td&gt;' + currentData[key].DESCRIPTION + '&lt;/td&gt;';
     
