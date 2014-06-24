@@ -30,7 +30,7 @@
   <parent>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1403108984000</date>
+  <date>1403601653000</date>
   <contentUpdateDate>1402851107000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'RiskAnalysisSessionSheet')RiskAnalysisSession Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
@@ -200,19 +200,34 @@ $xwiki.jsx.use("RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSh
   }
 
   var displayData = function(element, riskConfiguration, data) {
+    var dataByType = {};
+    
+    for(key in data) {
+      var type = data[key].TYPE;
+      if(dataByType[type] == null) {
+        dataByType[type] = {};
+      }
+      
+      dataByType[type][key] = data[key];
+    }
+    
     element.setStyle({display: ''});
   
     var html = '&lt;table&gt;\n'
-    for(key in data) {
-      html = html + '&lt;tr&gt;&lt;td&gt;' + data[key].DESCRIPTION + '&lt;/td&gt;';
+    for(type in dataByType) {
+      var currentData = dataByType[type];
+      html = html + '&lt;tr&gt;&lt;th colspan="2" style="text-align: center"&gt;Results of type '+ type + '&lt;/th&gt;&lt;/tr&gt;'
+      for(key in currentData) {
+        html = html + '&lt;tr&gt;&lt;td&gt;' + currentData[key].DESCRIPTION + '&lt;/td&gt;';
     
-      if(data[key].TYPE == 'EVIDENCE') {
-        html = html + '&lt;td&gt;&lt;canvas id="' + riskConfiguration + '_' + key + '" width="200" height="30"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
-      } else if(data[key].TYPE == 'INTEGER' || data[key].TYPE == 'REAL') {
-        html = html + '&lt;td&gt;' + data[key].VALUE + '&lt;/td&gt;&lt;/tr&gt;\n';
-      } else if(data[key].TYPE == 'DISTRIBUTION') {
-        html = html + '&lt;td&gt;&lt;canvas id="' + riskConfiguration + '_' + key + '" width="200" height="50"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
-      }      
+        if(currentData[key].TYPE == 'EVIDENCE') {
+          html = html + '&lt;td&gt;&lt;canvas id="' + riskConfiguration + '_' + key + '" width="200" height="30"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
+        } else if(currentData[key].TYPE == 'INTEGER' || currentData[key].TYPE == 'REAL') {
+          html = html + '&lt;td&gt;' + currentData[key].VALUE + '&lt;/td&gt;&lt;/tr&gt;\n';
+        } else if(currentData[key].TYPE == 'DISTRIBUTION') {
+          html = html + '&lt;td&gt;&lt;canvas id="' + riskConfiguration + '_' + key + '" width="200" height="50"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
+        }      
+      }
     }
   
     html = html + '&lt;/table&gt;\n';
