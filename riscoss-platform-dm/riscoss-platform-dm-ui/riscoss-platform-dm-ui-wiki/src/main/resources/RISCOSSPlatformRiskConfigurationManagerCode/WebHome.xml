@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396988808000</creationDate>
-  <date>1396987425000</date>
-  <contentUpdateDate>1396987425000</contentUpdateDate>
+  <creationDate>1411139327000</creationDate>
+  <date>1411139327000</date>
+  <contentUpdateDate>1411139327000</contentUpdateDate>
   <version>1.1</version>
   <title>RISCOSS Platform Configuration Manager Code</title>
   <defaultTemplate/>

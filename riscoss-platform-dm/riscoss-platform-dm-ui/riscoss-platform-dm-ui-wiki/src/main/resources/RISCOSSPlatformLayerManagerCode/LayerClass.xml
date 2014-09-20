@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397660408000</creationDate>
-  <date>1397665305000</date>
-  <contentUpdateDate>1397665305000</contentUpdateDate>
+  <creationDate>1411139327000</creationDate>
+  <date>1411222542000</date>
+  <contentUpdateDate>1411222542000</contentUpdateDate>
   <version>1.1</version>
   <title>Layer Class</title>
   <defaultTemplate/>
@@ -51,7 +50,7 @@
     <defaultWeb/>
     <nameField/>
     <validationScript/>
-    <parent>
+    <child>
       <cache>0</cache>
       <classname/>
       <customDisplay>{{velocity}}
@@ -64,6 +63,11 @@
       &lt;option value='' selected='selected'&gt;None&lt;/option&gt;
     #else
       &lt;option value=''&gt;None&lt;/option&gt;
+    #end
+    #if($!value == "osc")
+      &lt;option value='osc' selected='selected'&gt;OSS Component&lt;/option&gt;
+    #else
+      &lt;option value='osc'&gt;OSS Component&lt;/option&gt;
     #end
     #foreach($key in $propertyClass.getListValues())
       #set($checked = '')
@@ -82,10 +86,10 @@
       <displayType>select</displayType>
       <idField/>
       <multiSelect>0</multiSelect>
-      <name>parent</name>
+      <name>child</name>
       <number>2</number>
-      <picker>1</picker>
-      <prettyName>parent</prettyName>
+      <picker>0</picker>
+      <prettyName>child</prettyName>
       <relationalStorage>1</relationalStorage>
       <separator> </separator>
       <separators/>
@@ -97,7 +101,7 @@
       <validationRegExp/>
       <valueField/>
       <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
-    </parent>
+    </child>
   </class>
   <object>
     <class>

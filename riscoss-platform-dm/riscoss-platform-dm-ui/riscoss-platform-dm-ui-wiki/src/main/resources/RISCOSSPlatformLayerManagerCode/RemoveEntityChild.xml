@@ -20,21 +20,21 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformRiskCategories</web>
-  <name>WebHome</name>
+  <web>RISCOSSPlatformLayerManagerCode</web>
+  <name>RemoveEntityChild</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>Main.WebHome</parent>
+  <parent/>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139329000</creationDate>
-  <date>1411139329000</date>
-  <contentUpdateDate>1411139329000</contentUpdateDate>
+  <creationDate>1411232364000</creationDate>
+  <date>1411233663000</date>
+  <contentUpdateDate>1411233616000</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render("riscossPlatform.riskConfigurationManager.riskCategoriesList.title")</title>
+  <title>RemoveEntityChild</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -42,17 +42,27 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>{{velocity}}
-#set($columns = ["doc.name", "description"])
-#set($columnsProperties = {
-    "doc.name" : { "type" : "text" , "size" : 20, "link" : "view"},
-    "description" : { "type" : "text" , "html" : "true",  "filterable" : "false", "sortable" : "false"}
-})
-#set($options = { 
-   "className":"RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryClass",
-   "translationPrefix" : "riscossPlatform.riskConfigurationManager.riskCategoriesTable.",
-   "tagCloud" : false,
-   "rowCount": 10
-})
-#livetable("riskCategories" $columns $columnsProperties $options)
+
+#if($request.method == "POST")
+  #if($request.entity &amp;&amp; $request.child)
+    #if($xwiki.exists($request.entity))
+      #set($entity = $xwiki.getDocument($request.entity))
+      #set($childObject = $entity.getObject("RISCOSSPlatformLayerManagerCode.EntityChildClass", "child", $request.child, false))
+      #if($childObject)
+        $entity.removeObject($childObject)
+        $entity.save()
+      #end
+      $response.sendRedirect($entity.getURL())
+    #else
+      {{error}}Entity $request.entity doesn't exist{{/error}}
+    #end
+  #else
+    {{error}}Missing arguments{{/error}}
+  #end
+#else 
+  {{error}}Use POST{{/error}}
+#end
+
+
 {{/velocity}}</content>
 </xwikidoc>
