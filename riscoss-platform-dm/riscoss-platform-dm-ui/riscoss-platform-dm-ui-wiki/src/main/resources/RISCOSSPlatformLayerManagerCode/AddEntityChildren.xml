@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1411220226000</creationDate>
-  <date>1411233668000</date>
-  <contentUpdateDate>1411229440000</contentUpdateDate>
+  <date>1411412770000</date>
+  <contentUpdateDate>1411412770000</contentUpdateDate>
   <version>1.1</version>
   <title>Add children for entity $xwiki.getDocument($request.entity).title</title>
   <defaultTemplate/>
@@ -70,12 +70,8 @@
     #set($entityDoc = $xwiki.getDocument($request.entity))  
     #set($entityLayer = $entityDoc.getObject("RISCOSSPlatformLayerManagerCode.EntityClass").getProperty("layer").value)
     #set($layerDoc = $xwiki.getDocument($entityLayer))
-    #set($layerChild = $layerDoc.getObject("RISCOSSPlatformLayerManagerCode.LayerClass").getProperty("child").value)
-    
-    #if($layerChild == "osc")   
-    #else 
-      #set($children = $services.query.xwql("FROM doc.object(RISCOSSPlatformLayerManagerCode.EntityClass) AS entity WHERE doc.space='RISCOSSPlatformEntities' AND entity.layer='$layerChild'").execute())
-    #end
+    #set($layerChild = $layerDoc.getObject("RISCOSSPlatformLayerManagerCode.LayerClass").getProperty("child").value)   
+    #set($children = $services.query.xwql("FROM doc.object(RISCOSSPlatformLayerManagerCode.EntityClass) AS entity WHERE doc.space='RISCOSSPlatformEntities' AND entity.layer='$layerChild'").execute())
 
     {{html wiki="true"}}
 &lt;form method="POST"&gt;

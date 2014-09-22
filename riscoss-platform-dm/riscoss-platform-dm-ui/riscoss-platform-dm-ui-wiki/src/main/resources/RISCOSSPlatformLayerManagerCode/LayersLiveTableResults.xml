@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1411139326000</creationDate>
-  <date>1411225518000</date>
-  <contentUpdateDate>1411222762000</contentUpdateDate>
+  <date>1411412720000</date>
+  <contentUpdateDate>1411412720000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -106,13 +106,8 @@
   #set($discard = $row.put("layer", "&lt;span class='buttonwrapper'&gt;&lt;p&gt;$result[1]&lt;/p&gt;&lt;/span&gt;"))
   #set($discard = $row.put("layer_url", $xwiki.getURL($result[0], "view")))
   #if($result[2])
-    #if($result[2] == "osc")
-      #set($discard = $row.put("child", "&lt;span class='buttonwrapper'&gt;&lt;p&gt;OSS Component&lt;/p&gt;&lt;/span&gt;"))
-      #set($discard = $row.put("child_url", $xwiki.getURL("Main.WebHome")))
-    #else
-      #set($discard = $row.put("child", "&lt;span class='buttonwrapper'&gt;&lt;p&gt;$result[2]&lt;/p&gt;&lt;/span&gt;"))
-      #set($discard = $row.put("child_url", $xwiki.getURL($result[2])))
-    #end
+    #set($discard = $row.put("child", "&lt;span class='buttonwrapper'&gt;&lt;$result[2]&lt;/p&gt;&lt;/span&gt;"))
+    #set($discard = $row.put("child_url", $xwiki.getURL($result[2])))
   #end 
   #set($params = {"space": "RISCOSSPlatformEntities", 
                   "template": "${result[0]}Template", 

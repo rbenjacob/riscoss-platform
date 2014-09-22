@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1411139326000</creationDate>
-  <date>1411225514000</date>
-  <contentUpdateDate>1411223116000</contentUpdateDate>
+  <date>1411412684000</date>
+  <contentUpdateDate>1411412684000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -74,14 +74,7 @@
     </property>
   </object>
   <content>{{velocity}}
-
-#if($doc.getValue("child") == "osc") 
- #set($child = "OSS Component")
-#else 
- #set($child = $doc.display("child"))
-#end
-
-|= $services.localization.render("riscossPlatform.layerManager.child") | $child
+|= $services.localization.render("riscossPlatform.layerManager.child") | $doc.display("child")
 #set($class = $doc.getObject($doc.fullName, true).xWikiClass)
 |= $services.localization.render("riscossPlatform.layerManager.properties") | (((
 #foreach($prop in $class.properties)

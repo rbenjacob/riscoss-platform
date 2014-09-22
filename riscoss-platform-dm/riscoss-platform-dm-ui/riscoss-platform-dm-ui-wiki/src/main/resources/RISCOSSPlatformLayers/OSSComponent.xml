@@ -20,27 +20,78 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformLayerManagerCode</web>
-  <name>LayerTemplate</name>
+  <web>RISCOSSPlatformLayers</web>
+  <name>OSSComponent</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformLayerManagerCode.LayerClass</parent>
+  <parent>RISCOSSPlatformLayers.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139326000</creationDate>
-  <date>1411412641000</date>
-  <contentUpdateDate>1411139326000</contentUpdateDate>
+  <creationDate>1411412860000</creationDate>
+  <date>1411412892000</date>
+  <contentUpdateDate>1411412892000</contentUpdateDate>
   <version>1.1</version>
-  <title>Layer Template</title>
+  <title>OSSComponent</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
+  <class>
+    <name>RISCOSSPlatformLayers.OSSComponent</name>
+    <customClass/>
+    <customMapping/>
+    <defaultViewSheet/>
+    <defaultEditSheet/>
+    <defaultWeb/>
+    <nameField/>
+    <validationScript/>
+    <description>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <editor>---</editor>
+      <name>description</name>
+      <number>2</number>
+      <picker>0</picker>
+      <prettyName>Description</prettyName>
+      <rows>5</rows>
+      <size>40</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+    </description>
+    <name>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <name>name</name>
+      <number>1</number>
+      <picker>0</picker>
+      <prettyName>Name</prettyName>
+      <size>30</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+    </name>
+    <website>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <name>website</name>
+      <number>3</number>
+      <picker>0</picker>
+      <prettyName>Web site</prettyName>
+      <size>30</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+    </website>
+  </class>
   <object>
     <class>
       <name>RISCOSSPlatformLayerManagerCode.LayerClass</name>
@@ -99,10 +150,10 @@
         <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
       </child>
     </class>
-    <name>RISCOSSPlatformLayerManagerCode.LayerTemplate</name>
+    <name>RISCOSSPlatformLayers.OSSComponent</name>
     <number>0</number>
     <className>RISCOSSPlatformLayerManagerCode.LayerClass</className>
-    <guid>5a647787-005a-4467-a00e-3d81fed695f5</guid>
+    <guid>a21de493-976c-40e6-8e30-062660cdc6e6</guid>
     <property>
       <child/>
     </property>
