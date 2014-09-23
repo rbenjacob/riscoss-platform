@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397660832000</creationDate>
-  <date>1397660845000</date>
-  <contentUpdateDate>1397660843000</contentUpdateDate>
+  <creationDate>1410797125000</creationDate>
+  <date>1410949789000</date>
+  <contentUpdateDate>1410949789000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'EntitySheet')Entity Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <defaultTemplate/>
@@ -94,5 +93,6 @@
 
 ; $services.localization.render("riscossPlatform.layerManager.rdids")
 : $doc.display("rdids")
-{{/velocity}}</content>
+{{/velocity}}
+{{include document="RISCOSSPlatformLayerManagerCode.DataCollectorManager" /}}</content>
 </xwikidoc>
