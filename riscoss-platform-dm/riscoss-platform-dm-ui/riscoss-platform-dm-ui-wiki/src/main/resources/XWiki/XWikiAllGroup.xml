@@ -64,7 +64,7 @@
     <name>XWiki.XWikiAllGroup</name>
     <number>1</number>
     <className>XWiki.XWikiGroups</className>
-    <guid>aeb733c8-066a-4c48-bb6f-15895dcbbc78</guid>
+    <guid>3e441946-6d80-4ca0-b6a8-61386abe9958</guid>
     <property>
       <member/>
     </property>
@@ -92,7 +92,7 @@
     <name>XWiki.XWikiAllGroup</name>
     <number>3</number>
     <className>XWiki.XWikiGroups</className>
-    <guid>d73fcc9d-bc09-4fdb-995b-ec9e305d207f</guid>
+    <guid>4163b0b2-0692-4391-a6cf-4ef91106e35a</guid>
     <property>
       <member>XWiki.DomainAdministrator</member>
     </property>

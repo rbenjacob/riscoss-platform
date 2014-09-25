@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1411139327000</creationDate>
-  <date>1411233674000</date>
-  <contentUpdateDate>1411232959000</contentUpdateDate>
+  <date>1411659815000</date>
+  <contentUpdateDate>1411659798000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'EntitySheet')Entity Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <defaultTemplate/>
@@ -91,19 +91,27 @@
 
 ----
 
+{{html wiki="true"}}
 = $services.localization.render("riscossPlatform.layerManager.children")
+
+&lt;span class="buttonwrapper"&gt;
+[[$services.localization.render("riscossPlatform.layerManager.addEntityChildren")&gt;&gt;RISCOSSPlatformLayerManagerCode.AddEntityChildren||queryString="entity=$doc.fullName" class="button"]]
+&lt;/span&gt;
 
 #set($removeChildAction = $xwiki.getDocument("RISCOSSPlatformLayerManagerCode.RemoveEntityChild").getURL())
 
-{{html wiki="true"}}
 
 #foreach($entityChild in $doc.getObjects("RISCOSSPlatformLayerManagerCode.EntityChildClass"))
   #set($child = $entityChild.getProperty("child").value)
 | [[$child]] | &lt;form action="$removeChildAction" method="POST"&gt;&lt;input type="hidden" name="entity" value="$doc.fullName"/&gt;&lt;input type="hidden" name="child" value="$child"/&gt;&lt;input type="submit" value="Remove" class="button"/&gt;&lt;/form&gt;
 #end
 
+----
+
+#set($xredirect = $xwiki.getDocument("RISCOSSPlatformEntities.WebHome").getURL())
 &lt;span class="buttonwrapper"&gt;
-[[$services.localization.render("riscossPlatform.layerManager.addEntityChildren")&gt;&gt;RISCOSSPlatformLayerManagerCode.AddEntityChildren||queryString="entity=$doc.fullName" class="button"]]
+[[$services.localization.render("edit")&gt;&gt;$doc.getExternalURL("edit")]] | [[$services.localization.render("delete")&gt;&gt;$doc.getExternalURL("delete", "xredirect=${xredirect}")]]
 &lt;/span&gt;
+{{/html}}
 {{/velocity}}</content>
 </xwikidoc>
