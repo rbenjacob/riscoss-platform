@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,18 +21,18 @@
 
 <xwikidoc>
   <web>XWiki</web>
-  <name>Admin</name>
+  <name>DomainAdministrator</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>Main.UserDirectory</parent>
+  <parent>hierarchy:Main.UserDirectory</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139342000</creationDate>
-  <date>1411139342000</date>
-  <contentUpdateDate>1411139342000</contentUpdateDate>
+  <creationDate>1411658494000</creationDate>
+  <date>1411658542000</date>
+  <contentUpdateDate>1411658494000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -125,15 +124,12 @@
         <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
       </wikis>
     </class>
-    <name>XWiki.Admin</name>
+    <name>XWiki.DomainAdministrator</name>
     <number>0</number>
     <className>XWiki.WatchListClass</className>
-    <guid>17751c1e-6e10-443b-aace-ee6351c10a25</guid>
+    <guid>f823ba31-4e26-4661-8fdb-3be70a5c0afe</guid>
     <property>
-      <automaticwatch>NONE</automaticwatch>
-    </property>
-    <property>
-      <interval/>
+      <documents>hierarchy:XWiki.DomainAdministrator</documents>
     </property>
   </object>
   <object>
@@ -202,104 +198,18 @@
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>XWiki.Admin</name>
+    <name>XWiki.DomainAdministrator</name>
     <number>0</number>
     <className>XWiki.XWikiRights</className>
-    <guid>1998552d-1438-4d5b-9956-15a9b618b80a</guid>
+    <guid>f8119627-8e84-4c61-99a3-a753f181112f</guid>
     <property>
       <allow>1</allow>
-    </property>
-    <property>
-      <groups>XWiki.XWikiAdminGroup</groups>
     </property>
     <property>
       <levels>edit</levels>
     </property>
     <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>XWiki.Admin</name>
-    <number>1</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>34a5516c-6b1b-4953-934b-e2b34cd27ad0</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups/>
-    </property>
-    <property>
-      <levels>edit</levels>
-    </property>
-    <property>
-      <users>XWiki.Admin</users>
+      <users>XWiki.DomainAdministrator</users>
     </property>
   </object>
   <object>
@@ -557,10 +467,10 @@
         <classType>com.xpn.xwiki.objects.classes.PasswordClass</classType>
       </validkey>
     </class>
-    <name>XWiki.Admin</name>
+    <name>XWiki.DomainAdministrator</name>
     <number>0</number>
     <className>XWiki.XWikiUsers</className>
-    <guid>eb162ffe-611f-47f5-bf4d-c50fe204f8bf</guid>
+    <guid>6e06f873-b1fc-4cc7-87be-3e2ce383973f</guid>
     <property>
       <accessibility/>
     </property>
@@ -574,53 +484,44 @@
       <avatar/>
     </property>
     <property>
-      <blog>http://www.xwiki.org/xwiki/bin/view/Blog/WebHome</blog>
+      <blog/>
     </property>
     <property>
-      <blogfeed>http://www.xwiki.org/xwiki/bin/view/Blog/BlogRss?xpage=plain</blogfeed>
+      <blogfeed/>
     </property>
     <property>
-      <comment>Admin is the default Wiki Admin.</comment>
+      <comment/>
     </property>
     <property>
-      <company>XWiki.org</company>
+      <company/>
     </property>
     <property>
-      <default_language/>
+      <displayHiddenDocuments/>
     </property>
     <property>
       <editor>---</editor>
     </property>
     <property>
-      <email>webmaster@xwiki.org</email>
+      <email/>
     </property>
     <property>
-      <first_name>Administrator</first_name>
-    </property>
-    <property>
-      <imaccount/>
-    </property>
-    <property>
-      <imtype>---</imtype>
+      <first_name>Domain Administrator</first_name>
     </property>
     <property>
       <last_name/>
     </property>
     <property>
-      <password>hash:SHA-512:c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec</password>
+      <password>hash:SHA-512:2de9efdd26a205e8ecab5e1952ee672a7571e8bafdbeb549a8c0be24e9c191495ca0db7967af0a630a84bddbdcd7573001395533e8c13fd68637656fd2f77d44</password>
     </property>
     <property>
       <phone/>
     </property>
     <property>
-      <skin/>
+      <timezone/>
     </property>
     <property>
-      <usertype>Advanced</usertype>
-    </property>
-    <property>
-      <validkey>hash:SHA-512:cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e</validkey>
+      <usertype>Simple</usertype>
     </property>
   </object>
-  <content/>
+  <content>{{include document="XWiki.XWikiUserSheet"/}}</content>
 </xwikidoc>

@@ -21,7 +21,7 @@
 
 <xwikidoc>
   <web>RISCOSSPlatformCode</web>
-  <name>ShowInDialog</name>
+  <name>CancelRedirect</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -30,11 +30,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139329000</creationDate>
-  <date>1411139329000</date>
-  <contentUpdateDate>1411139329000</contentUpdateDate>
+  <creationDate>1411642832000</creationDate>
+  <date>1411642879000</date>
+  <contentUpdateDate>1411642853000</contentUpdateDate>
   <version>1.1</version>
-  <title>Show in dialog JSX</title>
+  <title/>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -113,100 +113,60 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>RISCOSSPlatformCode.ShowInDialog</name>
+    <name>RISCOSSPlatformCode.CancelRedirect</name>
     <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>bd5732e7-9450-4548-815e-c4c3e966bdd7</guid>
+    <guid>dfbeff0d-96a7-4eae-ad86-facb7f9c88fa</guid>
     <property>
       <cache>forbid</cache>
     </property>
     <property>
-      <code>var XWiki = (function(XWiki) {    
-  var openInModalPopup = function(title, position, href, callbackString) {
-    /* The div that will be used as the dialog content. It contains a loader icon at the beginning. */
-    var contentDiv = new Element('div', {'class' : 'imgcenter'}).update("&amp;lt;img src=\"$xwiki.getSkinFile('icons/xwiki/ajax-loader-large.gif')\"/&amp;gt;");    
-    
-    /* Create the dialog instance and show it. */
-    var dialog = new XWiki.widgets.ModalPopup(contentDiv, {}, {
-      verticalPosition : position,
-      title : title,
-      removeOnClose : true
-    });
-    
-    dialog.showDialog();
-    
-    var updateTarget = contentDiv.up();
-    
-    /* Asynchronously load the create scope page content and show it in the dialog when ready. */
-    new Ajax.Updater(updateTarget, href, {
-      onComplete : function() {
-        /* Change the content attribute to the new content, otherwise it will point to the original contentDiv containing the loader icon. */
-        dialog.content = updateTarget;
-        
-        /* Find the function by navigating the sub-objects. */
-        components = callbackString.split('.');
-        callback = window;
-        for(i = 0; i &lt; components.length; i++) {
-          callback = callback[components[i]];
-          if(!callback) {
-            break
+      <code>    if(XWiki.actionButtons) {  
+      XWiki.actionButtons.EditActions.prototype.onCancel = function(event) {
+        var cancelRedirect = document.URL.toQueryParams().cancelredirect;
+
+        event.stop();
+
+        // Notify others we are going to cancel
+        this.notify(event, "cancel");
+
+        var location = event.element().form.action;
+        if (typeof location != "string") {
+          location = event.element().form.attributes.getNamedItem("action");
+          if (location) {
+            location = location.nodeValue;
+          } else {
+            location = window.self.location.href;
           }
         }
-
-        if(callback) {
-          callback(dialog);
+        var parts = location.split('#', 2);
+        var fragmentId = (parts.length == 2) ? parts[1] : '';
+        location = parts[0];
+        if (location.indexOf('?') == -1) {
+          location += '?';
         }
-      },
-      evalScripts: true
-    });
-  };
-  
-  var bindClickEvent = function(element) {
-    element.observe('click', function(event) {
-      event.stop();
-      openInModalPopup(element.title, 'middle', element.href, element.getAttribute('callback'));
-    });
-  }
-  
-  function init() {
-    var links = $$('a.openDialog');
-    for(i = 0; i &lt; links.length; i++) {
-      var link = links[i];
-      bindClickEvent(link);
-    }
-  }
-  
-  //Wait for dom load
-  (XWiki.domIsLoaded &amp;&amp; init()) || document.observe("xwiki:dom:loaded", init);
-   
-  //End XWiki augmentation
-  return XWiki;
-}(XWiki || {}))</code>
+        // Prevent a redundant request to remove the edit lock when the page unloads.
+        XWiki.EditLock &amp;&amp; XWiki.EditLock.setLocked(false);
+        if(cancelRedirect) {
+          window.location = location + '&amp;action_cancel=true&amp;xredirect=' + cancelRedirect + fragmentId;
+        }
+        else {
+          window.location = location + '&amp;action_cancel=true' + fragmentId;
+        }
+      }
+    }</code>
     </property>
     <property>
       <name/>
     </property>
     <property>
-      <parse/>
+      <parse>0</parse>
     </property>
     <property>
-      <use>currentPage</use>
+      <use>always</use>
     </property>
   </object>
-  <content>This page contains a JSX that allows to show the target of a link as the content of a dialog.
+  <content>This JSX overrides the onCancel event that is generated when the cancel button is pressed in edit forms.
 
-Just add the ##openDialog## class to the ##a## element and the link target will be open in the dialog.
-
-Additional attributes that can be specified:
-
-* ##title## for the dialog title
-* ##callback## the name of a function (not a function definition!) that will be called once the dialog is displayed and its content fully loaded. This function will be passed a reference to the dialog itself.
-
-== Example
-
-{{code language="html"}}
-  [[Show this page in a dialog!&gt;&gt;ShowInDialog||queryString="xpage=plain" class="openDialog" title="Show in dialog" callback="alert"]]
-{{/code}}
-
-[[Show this page in a dialog!&gt;&gt;ShowInDialog||queryString="xpage=plain" class="openDialog" title="Show in dialog" callback="alert"]]</content>
+It allows the user to be redirected to a given page if the query parameter 'cancelredirect' is present.</content>
 </xwikidoc>

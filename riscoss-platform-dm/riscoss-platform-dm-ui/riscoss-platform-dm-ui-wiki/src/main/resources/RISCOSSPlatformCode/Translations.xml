@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -32,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1411139329000</creationDate>
-  <date>1411139329000</date>
-  <contentUpdateDate>1411139329000</contentUpdateDate>
+  <date>1411654127000</date>
+  <contentUpdateDate>1411654067000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -81,6 +80,7 @@
 riscossPlatform.domain=Domain
 riscossPlatform.domainManager=Domain Manager
 riscossPlatform.createForm.valueRequired=Value required
+riscossPlatform.createForm.alreadyExistingItem=An item with this name already exists. Choose another name
 riscossPlatform.adminUsers=Administer users
 riscossPlatform.adminUsers.title=User administration
 riscossPlatform.adminRoles=Administer roles</content>
