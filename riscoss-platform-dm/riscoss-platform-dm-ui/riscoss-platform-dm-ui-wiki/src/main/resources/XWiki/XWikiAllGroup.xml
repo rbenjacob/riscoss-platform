@@ -21,30 +21,30 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformLayerManagerCode</web>
-  <name>EntityEditSheet</name>
+  <web>XWiki</web>
+  <name>XWikiAllGroup</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformLayerManagerCode.EntityClass</parent>
+  <parent>XWiki.XWikiGroups</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139327000</creationDate>
-  <date>1411139327000</date>
-  <contentUpdateDate>1411139327000</contentUpdateDate>
+  <creationDate>1411139334000</creationDate>
+  <date>1411636146000</date>
+  <contentUpdateDate>1411636146000</contentUpdateDate>
   <version>1.1</version>
-  <title>#if($doc.name == 'EntitySheet')Entity Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
+  <title/>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>true</hidden>
   <object>
     <class>
-      <name>XWiki.SheetDescriptorClass</name>
+      <name>XWiki.XWikiGroups</name>
       <customClass/>
       <customMapping/>
       <defaultViewSheet/>
@@ -52,47 +52,51 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
-      <action>
-        <customDisplay/>
+      <member>
         <disabled>0</disabled>
-        <name>action</name>
+        <name>member</name>
         <number>1</number>
-        <picker>0</picker>
-        <prettyName>Action</prettyName>
+        <prettyName>Member</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </action>
+      </member>
     </class>
-    <name>RISCOSSPlatformLayerManagerCode.EntityEditSheet</name>
-    <number>0</number>
-    <className>XWiki.SheetDescriptorClass</className>
-    <guid>e11ee4ba-11f8-45dc-94d5-0a6178abfcdb</guid>
+    <name>XWiki.XWikiAllGroup</name>
+    <number>1</number>
+    <className>XWiki.XWikiGroups</className>
+    <guid>a12e6e26-1a8c-4ed3-b2ad-222bf7c34c39</guid>
     <property>
-      <action>edit</action>
+      <member/>
     </property>
   </object>
-  <content>{{velocity}}
-
-#set($layer = $doc.getObject("RISCOSSPlatformLayerManagerCode.EntityClass").getProperty("layer").value)
-#set($layerDocument = $xwiki.getDocument($layer))
-
-; $services.localization.render("riscossPlatform.layerManager.layer")
-: $layerDocument.title
-
-----
-
-#set($class = $doc.getObject($layer).xWikiClass)
-#foreach($prop in $class.properties)
-  ; $prop.prettyName
-  : $doc.display($prop.getName())
-#end
-
-----
-
-; $services.localization.render("riscossPlatform.layerManager.rdids")
-: $doc.display("rdids")
-{{/velocity}}</content>
+  <object>
+    <class>
+      <name>XWiki.XWikiGroups</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <member>
+        <disabled>0</disabled>
+        <name>member</name>
+        <number>1</number>
+        <prettyName>Member</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </member>
+    </class>
+    <name>XWiki.XWikiAllGroup</name>
+    <number>2</number>
+    <className>XWiki.XWikiGroups</className>
+    <guid>8dd62833-efaf-4443-a6c4-e8e8af7d8b4f</guid>
+    <property>
+      <member>XWiki.Admin</member>
+    </property>
+  </object>
+  <content/>
 </xwikidoc>
