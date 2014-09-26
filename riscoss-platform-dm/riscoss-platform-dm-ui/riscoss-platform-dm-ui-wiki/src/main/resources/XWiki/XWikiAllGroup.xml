@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139334000</creationDate>
-  <date>1411658527000</date>
-  <contentUpdateDate>1411658527000</contentUpdateDate>
+  <creationDate>1411739228000</creationDate>
+  <date>1411739228000</date>
+  <contentUpdateDate>1411739228000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -64,7 +64,7 @@
     <name>XWiki.XWikiAllGroup</name>
     <number>1</number>
     <className>XWiki.XWikiGroups</className>
-    <guid>3e441946-6d80-4ca0-b6a8-61386abe9958</guid>
+    <guid>aad2a90c-e6cf-46ed-9c62-84ccc409e6a1</guid>
     <property>
       <member/>
     </property>
@@ -92,7 +92,7 @@
     <name>XWiki.XWikiAllGroup</name>
     <number>3</number>
     <className>XWiki.XWikiGroups</className>
-    <guid>4163b0b2-0692-4391-a6cf-4ef91106e35a</guid>
+    <guid>3a1a0b33-f405-4d82-9036-4ae459739423</guid>
     <property>
       <member>XWiki.DomainAdministrator</member>
     </property>

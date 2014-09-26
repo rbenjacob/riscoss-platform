@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139329000</creationDate>
-  <date>1411652697000</date>
-  <contentUpdateDate>1411652697000</contentUpdateDate>
+  <creationDate>1411739241000</creationDate>
+  <date>1411744449000</date>
+  <contentUpdateDate>1411744449000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -179,13 +179,6 @@ $xwiki.jsx.use("RISCOSSPlatformCode.ShowInDialog") ##
       "fieldLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.riskConfigurationName")
     })
 ** #generateCreateDialogLink({
-      "space": "RISCOSSPlatformGoalModels",
-      "template": "RISCOSSPlatformRiskConfigurationManagerCode.GoalModelTemplate",
-      "linkLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.newGoalModel"),
-      "dialogTitle": $services.localization.render("riscossPlatform.riskConfigurationManager.newGoalModel"),
-      "fieldLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.goalModelName")
-    })
-** #generateCreateDialogLink({
       "space": "RISCOSSPlatformRiskCategories",
       "template": "RISCOSSPlatformRiskConfigurationManagerCode.RiskCategoryTemplate",
       "linkLabel": $services.localization.render("riscossPlatform.riskConfigurationManager.newRiskCategory"),
@@ -194,7 +187,6 @@ $xwiki.jsx.use("RISCOSSPlatformCode.ShowInDialog") ##
     })
 ** ----
 ** [[$services.localization.render("riscossPlatform.riskConfigurationManager.riskConfigurationIndex")&gt;&gt;RISCOSSPlatformRiskConfigurations.WebHome]]
-** [[$services.localization.render("riscossPlatform.riskConfigurationManager.goalModelIndex")&gt;&gt;RISCOSSPlatformGoalModels.WebHome]]
 ** [[$services.localization.render("riscossPlatform.riskConfigurationManager.riskCategoryIndex")&gt;&gt;RISCOSSPlatformRiskCategories.WebHome]]
 * Risk Analysis
 ** #generateCustomCreateDialogLink({     
@@ -204,7 +196,25 @@ $xwiki.jsx.use("RISCOSSPlatformCode.ShowInDialog") ##
      "fieldLabel": "Session name"
    })
 ** ----
-** [[Risk analysis sessions&gt;&gt;RISCOSSPlatformRiskAnalysisSessions.WebHome]]   
+** [[Risk analysis sessions&gt;&gt;RISCOSSPlatformRiskAnalysisSessions.WebHome]]
+* Model manager
+** #generateCreateDialogLink({
+      "space": "RISCOSSPlatformRiskModels",
+      "template": "RISCOSSPlatformModelManagerCode.RiskModelTemplate",
+      "linkLabel": $services.localization.render("riscossPlatform.modelManager.newRiskModel"),
+      "dialogTitle": $services.localization.render("riscossPlatform.modelManager.newRiskModel"),
+      "fieldLabel": $services.localization.render("riscossPlatform.modelManager.riskModelName")
+    })
+** #generateCreateDialogLink({
+      "space": "RISCOSSPlatformGoalModels",
+      "template": "RISCOSSPlatformModelManagerCode.GoalModelTemplate",
+      "linkLabel": $services.localization.render("riscossPlatform.modelManager.newGoalModel"),
+      "dialogTitle": $services.localization.render("riscossPlatform.modelManager.newGoalModel"),
+      "fieldLabel": $services.localization.render("riscossPlatform.modelManager.goalModelName")
+    })
+** ----
+** [[$services.localization.render("riscossPlatform.modelManager.riskModelIndex")&gt;&gt;RISCOSSPlatformRiskModels.WebHome]]
+** [[$services.localization.render("riscossPlatform.modelManager.goalModelIndex")&gt;&gt;RISCOSSPlatformGoalModels.WebHome]]
   #end  
 #end
 {{/velocity}}

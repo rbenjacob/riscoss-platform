@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139327000</creationDate>
-  <date>1411658568000</date>
-  <contentUpdateDate>1411658568000</contentUpdateDate>
+  <creationDate>1411739240000</creationDate>
+  <date>1411745061000</date>
+  <contentUpdateDate>1411745061000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -113,5 +113,5 @@
       <type>xwql</type>
     </property>
   </object>
-  <content>where doc.space='RISCOSSPlatformCode' or doc.space='RISCOSSPlatformLayerManagerCode' or doc.space='RISCOSSPlatformRiskConfigurationManagerCode' or doc.space='RISCOSSPlatformRiskAnalysisManagerCode' or doc.fullName='Collections.RISCOSSPlatformDomainTemplate' or doc.fullName='ColorThemes.RISCOSS' or doc.fullName='RISCOSSPlatformLayers.WebHome' or doc.fullName='RISCOSSPlatformEntities.WebHome' or doc.fullName='Main.WebHome' or doc.fullName='RISCOSSPlatformRiskConfigurations.WebHome' or doc.fullName='RISCOSSPlatformGoalModels.WebHome' or doc.fullName='RISCOSSPlatformRiskCategories.WebHome' or doc.fullName='RISCOSSPlatformRiskAnalysisSessions.WebHome' or doc.fullName='RISCOSSPlatformLayers.OSSComponent' or doc.fullName='RISCOSSPlatformLayers.OSSComponentTemplate' or doc.fullName='XWiki.DomainAdministrator' or doc.fullName='XWiki.XWikiAllGroup' or doc.fullName='XWiki.XWikiAdminGroup'</content>
+  <content>where doc.space='RISCOSSPlatformCode' or doc.space='RISCOSSPlatformLayerManagerCode' or doc.space='RISCOSSPlatformRiskConfigurationManagerCode' or doc.space='RISCOSSPlatformRiskAnalysisManagerCode' or doc.space='RISCOSSPlatformModelManagerCode' or doc.fullName='Collections.RISCOSSPlatformDomainTemplate' or doc.fullName='ColorThemes.RISCOSS' or doc.fullName='RISCOSSPlatformLayers.WebHome' or doc.fullName='RISCOSSPlatformEntities.WebHome' or doc.fullName='Main.WebHome' or doc.fullName='RISCOSSPlatformRiskConfigurations.WebHome' or doc.fullName='RISCOSSPlatformGoalModels.WebHome' or doc.fullName='RISCOSSPlatformRiskModels.WebHome' or doc.fullName='RISCOSSPlatformRiskCategories.WebHome' or doc.fullName='RISCOSSPlatformRiskAnalysisSessions.WebHome' or doc.fullName='RISCOSSPlatformLayers.OSSComponent' or doc.fullName='RISCOSSPlatformLayers.OSSComponentTemplate' or doc.fullName='XWiki.DomainAdministrator' or doc.fullName='XWiki.XWikiAllGroup' or doc.fullName='XWiki.XWikiAdminGroup'</content>
 </xwikidoc>

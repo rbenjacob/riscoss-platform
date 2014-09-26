@@ -20,19 +20,19 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformRiskConfigurationManagerCode</web>
-  <name>GoalModelViewSheet</name>
+  <web>RISCOSSPlatformModelManagerCode</web>
+  <name>GoalModelEditSheet</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</parent>
+  <parent>RISCOSSPlatformModelManagerCode.GoalModelClass</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139327000</creationDate>
-  <date>1411659868000</date>
-  <contentUpdateDate>1411659868000</contentUpdateDate>
+  <creationDate>1411741631000</creationDate>
+  <date>1411742218000</date>
+  <contentUpdateDate>1411742218000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'GoalModelSheet')GoalModel Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <defaultTemplate/>
@@ -65,36 +65,28 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </action>
     </class>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelViewSheet</name>
+    <name>RISCOSSPlatformModelManagerCode.GoalModelEditSheet</name>
     <number>0</number>
     <className>XWiki.SheetDescriptorClass</className>
-    <guid>ea7c2b0d-d140-4cbd-b76d-7ec348babe66</guid>
+    <guid>0e72c021-f871-482b-96b9-ea99b3a8aacf</guid>
     <property>
-      <action>view</action>
+      <action>edit</action>
     </property>
   </object>
   <content>{{velocity}}
 ## You can modify this page to customize the presentation of your object.
 ## At first you should keep the default presentation and just save the document.
 
-#set($object = $doc.getObject('RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass'))
-#set($class = $object.xWikiClass)
-#foreach($prop in $class.properties)  
+#set($class = $doc.getObject('RISCOSSPlatformModelManagerCode.GoalModelClass').xWikiClass)
+#foreach($prop in $class.properties)
+  #if($prop.name != 'goalModelData')
 ; $prop.prettyName
-  #if($prop.getName() == "goalModelData")
-: [[attach:$object.getProperty("goalModelData").value]]
-  #else
 : $doc.display($prop.getName())
   #end
 #end
 
-----
+; Goal model:
+: {{attachmentSelector buttontext="$services.localization.render('riscossPlatform.modelManager.uploadGoalModel')" classname="RISCOSSPlatformModelManagerCode.GoalModelClass" property="goalModelData" filter="xml"/}}
 
-{{html wiki="true"}}
-#set($xredirect = $xwiki.getDocument("RISCOSSPlatformGoalModels.WebHome").getURL())
-&lt;span class="buttonwrapper"&gt;
-[[$services.localization.render("edit")&gt;&gt;$doc.getExternalURL("edit")]] | [[$services.localization.render("delete")&gt;&gt;$doc.getExternalURL("delete", "xredirect=${xredirect}")]]
-&lt;/span&gt;
-{{/html}}
 {{/velocity}}</content>
 </xwikidoc>

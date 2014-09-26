@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139327000</creationDate>
-  <date>1411139327000</date>
-  <contentUpdateDate>1411139327000</contentUpdateDate>
+  <creationDate>1411739239000</creationDate>
+  <date>1411739239000</date>
+  <contentUpdateDate>1411739239000</contentUpdateDate>
   <version>1.1</version>
   <title>RiskConfiguration Template</title>
   <defaultTemplate/>
@@ -97,9 +97,6 @@
     <guid>89654392-c60a-4e72-87c5-573e8f9fe5d2</guid>
     <property>
       <description/>
-    </property>
-    <property>
-      <goalModel/>
     </property>
     <property>
       <riskCategories/>

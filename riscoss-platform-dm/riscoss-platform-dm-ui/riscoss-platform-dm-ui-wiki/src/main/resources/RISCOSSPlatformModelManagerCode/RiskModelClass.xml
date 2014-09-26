@@ -20,8 +20,8 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformRiskConfigurationManagerCode</web>
-  <name>GoalModelClass</name>
+  <web>RISCOSSPlatformModelManagerCode</web>
+  <name>RiskModelClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -30,11 +30,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139327000</creationDate>
-  <date>1411139327000</date>
-  <contentUpdateDate>1411139327000</contentUpdateDate>
+  <creationDate>1411743753000</creationDate>
+  <date>1411743848000</date>
+  <contentUpdateDate>1411743823000</contentUpdateDate>
   <version>1.1</version>
-  <title>GoalModel Class</title>
+  <title>RiskModel Class</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -42,7 +42,7 @@
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
   <class>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</name>
+    <name>RISCOSSPlatformModelManagerCode.RiskModelClass</name>
     <customClass/>
     <customMapping/>
     <defaultViewSheet/>
@@ -65,19 +65,19 @@
       <validationRegExp/>
       <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
     </description>
-    <goalModelData>
+    <riskModelData>
       <customDisplay/>
       <disabled>0</disabled>
-      <name>goalModelData</name>
+      <name>riskModelData</name>
       <number>2</number>
       <picker>0</picker>
-      <prettyName>Goal model data</prettyName>
+      <prettyName>Risk model data</prettyName>
       <size>30</size>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
       <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-    </goalModelData>
+    </riskModelData>
   </class>
   <object>
     <class>
@@ -103,12 +103,12 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</name>
+    <name>RISCOSSPlatformModelManagerCode.RiskModelClass</name>
     <number>0</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>183823c8-3e78-4194-9d49-0e36fc12103a</guid>
+    <guid>d72dc0ae-2eae-4eb5-9ceb-e6a9a5b17c48</guid>
     <property>
-      <sheet>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelViewSheet</sheet>
+      <sheet>RISCOSSPlatformModelManagerCode.RiskModelViewSheet</sheet>
     </property>
   </object>
   <object>
@@ -135,12 +135,12 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</name>
+    <name>RISCOSSPlatformModelManagerCode.RiskModelClass</name>
     <number>1</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>595dd2f9-79f6-4160-adc5-324252b52a36</guid>
+    <guid>e03efb70-2dee-48c9-bb1d-6b492b0212f1</guid>
     <property>
-      <sheet>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelEditSheet</sheet>
+      <sheet>RISCOSSPlatformModelManagerCode.RiskModelEditSheet</sheet>
     </property>
   </object>
   <object>
@@ -167,10 +167,10 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</name>
+    <name>RISCOSSPlatformModelManagerCode.RiskModelClass</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
-    <guid>3ac3f84e-d2c7-4216-adc5-14b97cb5b5c8</guid>
+    <guid>9eae7819-6ee4-417d-a27a-fb8e736876b4</guid>
     <property>
       <sheet>XWiki.ClassSheet</sheet>
     </property>

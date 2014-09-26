@@ -20,21 +20,21 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformRiskConfigurationManagerCode</web>
-  <name>GoalModelTemplate</name>
+  <web>RISCOSSPlatformModelManagerCode</web>
+  <name>GoalModelViewSheet</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</parent>
+  <parent>RISCOSSPlatformModelManagerCode.GoalModelClass</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139327000</creationDate>
-  <date>1411139327000</date>
-  <contentUpdateDate>1411139327000</contentUpdateDate>
+  <creationDate>1411741655000</creationDate>
+  <date>1411744985000</date>
+  <contentUpdateDate>1411744985000</contentUpdateDate>
   <version>1.1</version>
-  <title>GoalModel Template</title>
+  <title>#if($doc.name == 'GoalModelSheet')GoalModel Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -43,7 +43,7 @@
   <hidden>false</hidden>
   <object>
     <class>
-      <name>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</name>
+      <name>XWiki.SheetDescriptorClass</name>
       <customClass/>
       <customMapping/>
       <defaultViewSheet/>
@@ -51,39 +51,50 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
-      <description>
+      <action>
         <customDisplay/>
         <disabled>0</disabled>
-        <editor>---</editor>
-        <name>description</name>
+        <name>action</name>
         <number>1</number>
         <picker>0</picker>
-        <prettyName>Description</prettyName>
-        <rows>5</rows>
-        <size>40</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </description>
-      <goalModelData>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>goalModelData</name>
-        <number>2</number>
-        <picker>0</picker>
-        <prettyName>Goal model data</prettyName>
+        <prettyName>Action</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </goalModelData>
+      </action>
     </class>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelTemplate</name>
+    <name>RISCOSSPlatformModelManagerCode.GoalModelViewSheet</name>
     <number>0</number>
-    <className>RISCOSSPlatformRiskConfigurationManagerCode.GoalModelClass</className>
-    <guid>95e92930-a0b8-4a4d-a606-4f571dde927f</guid>
+    <className>XWiki.SheetDescriptorClass</className>
+    <guid>843dee5e-efb6-4493-894d-e2dbdf726910</guid>
+    <property>
+      <action>view</action>
+    </property>
   </object>
-  <content/>
+  <content>{{velocity}}
+## You can modify this page to customize the presentation of your object.
+## At first you should keep the default presentation and just save the document.
+
+#set($object = $doc.getObject('RISCOSSPlatformModelManagerCode.GoalModelClass'))
+#set($class = $object.xWikiClass)
+#foreach($prop in $class.properties)  
+; $prop.prettyName
+  #if($prop.getName() == "goalModelData")
+: [[attach:$object.getProperty("goalModelData").value]]
+  #else
+: $doc.display($prop.getName())
+  #end
+#end
+
+----
+
+{{html wiki="true"}}
+#set($xredirect = $xwiki.getDocument("RISCOSSPlatformGoalModels.WebHome").getURL())
+&lt;span class="buttonwrapper"&gt;
+[[$services.localization.render("delete")&gt;&gt;$doc.getExternalURL("delete", "xredirect=${xredirect}")]]
+&lt;/span&gt;
+{{/html}}
+{{/velocity}}</content>
 </xwikidoc>

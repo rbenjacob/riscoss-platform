@@ -20,21 +20,21 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformRiskAnalysisManagerCode</web>
-  <name>Translations</name>
+  <web>RISCOSSPlatformModelManagerCode</web>
+  <name>GoalModelTemplate</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformRiskAnalysisManagerCode.WebHome</parent>
+  <parent>RISCOSSPlatformModelManagerCode.GoalModelClass</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411739238000</creationDate>
-  <date>1411739238000</date>
-  <contentUpdateDate>1411739238000</contentUpdateDate>
+  <creationDate>1411741641000</creationDate>
+  <date>1411741996000</date>
+  <contentUpdateDate>1411741996000</contentUpdateDate>
   <version>1.1</version>
-  <title/>
+  <title>GoalModel Template</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -43,7 +43,7 @@
   <hidden>false</hidden>
   <object>
     <class>
-      <name>XWiki.TranslationDocumentClass</name>
+      <name>RISCOSSPlatformModelManagerCode.GoalModelClass</name>
       <customClass/>
       <customMapping/>
       <defaultViewSheet/>
@@ -51,31 +51,45 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
-      <scope>
-        <cache>0</cache>
+      <description>
+        <customDisplay/>
         <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>scope</name>
+        <editor>---</editor>
+        <name>description</name>
         <number>1</number>
-        <prettyName>Scope</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
+        <picker>0</picker>
+        <prettyName>Description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
         <unmodifiable>0</unmodifiable>
-        <values>GLOBAL|WIKI|USER|ON_DEMAND</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </scope>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <goalModelData>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>goalModelData</name>
+        <number>2</number>
+        <picker>0</picker>
+        <prettyName>Goal model data</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </goalModelData>
     </class>
-    <name>RISCOSSPlatformRiskAnalysisManagerCode.Translations</name>
+    <name>RISCOSSPlatformModelManagerCode.GoalModelTemplate</name>
     <number>0</number>
-    <className>XWiki.TranslationDocumentClass</className>
-    <guid>b5846093-be73-4f19-8fad-7edc6f425856</guid>
+    <className>RISCOSSPlatformModelManagerCode.GoalModelClass</className>
+    <guid>bcc7543d-1c27-491f-9938-de2a017c1065</guid>
     <property>
-      <scope>GLOBAL</scope>
+      <description/>
+    </property>
+    <property>
+      <goalModelData/>
     </property>
   </object>
-  <content>riscossPlatform.riskAnalysisManager.riskAnalysisSessionsTable.doc.name=Name
-riscossPlatform.riskAnalysisManager.riskAnalysisSessionsTable.entity=Target entity</content>
+  <content/>
 </xwikidoc>

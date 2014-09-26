@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411139326000</creationDate>
-  <date>1411221203000</date>
-  <contentUpdateDate>1411221203000</contentUpdateDate>
+  <creationDate>1411739239000</creationDate>
+  <date>1411739239000</date>
+  <contentUpdateDate>1411739239000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render("riscossPlatform.layerManager.layersList.title")</title>
   <defaultTemplate/>
