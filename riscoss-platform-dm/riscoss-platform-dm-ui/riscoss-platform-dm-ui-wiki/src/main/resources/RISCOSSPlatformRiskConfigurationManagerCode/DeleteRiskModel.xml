@@ -20,38 +20,48 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformCode</web>
-  <name>Macros</name>
+  <web>RISCOSSPlatformRiskConfigurationManagerCode</web>
+  <name>DeleteRiskModel</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformCode.WebHome</parent>
+  <parent/>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411739241000</creationDate>
-  <date>1411908007000</date>
-  <contentUpdateDate>1411907762000</contentUpdateDate>
+  <creationDate>1411853262000</creationDate>
+  <date>1411853721000</date>
+  <contentUpdateDate>1411853494000</contentUpdateDate>
   <version>1.1</version>
-  <title/>
+  <title>DeleteRiskModel</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{velocity output="false"}}
-#macro(generateCreateLink $params)
-  [[${params.get('linkLabel')}&gt;&gt;RISCOSSPlatformCode.Create||queryString="space=${params.get('space')}&amp;template=${params.get('template')}&amp;formTitle=${params.get('formTitle')}&amp;fieldLabel=${params.get('fieldLabel')}" #if($params.get('linkClass')) class="${params.get('linkClass')}" #end]]
-#end
+  <content>{{velocity}}
 
-#macro(generateCreateDialogLink $params)
-  [[${params.get('linkLabel')}&gt;&gt;RISCOSSPlatformCode.Create||queryString="xpage=plain&amp;space=${params.get('space')}&amp;template=${params.get('template')}&amp;fieldLabel=${params.get('fieldLabel')}" class="openDialog" title="${params.get('dialogTitle')}" callback="XWiki.RISCOSSPlatform.initializeCreateDialog"]]
-#end
-
-#macro(generateCustomCreateDialogLink $params)
-  [[${params.get('linkLabel')}&gt;&gt;RISCOSSPlatformCode.CustomCreate||queryString="xpage=plain&amp;action=${params.get('action')}&amp;space=${params.get('space')}&amp;fieldLabel=${params.get('fieldLabel')}" class="openDialog" title="${params.get('dialogTitle')}" callback="XWiki.RISCOSSPlatform.initializeCreateDialog"]]
+#if($request.method == "POST")
+  #set($riskConfiguration = $xwiki.getDocument($request.riskConfiguration))
+  
+  #set($existingRiskModels = $riskConfiguration.getObjects("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass", "riskModel", $request.riskModel))
+  #set($found = false)
+  #foreach($existingRiskModel in $existingRiskModels)
+    #if($existingRiskModel.getProperty("layer").value == $request.layer)
+      #set($riskModelToDelete = $existingRiskModel)
+    #end
+  #end
+  
+  #if($riskModelToDelete)
+    $riskConfiguration.removeObject($riskModelToDelete)
+    $riskConfiguration.save();
+  #end
+  
+  $response.sendRedirect($riskConfiguration.getURL())
+#else
+  {{error}}Use POST{{/error}}
 #end
 
 {{/velocity}}</content>

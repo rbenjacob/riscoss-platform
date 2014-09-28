@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1411739239000</creationDate>
-  <date>1411739239000</date>
-  <contentUpdateDate>1411739239000</contentUpdateDate>
+  <date>1411911788000</date>
+  <contentUpdateDate>1411911788000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'EntitySheet')Entity Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <defaultTemplate/>
@@ -89,21 +89,24 @@
   : $doc.display($prop.getName())
 #end
 
+{{html wiki="true"}}
+
+#if($layerDocument.getObject("RISCOSSPlatformLayerManagerCode.LayerClass").getProperty("child").value != "")
+
 ----
 
-{{html wiki="true"}}
-= $services.localization.render("riscossPlatform.layerManager.children")
-
-&lt;span class="buttonwrapper"&gt;
-[[$services.localization.render("riscossPlatform.layerManager.addEntityChildren")&gt;&gt;RISCOSSPlatformLayerManagerCode.AddEntityChildren||queryString="entity=$doc.fullName" class="button"]]
-&lt;/span&gt;
+&lt;form action="$xwiki.getDocument("RISCOSSPlatformLayerManagerCode.AddEntityChildren").getURL()" method="GET"&gt;
+    &lt;input type="hidden" name="entity" value="$doc.fullName"/&gt;    
+    &lt;h1&gt;$services.localization.render("riscossPlatform.layerManager.children") &lt;input type="image" src="$xwiki.getSkinFile("icons/silk/add.png")"/&gt;&lt;/h1&gt;
+&lt;/form&gt;
 
 #set($removeChildAction = $xwiki.getDocument("RISCOSSPlatformLayerManagerCode.RemoveEntityChild").getURL())
 
-
 #foreach($entityChild in $doc.getObjects("RISCOSSPlatformLayerManagerCode.EntityChildClass"))
   #set($child = $entityChild.getProperty("child").value)
-| [[$child]] | &lt;form action="$removeChildAction" method="POST"&gt;&lt;input type="hidden" name="entity" value="$doc.fullName"/&gt;&lt;input type="hidden" name="child" value="$child"/&gt;&lt;input type="submit" value="Remove" class="button"/&gt;&lt;/form&gt;
+| [[$child]] | &lt;form action="$removeChildAction" method="POST"&gt;&lt;input type="hidden" name="entity" value="$doc.fullName"/&gt;&lt;input type="hidden" name="child" value="$child"/&gt;&lt;input type="image" src="$xwiki.getSkinFile("icons/silk/delete.png")"/&gt;&lt;/form&gt;
+#end
+
 #end
 
 ----

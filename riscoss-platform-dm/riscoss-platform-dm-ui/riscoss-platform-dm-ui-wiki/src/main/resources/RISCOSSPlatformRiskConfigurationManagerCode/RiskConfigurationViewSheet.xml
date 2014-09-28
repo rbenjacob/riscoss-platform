@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1411739239000</creationDate>
-  <date>1411739239000</date>
-  <contentUpdateDate>1411739239000</contentUpdateDate>
+  <date>1411853087000</date>
+  <contentUpdateDate>1411853087000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'RiskConfigurationSheet')RiskConfiguration Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <defaultTemplate/>
@@ -83,20 +83,45 @@
 : $doc.display($prop.getName())  
 #end
 
+
+
+{{html wiki="true"}}
+
 #foreach($layer in $layers)
 
-{{box title="== Models for layer '$layer[1]'"}}
+{{box}}
 
-  #foreach($riskModel in $doc.getObjects("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass", "layer", $layer[0]))
-* [[attach:$riskModel.getProperty("data").value]]
+{{html wiki="true"}}
+  &lt;form action="$xwiki.getDocument("RISCOSSPlatformRiskConfigurationManagerCode.AddRiskModel").getURL()" method="GET"&gt;
+    &lt;input type="hidden" name="riskConfiguration" value="$doc.fullName"/&gt;
+    &lt;input type="hidden" name="layer" value="$layer[0]"/&gt;
+    &lt;h1&gt;Models for layer '$layer[1]' &lt;input type="image" src="$xwiki.getSkinFile("icons/silk/add.png")"/&gt;&lt;/h1&gt;
+  &lt;/form&gt;
+
+  #foreach($riskModel in $doc.getObjects("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass", "layer", $layer[0])) 
+    #set($riskModelDocument = $riskModel.getProperty("riskModel").value) 
+| (((
+&lt;form action='$xwiki.getDocument("RISCOSSPlatformRiskConfigurationManagerCode.DeleteRiskModel").getURL()' method='POST'&gt; 
+  &lt;input type="hidden" name="riskConfiguration" value="$doc.fullName"/&gt;
+  &lt;input type="hidden" name="riskModel" value="$riskModelDocument"/&gt;
+  &lt;input type="hidden" name="layer" value="$layer[0]"/&gt;
+  &lt;input type="image" src="$xwiki.getSkinFile("icons/silk/delete.png")"/&gt;
+&lt;/form&gt;
+
+
+))) | [[$riskModelDocument]] 
   #end
 
+{{/html}}
+
 {{/box}}
+
+
 #end
 
 ----
 
-{{html wiki="true"}}
+
 #set($xredirect = $xwiki.getDocument("RISCOSSPlatformRiskConfigurations.WebHome").getURL())
 &lt;span class="buttonwrapper"&gt;
 [[$services.localization.render("edit")&gt;&gt;$doc.getExternalURL("edit")]] | [[$services.localization.render("delete")&gt;&gt;$doc.getExternalURL("delete", "xredirect=${xredirect}")]]

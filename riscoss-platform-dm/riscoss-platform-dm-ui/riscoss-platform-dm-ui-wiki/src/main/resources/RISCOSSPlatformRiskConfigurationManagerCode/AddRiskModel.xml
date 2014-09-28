@@ -20,21 +20,21 @@
 -->
 
 <xwikidoc>
-  <web>RISCOSSPlatformCode</web>
-  <name>CustomCreate</name>
+  <web>RISCOSSPlatformRiskConfigurationManagerCode</web>
+  <name>AddRiskModel</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformCode.WebHome</parent>
+  <parent/>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411739241000</creationDate>
-  <date>1411907997000</date>
-  <contentUpdateDate>1411907734000</contentUpdateDate>
+  <creationDate>1411847967000</creationDate>
+  <date>1411853046000</date>
+  <contentUpdateDate>1411852577000</contentUpdateDate>
   <version>1.1</version>
-  <title>#if($request.formTitle) $request.formTitle #else Create #end</title>
+  <title>Add risk model to $request.riskConfiguration in layer $request.layer</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -113,102 +113,105 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>RISCOSSPlatformCode.CustomCreate</name>
+    <name>RISCOSSPlatformRiskConfigurationManagerCode.AddRiskModel</name>
     <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>9108918f-d150-41bb-80ec-9679f799ab8b</guid>
+    <guid>b904e219-fde6-4646-98ed-0d750f636cd5</guid>
     <property>
       <cache>forbid</cache>
     </property>
     <property>
-      <code>var XWiki = (function(XWiki) {
-  XWiki.RISCOSSPlatform = XWiki.RISCOSSPlatform || {};
+      <code>var XWiki = (function(XWiki) {    
   
-  /* Setup the validation logic for a create form. */
-  var initializeCreateForm = function(form) {
-    var showErrorMessage = function(element, message) {
-      if(!element.classList.contains('xErrorField')) {
-        element.addClassName('xErrorField');
-        element.insert({'after' : '&lt;div class="xErrorMsg"&gt;' + message + '&lt;/div&gt;'});
-      }
-    };
-    
-    var removeErrorMessage = function(element) {
-      if(element.classList.contains('xErrorField')) {
-        element.removeClassName('xErrorField');
-        var errorMessage = element.next('.xErrorMsg');
-        errorMessage &amp;&amp; errorMessage.remove();
-      }
-    };
-    
-    
-    var targetName = form.down('.targetName');
-    
-    targetName.focus();
-    
-    form.observe('submit', function(event) {
-      if(targetName.value.strip().length == 0) {
-        showErrorMessage(targetName, '$services.localization.render("riscossPlatform.createForm.valueRequired")');
-        event.stop();
-      }
-      else {
-        removeErrorMessage(targetName);
-      }
+  function init() {
+    var liveTable = $('riskModels');
+    liveTable.on('click', function(e) {
+      if(e.srcElement.localName == 'a') {
+        e.stop();
+        
+        //Dirty hack to retrieve the risk model document name from the URI pointed by the link
+        var components = e.srcElement.href.split('/');
+        var space = components[components.length - 2];
+        var page = components[components.length - 1];
+        var riskModel = space + "." + page;
+        
+        $('riskModelInput').value = riskModel;
+        
+        $('addRiskModelForm').submit();                                        
+      }                  
     });
-  };
-  
-  XWiki.RISCOSSPlatform.initializeCreateDialog = function(dialog) {
-    var form = dialog.content;
-    initializeCreateForm(form);
     
-    var cancelButton = form.down('.secondary');
-    cancelButton.observe('click', function(event) {
-      event.stop();
-      dialog.closeDialog();
-    });
-  }
-      
-
-  /* This is used to initialize the create forms that are present in the loaded page, if any. */
-  var createForms = $$('.createForm');
-  for(i = 0; i &lt; createForms.length; i++) {
-    initializeCreateForm(createForms[i]);
   }
   
+  //Wait for dom load
+  (XWiki.domIsLoaded &amp;&amp; init()) || document.observe("xwiki:dom:loaded", init);
+   
+  //End XWiki augmentation
   return XWiki;
-}(XWiki || {}));</code>
+}(XWiki || {}))</code>
     </property>
     <property>
       <name/>
     </property>
     <property>
-      <parse>1</parse>
+      <parse/>
     </property>
     <property>
       <use>currentPage</use>
     </property>
   </object>
   <content>{{velocity}}
-#if(!($request.action &amp;&amp; $request.fieldLabel))
-  {{error}}Missing parameter{{/error}}
-#else
-{{html}}
-&lt;form action="$request.action" method="POST" class="xform third createForm"&gt;
-  &lt;input type="hidden" name="targetSpace" value="$request.space" class="targetSpace"/&gt;
-  &lt;dl&gt;
-    &lt;dt&gt;&lt;label for="page"&gt;$request.fieldLabel&lt;/label&gt;&lt;dt&gt;
-    &lt;dd&gt;&lt;input type="text" name="targetName" class="targetName"/&gt;&lt;/dd&gt;
-  &lt;/dl&gt;
-  &lt;div class="buttons"&gt;
-    &lt;span class="buttonwrapper"&gt;
-      &lt;input type="submit" value="$services.localization.render("create")" class="button"/&gt;
-    &lt;/span&gt;
-    &lt;span class="buttonwrapper"&gt;
-      &lt;a class="secondary button" href="#"&gt;$services.localization.render("cancel")&lt;/a&gt;
-    &lt;/span&gt;
-  &lt;/div&gt;
-&lt;/form&gt;
-{{/html}}
+
+#if($request.method == "POST")
+  #set($riskConfiguration = $xwiki.getDocument($request.riskConfiguration))
+  
+  #set($existingRiskModels = $riskConfiguration.getObjects("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass", "riskModel", $request.riskModel))
+  #set($found = false)
+  #foreach($existingRiskModel in $existingRiskModels)
+    #if($existingRiskModel.getProperty("layer").value == $request.layer)
+      #set($found = true)
+    #end
+  #end
+  
+  #if(!$found)
+    #set($nb = $riskConfiguration.createNewObject("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass"))
+    #set($riskConfigurationModel = $riskConfiguration.getObject("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass", $nb))
+    $riskConfigurationModel.set("layer", $request.layer)
+    $riskConfigurationModel.set("riskModel", $request.riskModel)
+    $riskConfiguration.save()
+  #end
+  
+  $response.sendRedirect($riskConfiguration.getURL())
+  
+#elseif($request.riskConfiguration &amp;&amp; $request.layer)
+  {{info}}
+    Please select a risk model by clicking on the corresponding link.
+  {{/info}}
+
+
+  #set($columns = ["doc.name", "description"])
+  #set($columnsProperties = {
+      "doc.name" : { "type" : "text" , "size" : 20, "link" : "view"},
+      "description" : { "type" : "text" , "html" : "true", "filterable" : "false", "sortable" : "false"}
+  })
+  #set($options = { 
+     "className":"RISCOSSPlatformModelManagerCode.RiskModelClass",
+     "translationPrefix" : "riscossPlatform.modelManager.riskModelsTable.",
+     "tagCloud" : false,
+     "rowCount": 10
+  })
+  #livetable("riskModels" $columns $columnsProperties $options)
+
+  {{html}}
+  &lt;form action="$xwiki.getDocument("RISCOSSPlatformRiskConfigurationManagerCode.AddRiskModel").getURL()" method="POST" id="addRiskModelForm"&gt;
+    &lt;input type="hidden" name="riskConfiguration" value="$request.riskConfiguration"/&gt;
+    &lt;input type="hidden" name="layer" value="$request.layer"/&gt;
+    &lt;input type="hidden" name="riskModel" value="" id="riskModelInput"/&gt;
+  &lt;/form&gt;
+  {{/html}}
+#else 
+  {{error}}Missing parameters{{/error}}
 #end
+
 {{/velocity}}</content>
 </xwikidoc>
