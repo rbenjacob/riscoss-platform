@@ -29,7 +29,7 @@
   <parent>
     <groupId>eu.riscoss</groupId>
     <artifactId>riscoss-platform-dm</artifactId>
-    <version>0.20-SNAPSHOT</version>
+    <version>0.24-SNAPSHOT</version>
   </parent>
   <artifactId>riscoss-platform-dm-script</artifactId>
 
