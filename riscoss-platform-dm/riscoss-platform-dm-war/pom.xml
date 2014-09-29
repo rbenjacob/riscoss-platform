@@ -150,7 +150,7 @@
             %regex[WEB-INF/lib/xwiki-platform-legacy-oldcore-[0-9].[0-9].jar],
             %regex[WEB-INF/lib/xwiki-platform-oldcore-[0-9].[0-9].jar],
             %regex[WEB-INF/lib/xwiki-platform-legacy-oldcore-[0-9].[0.9]-SNAPSHOT.jar],
-            %regex[WEB-INF/lib/xwiki-platform-oldcore-[0-9].[0-9]-SNAPSHOT.jar]
+            %regex[WEB-INF/lib/xwiki-platform-oldcore-[0-9].[0-9]-SNAPSHOT.jar],
             %regex[WEB-INF/lib/riscoss-remote-risk-analyzer-.*]
           </packagingExcludes>
         </configuration>
