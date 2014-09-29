@@ -40,6 +40,7 @@
     <module>riscoss-platform-dm-ui</module>
     <module>riscoss-platform-dm-war</module>
     <module>riscoss-platform-dm-script</module>
+    <module>xwiki-contrib-commandrunner</module>
   </modules>
 
   <build>

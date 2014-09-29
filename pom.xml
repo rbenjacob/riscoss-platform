@@ -44,6 +44,7 @@
   <modules>
     <module>riscoss-platform-rdr</module>
     <module>riscoss-platform-dm</module>
+    <module>riscoss-remote-risk-analyser</module>
   </modules>
 
   <dependencyManagement>

@@ -12,8 +12,15 @@ The project structure reflects the structure of the RISCOSS Platform architectur
 
 * riscoss-platform-dm contains the code of the Domain Manager (DM)
 * riscoss-platform-rdr contains the code for the Risk Data Repository (RDR)
+* riscoss-remote-risk-analyzer contains a separate build which is run in it's own JVM.
 
 Please refer to the [RISCOSS White Paper](http://www.riscoss.eu/bin/download/Discover/Whitepaper/RISCOSS-Whitepaper.pdf) for a more detailed description.
 
+# RISCOSS Remote Analyzer
 
+The Riscoss Analyzer requires a proprietary .so library called jSmile in order to function.
+Unfortunaltely, we can't give you a copy but here is a hash of the file which you need in order
+to run the build (this hash is of the file for Linux/AMD64, use the appropriate equivilant if needed).
 
+    sha256sum ./riscoss-remote-risk-analyser/src/main/resources/libjsmile.so
+    cd1767397a82e1fc52c94982f1ab21c35a0a6cdee2598a12091e3d69311b156c  ./src/main/resources/libjsmile.so

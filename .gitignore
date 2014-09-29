@@ -26,3 +26,6 @@ nbproject
 
 #HSQLDB created by unit tests
 database
+
+# Secret proprietary .so file
+/riscoss-remote-risk-analyser/src/main/resources/libjsmile.so
