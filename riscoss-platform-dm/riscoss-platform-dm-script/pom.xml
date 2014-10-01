@@ -41,8 +41,9 @@
   <dependencies>
     <dependency>
       <groupId>eu.riscoss</groupId>
-      <artifactId>riscoss-reasoner</artifactId>
-      <version>m20-alpha-140612-2</version>
+      <artifactId>riscoss-risk-analyser</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>

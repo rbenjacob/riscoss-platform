@@ -25,38 +25,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
-    <version>6.0</version>
-  </parent>
   <groupId>eu.riscoss</groupId>
-  <artifactId>riscoss-platform</artifactId>
+  <artifactId>riscoss-risk-analyser</artifactId>
   <version>0.20-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>RISCOSS Platform - Parent POM</name>
+  <name>RISCOSS Platform - Risk Analyser</name>
 
-  <properties>
-    <xwiki.version>${enterprise.version}</xwiki.version>
-  </properties>
+  <dependencies>
 
-  <modules>
-    <module>riscoss-jsmile</module>
-    <module>riscoss-risk-analyser</module>
-    <module>riscoss-platform-rdr</module>
-    <module>riscoss-platform-dm</module>
-    <module>riscoss-remote-risk-analyser</module>
-  </modules>
+    <!-- TODO: we don't have the sources for this -->
+    <dependency>
+      <groupId>eu.riscoss</groupId>
+      <artifactId>riscoss-reasoner</artifactId>
+      <version>m20-alpha-140612-2</version>
+    </dependency>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>2.2.4</version>
-      </dependency>
-    </dependencies>
+    <dependency>
+      <groupId>eu.riscoss</groupId>
+      <artifactId>riscoss-jsmile</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
-  </dependencyManagement>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>local-repository</id>
+      <url>file://${basedir}/local-repository</url>
+    </repository>
+  </repositories>
+
 </project>

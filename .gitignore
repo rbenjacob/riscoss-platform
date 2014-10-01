@@ -28,4 +28,4 @@ nbproject
 database
 
 # Secret proprietary .so file
-/riscoss-remote-risk-analyser/src/main/resources/libjsmile.so
+/riscoss-jsmile/src/main/resources/libjsmile.so

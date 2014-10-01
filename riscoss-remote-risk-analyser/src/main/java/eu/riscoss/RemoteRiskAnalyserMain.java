@@ -19,43 +19,16 @@
  */
 package eu.riscoss;
 
-import java.net.URL;
-import java.io.File;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
 
+import eu.riscoss.JSmile;
+
 public class RemoteRiskAnalyserMain
 {
-    static void loadJSmile() throws Exception
-    {
-        File dir = new File(FileUtils.getTempDirectory(),
-            "jnativelibs-" + RandomStringUtils.randomAlphabetic(30));
-        if (!dir.mkdir()) {
-            throw new Exception("failed to make dir");
-        }
-        File jsmile = new File(dir, "libjsmile.so");
-        URL jsmURL = Thread.currentThread().getContextClassLoader().getResource("libjsmile.so");
-        FileUtils.copyURLToFile(jsmURL, jsmile);
-        System.setProperty("java.library.path",
-            System.getProperty("java.library.path") + ":" + dir.getAbsolutePath());
-
-        // flush the library paths
-        Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
-        sysPathsField.setAccessible(true);
-        sysPathsField.set(null, null);
-
-        // Check that it works...
-        System.loadLibrary("jsmile");
-
-        dir.deleteOnExit();
-        jsmile.deleteOnExit();
-    }
-
     public static void main(String[] args) throws Exception
     {
-        loadJSmile();
+        JSmile.load();
         Class rra = Class.forName("eu.riscoss.RemoteRiskAnalyser");
         Method meth = rra.getMethod("main");
         meth.invoke(null);

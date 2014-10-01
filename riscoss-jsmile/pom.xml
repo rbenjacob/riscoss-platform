@@ -26,19 +26,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.riscoss</groupId>
-  <artifactId>riscoss-remote-risk-analyser</artifactId>
+  <artifactId>riscoss-jsmile</artifactId>
   <version>0.20-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>RISCOSS Platform - Remote Risk Analyser</name>
+  <name>RISCOSS Platform - jSmile packaging</name>
 
   <dependencies>
-
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20140107</version>
-    </dependency>
 
     <dependency>
       <groupId>commons-io</groupId>
@@ -47,23 +41,16 @@
     </dependency>
 
     <dependency>
-	    <groupId>net.sf.json-lib</groupId>
-	    <artifactId>json-lib</artifactId>
-	    <version>2.2.3</version>
-    </dependency>
-
-    <dependency>
 	    <groupId>org.apache.commons</groupId>
 	    <artifactId>commons-lang3</artifactId>
 	    <version>3.0</version>
     </dependency>
 
-    <dependency>
-      <groupId>eu.riscoss</groupId>
-      <artifactId>riscoss-risk-analyser</artifactId>
-      <version>0.20-SNAPSHOT</version>
-      <type>pom</type>
-    </dependency>
+		<dependency>
+			<groupId>smile</groupId>
+			<artifactId>smile</artifactId>
+			<version>1.0</version>
+		</dependency>
 
   </dependencies>
 
@@ -72,39 +59,25 @@
     <plugins>
 
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
+        <groupId>org.codehaus.gmaven</groupId>
+        <artifactId>gmaven-plugin</artifactId>
+        <version>1.5</version>
         <executions>
           <execution>
-            <phase>package</phase>
+            <id>get-riscoss-remote-risk-analyser</id>
+            <phase>process-resources</phase>
             <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          <archive>
-            <manifest>
-              <mainClass>eu.riscoss.RemoteRiskAnalyserMain</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-
-      <plugin>      
-        <artifactId>maven-remote-resources-plugin</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>bundle</goal>
+              <goal>execute</goal>
             </goals>
             <configuration>
-              <includes>
-                <include>target/**/*.jar</include>
-              </includes>
+              <source>
+                  import java.nio.file.Files;
+                  import java.nio.file.Paths;
+                  String path = project.basedir.getAbsolutePath() + "/src/main/resources/libjsmile.so";
+                  if (!Files.exists(Paths.get(path))) {
+                      fail("\n\n\nYou need to add a file to the directory tree at [" + path + "], see readme for details\n\n\n");
+                  }
+              </source>
             </configuration>
           </execution>
         </executions>
@@ -113,5 +86,12 @@
     </plugins>
 
   </build>
+
+  <repositories>
+    <repository>
+      <id>local-repository</id>
+      <url>file://${basedir}/local-repository</url>
+    </repository>
+  </repositories>
 
 </project>
