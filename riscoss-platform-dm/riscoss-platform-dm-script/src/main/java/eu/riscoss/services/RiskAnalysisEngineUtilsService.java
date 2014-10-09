@@ -299,7 +299,7 @@ public class RiskAnalysisEngineUtilsService
                 }
 
                 JsonObject jsonObject =
-                        gson.fromJson(IOUtils.toString(response.getEntity().getContent()), JsonObject.class);
+                            gson.fromJson(IOUtils.toString(response.getEntity().getContent()), JsonObject.class);
                 JsonArray riskDataArray = jsonObject.getAsJsonArray("results");
                 if (riskDataArray.size() != 0) {
                     JsonObject riskData = riskDataArray.get(0).getAsJsonObject();

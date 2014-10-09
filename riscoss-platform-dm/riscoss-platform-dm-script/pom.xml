@@ -42,7 +42,7 @@
     <dependency>
       <groupId>eu.riscoss</groupId>
       <artifactId>riscoss-reasoner</artifactId>
-      <version>m20-alpha-140612-2</version>
+      <version>0.141009</version>
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
