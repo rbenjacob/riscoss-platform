@@ -22,7 +22,7 @@
 
 <xwikidoc>
   <web>RISCOSSPlatformRiskAnalysisManagerCode</web>
-  <name>Evaluate</name>
+  <name>SetData</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -31,31 +31,29 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411739239000</creationDate>
-  <date>1412858449000</date>
-  <contentUpdateDate>1412858449000</contentUpdateDate>
+  <creationDate>1412970826000</creationDate>
+  <date>1413129978000</date>
+  <contentUpdateDate>1413122136000</contentUpdateDate>
   <version>1.1</version>
-  <title>Evaluate '$request.entity'</title>
+  <title>SetData</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{velocity}}
-#if(!($request.entity &amp;&amp; $request.riskConfiguration &amp;&amp; $request.riskAnalysisSession))
+  <content>{{velocity output="false"}}
+#if(!($request.entity &amp;&amp; $request.riskConfiguration))
   {{error}} Missing parameters {{/error}}
 #else
   ## Load all the models associated to the layer of the entity under analysis.
-  #set($riskAnalysisSessionDocument = $xwiki.getDocument($request.riskAnalysisSession))  
-  #set($entityDocument = $xwiki.getDocument($request.entity))   
+  #set($entityDocument = $xwiki.getDocument($request.entity))
   #set($layer = $entityDocument.getObject("RISCOSSPlatformLayerManagerCode.EntityClass").getProperty("layer").value)
   #set($rdids = $entityDocument.getObject("RISCOSSPlatformLayerManagerCode.EntityClass").getProperty("rdids").value)
   #set($riskConfigurationDocument = $xwiki.getDocument($request.riskConfiguration))
   #set($raeUtils = $services.riscoss.riskAnalysisEngineUtilsService)
   #set($rae = $services.riscoss.riskAnalysisEngineService.createInstance())
   #set($riskModelReferences = $riskConfigurationDocument.getObjects("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass", "layer", $layer))
-  
   #foreach($riskModelReference in $riskModelReferences)
     #set($riskModelDocumentName = $riskModelReference.getProperty("riskModel").value)
     #set($riskModelDocument = $xwiki.getDocument($riskModelDocumentName))
@@ -69,41 +67,21 @@
 
   ## Get risk data from the request. This also initializes the default values when they're missing.
   #set($riskDataFromRequest = $raeUtils.getRiskDataFromRequest($rae, $request.parameterMap))
+  $riskData.putAll($riskDataFromRequest.riskData)    
+  #set($showForm = true)
+#end
+{{/velocity}}
 
-  $riskData.putAll($riskDataFromRequest.riskData)
-  $errors.putAll($riskDataFromRequest.errors)
-
-  ## If the page has been loaded for the first time, and not as a result of a evaluate submit, override the default values with the ones coming from the RDR (if any)
-  #if(!$request.evaluate)
-    $riskData.putAll($raeUtils.fetchRiskData($rae, "http://localhost:8080/rdr", $rdids))
-  #end
-
-  ## If there was an evaluation request, and no errors are found in the data sent from the filled form, then perform the evaluation
-  #if($request.evaluate &amp;&amp; $errors.size() == 0)
-    $raeUtils.setRiskData($rae, $riskData)
-    #set($result = $raeUtils.runAnalysis($rae))
- 
-    #set($riskEvaluationObject = $riskAnalysisSessionDocument.getObject("RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass", "riskConfiguration", $request.riskConfiguration))
-    #if(!$riskEvaluationObject) 
-      #set($n = $riskAnalysisSessionDocument.createObject("RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass"))
-      #set($riskEvaluationObject = $riskAnalysisSessionDocument.getObject("RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass", $n))
-    #end
-    
-    $riskEvaluationObject.set("riskConfiguration", $request.riskConfiguration)
-    $riskEvaluationObject.set("result", $jsontool.serialize($result))
-    $riskAnalysisSessionDocument.save("Evaluation of ${request.riskConfiguration}")
-    
-    $response.sendRedirect($riskAnalysisSessionDocument.getURL())
-  #else
-    #set($inputChunks = $services.riscoss.riskAnalysisEngineUtilsService.getInputs($rae))
+{{velocity}}
+#if($showForm)   
+  #set($inputChunks = $services.riscoss.riskAnalysisEngineUtilsService.getInputs($rae))
 
 {{html}}
 
-&lt;form method="POST"&gt;
-  &lt;input type="hidden" name="evaluate" value="true"/&gt;
+&lt;form action="$xwiki.getDocument("RISCOSSPlatformRiskAnalysisManagerCode.EvaluateInteractive").getURL()" method="POST"&gt;
   &lt;input type="hidden" name="entity" value="${request.entity}"/&gt;
   &lt;input type="hidden" name="riskConfiguration" value="${request.riskConfiguration}"/&gt;
-  &lt;input type="hidden" name="riskAnalysisSession" value="${request.riskAnalysisSession}"/&gt;
+  &lt;input type="hidden" name="showInputs" value="true"/&gt;
 &lt;table&gt;
     #foreach($inputChunk in $inputChunks)
   &lt;tr&gt;
@@ -174,8 +152,6 @@
 &lt;input type="submit" value="Evaluate" class="button"/&gt;
 &lt;/form&gt;
 {{/html}}
-  #end
-     
 #end
 {{/velocity}}</content>
 </xwikidoc>

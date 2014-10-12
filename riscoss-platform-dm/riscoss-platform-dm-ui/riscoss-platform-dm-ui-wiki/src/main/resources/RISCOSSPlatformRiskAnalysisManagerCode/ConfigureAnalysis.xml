@@ -20,84 +20,29 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.1">
-  <web>RISCOSSPlatformRiskConfigurationManagerCode</web>
-  <name>AddRiskModel</name>
+<xwikidoc>
+  <web>RISCOSSPlatformRiskAnalysisManagerCode</web>
+  <name>ConfigureAnalysis</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
+  <parent>RISCOSSPlatformRiskAnalysisManagerCode.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1413130502000</creationDate>
-  <parent>RISCOSSPlatformRiskConfigurationManagerCode.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
+  <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1413131009000</date>
-  <contentUpdateDate>1413131009000</contentUpdateDate>
+  <creationDate>1412970732000</creationDate>
+  <date>1413122170000</date>
+  <contentUpdateDate>1413122090000</contentUpdateDate>
   <version>1.1</version>
-  <title>Add risk model to $xwiki.getDocument($request.riskConfiguration).title in layer $xwiki.getDocument($request.layer).title</title>
+  <title>Configure Risk Analysis Session</title>
+  <defaultTemplate/>
+  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{velocity}}
-
-#if($request.method == "POST")
-  #set($riskConfiguration = $xwiki.getDocument($request.riskConfiguration))
-  
-  #set($existingRiskModels = $riskConfiguration.getObjects("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass", "riskModel", $request.riskModel))
-  #set($found = false)
-  #foreach($existingRiskModel in $existingRiskModels)
-    #if($existingRiskModel.getProperty("layer").value == $request.layer)
-      #set($found = true)
-    #end
-  #end
-  
-  #if(!$found)
-    #set($nb = $riskConfiguration.createNewObject("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass"))
-    #set($riskConfigurationModel = $riskConfiguration.getObject("RISCOSSPlatformRiskConfigurationManagerCode.RiskModelClass", $nb))
-    $riskConfigurationModel.set("layer", $request.layer)
-    $riskConfigurationModel.set("riskModel", $request.riskModel)
-    $riskConfiguration.save()
-  #end
-  
-  $response.sendRedirect($riskConfiguration.getURL())
-  
-#elseif($request.riskConfiguration &amp;&amp; $request.layer)
-  {{info}}
-    Please select a risk model by clicking on the corresponding link.
-  {{/info}}
-
-
-  #set($columns = ["doc.name", "description"])
-  #set($columnsProperties = {
-      "doc.name" : { "type" : "text" , "size" : 20, "link" : "view"},
-      "description" : { "type" : "text" , "html" : "true", "filterable" : "false", "sortable" : "false"}
-  })
-  #set($options = { 
-     "className":"RISCOSSPlatformModelManagerCode.RiskModelClass",
-     "translationPrefix" : "riscossPlatform.modelManager.riskModelsTable.",
-     "tagCloud" : false,
-     "rowCount": 10
-  })
-  #livetable("riskModels" $columns $columnsProperties $options)
-
-  {{html}}
-  &lt;form action="$xwiki.getDocument("RISCOSSPlatformRiskConfigurationManagerCode.AddRiskModel").getURL()" method="POST" id="addRiskModelForm"&gt;
-    &lt;input type="hidden" name="riskConfiguration" value="$request.riskConfiguration"/&gt;
-    &lt;input type="hidden" name="layer" value="$request.layer"/&gt;
-    &lt;input type="hidden" name="riskModel" value="" id="riskModelInput"/&gt;
-  &lt;/form&gt;
-  {{/html}}
-#else 
-  {{error}}Missing parameters{{/error}}
-#end
-
-{{/velocity}}</content>
   <object>
-    <name>RISCOSSPlatformRiskConfigurationManagerCode.AddRiskModel</name>
-    <number>0</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>b904e219-fde6-4646-98ed-0d750f636cd5</guid>
     <class>
       <name>XWiki.JavaScriptExtension</name>
       <customClass/>
@@ -169,32 +114,62 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
+    <name>RISCOSSPlatformRiskAnalysisManagerCode.ConfigureAnalysis</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>6c83603f-61df-4203-851b-c813a754834e</guid>
     <property>
       <cache>forbid</cache>
     </property>
     <property>
-      <code>var XWiki = (function(XWiki) {    
-  
+      <code>var XWiki = (function(XWiki) {
+  var getDocumentFullNameFromURI = function(uri) {
+    //Dirty hack to retrieve the risk model document name from a URI
+    var components = decodeURI(uri).replace(/\+/g, ' ').split('/');
+    var space = components[components.length - 2];
+    var page = components[components.length - 1];
+
+    return space + "." + page;
+  }  
   function init() {
-    var liveTable = $('riskModels');
-    liveTable.on('click', function(e) {
+    var editSections = $$('.edit_section');
+    for(i = 0; i &lt; editSections.length; i++) {
+      editSections[i].hide();
+    }
+
+    $('entities').on('click', function(e) {
       if(e.srcElement.localName == 'a') {
         e.stop();
-        
-        //Dirty hack to retrieve the risk model document name from the URI pointed by the link
-        var components = e.srcElement.href.split('/');
-        var space = components[components.length - 2];
-        var page = components[components.length - 1];
-        var riskModel = space + "." + page;
-        
-        $('riskModelInput').value = riskModel.replace(/\+/g, ' ');
-        
-        $('addRiskModelForm').submit();                                        
-      }                  
+        $('selectedEntityText').innerText = e.srcElement.innerText;
+        $('entity').value = getDocumentFullNameFromURI(e.srcElement.href);
+      }
     });
-    
+
+    $('riskConfigurations').on('click', function(e) {
+      if(e.srcElement.localName == 'a') {
+        e.stop();
+        $('selectedRiskConfigurationText').innerText = e.srcElement.innerText;
+        $('riskConfiguration').value = getDocumentFullNameFromURI(e.srcElement.href);
+      }
+    });
+
+    $('evaluate').on('click', function(e) {
+      if($('entity').value == '') {
+        alert('Please select an entity');
+        e.stop();
+        return;
+      }
+
+      if($('riskConfiguration').value == '') {
+        alert('Please select a risk configuration');
+        e.stop();
+        return;
+      }
+
+    });
   }
-  
+
+
   //Wait for dom load
   (XWiki.domIsLoaded &amp;&amp; init()) || document.observe("xwiki:dom:loaded", init);
    
@@ -212,4 +187,60 @@
       <use>currentPage</use>
     </property>
   </object>
+  <content>{{velocity}}
+
+{{html wiki="true"}}
+
+&lt;form action='$xwiki.getDocument('RISCOSSPlatformRiskAnalysisManagerCode.EvaluateInteractive').getURL()' method='POST'&gt;
+
+&lt;input type='hidden' name='entity' value='' id='entity'/&gt;
+&lt;input type='hidden' name='riskConfiguration' value='' id='riskConfiguration'/&gt;
+
+&lt;h1&gt;Selected entity: &lt;span id='selectedEntityText'&gt;{{info}}Please select and entity to run risk analysis on{{/info}}&lt;/span&gt;&lt;/h1&gt;
+
+#set($columns = ['entity', 'layer'])
+#set($columnsProperties = {
+    'entity' : { 'type' : 'text', 'link' : 'field', 'sortable' : 'true', 'filterable' : 'true'},    
+    'layer' : { 'type' : 'text', 'link' : 'field', 'sortable' : 'true', 'filterable' : 'true' }
+})
+#set($options = {
+   'resultPage' : 'RISCOSSPlatformLayerManagerCode.EntitiesLiveTableResults',   
+   'rowCount' : 10,
+   'pageSize' : false,
+   'tagCloud' : false,
+   'translationPrefix' : 'riscossPlatform.layerManager.entitiesTable.'
+})
+#livetable('entities', $columns, $columnsProperties, $options)
+
+----
+
+&lt;h1&gt;Selected risk configuration: &lt;span id='selectedRiskConfigurationText'&gt;{{info}}Please select the risk to be analysed{{/info}}&lt;/span&gt;&lt;/h1&gt;
+
+#set($columns = ["doc.name", "description"])
+#set($columnsProperties = {
+    "doc.name" : { "type" : "text" , "size" : 20, "link" : "view"},
+    "description" : { "type" : "text", "html" : "true", "filterable" : "false"}
+})
+#set($options = { 
+   "className":"RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationClass",
+   'pageSize' : false,
+   'translationPrefix' : "riscossPlatform.riskConfigurationManager.riskConfigurationsTable.",
+   'tagCloud' : false,
+   'rowCount': 10
+})
+#livetable("riskConfigurations" $columns $columnsProperties $options)
+
+&lt;br/&gt;
+
+----
+
+&lt;input type='submit' value='Perform evaluation' id='evaluate' class='button' style='width:100%'/&gt;
+
+&lt;/form&gt;
+
+{{/html}}
+
+
+
+{{/velocity}}</content>
 </xwikidoc>

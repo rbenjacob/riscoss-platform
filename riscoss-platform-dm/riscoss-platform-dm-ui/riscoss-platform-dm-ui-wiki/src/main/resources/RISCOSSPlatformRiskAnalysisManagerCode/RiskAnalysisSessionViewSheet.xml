@@ -19,29 +19,72 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc>
+<xwikidoc version="1.1">
   <web>RISCOSSPlatformRiskAnalysisManagerCode</web>
   <name>RiskAnalysisSessionViewSheet</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass</parent>
   <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1413132090000</creationDate>
+  <parent>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass</parent>
   <author>xwiki:XWiki.Admin</author>
-  <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411739239000</creationDate>
-  <date>1411739239000</date>
-  <contentUpdateDate>1411739239000</contentUpdateDate>
+  <date>1413134591000</date>
+  <contentUpdateDate>1413132090000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'RiskAnalysisSessionSheet')RiskAnalysisSession Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
-  <defaultTemplate/>
-  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
+  <content>{{velocity}}
+$xwiki.jsx.use("RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet")
+#set($riskAnalysisSessionObject = $doc.getObject('RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass'))
+#set($targetEntity = $xwiki.getDocument($riskAnalysisSessionObject.getProperty('entity').value))
+
+; Target entity
+: $targetEntity.title
+
+#set($riskEvaluations = $doc.getObjects('RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass'))
+|= Risk configuration |= Evaluation Results
+#foreach($riskEvaluation in $riskEvaluations)
+  #set($riskConfiguration = $xwiki.getDocument($riskEvaluation.getProperty('riskConfiguration').value))
+| ((($riskConfiguration.title 
+  #if($riskEvaluation.getProperty('result').value == '')
+{{html wiki="true"}}
+    &lt;form action="$xwiki.getURL('RISCOSSPlatformRiskAnalysisManagerCode.Evaluate')" method="POST"&gt;
+      &lt;input type="hidden" name="riskAnalysisSession" value="$doc.fullName"/&gt;
+      &lt;input type="hidden" name="riskConfiguration" value="$riskConfiguration.fullName"/&gt;
+      &lt;input type="hidden" name="entity" value="$targetEntity.fullName"/&gt;
+      &lt;input type="submit" value="Evaluate" class="button"/&gt;
+    &lt;/form&gt;
+{{/html}}
+  #end
+))) | (((
+  {{html}}
+    #if($riskEvaluation.getProperty('result').value != '')      
+      &lt;div class="resultData" style="display: none" riskConfiguration="$riskConfiguration.fullName"&gt;$riskEvaluation.getProperty('result').value&lt;/div&gt;
+      &lt;div class="resultInput" style="display: none"&gt;$riskEvaluation.getProperty('inputData').value&lt;/div&gt;
+    #end
+  {{/html}}
+)))
+#end
+
+----
+
+{{html wiki="true"}}
+#set($xredirect = $xwiki.getDocument("RISCOSSPlatformRiskConfigurations.WebHome").getURL())
+&lt;span class="buttonwrapper"&gt;
+[[$services.localization.render("delete")&gt;&gt;$doc.getExternalURL("delete", "xredirect=${xredirect}")]]
+&lt;/span&gt;
+{{/html}}
+{{/velocity}}</content>
   <object>
+    <name>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>04ef4195-bf16-4a2a-b1d6-9697c2b22b51</guid>
     <class>
       <name>XWiki.JavaScriptExtension</name>
       <customClass/>
@@ -113,34 +156,11 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet</name>
-    <number>0</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>04ef4195-bf16-4a2a-b1d6-9697c2b22b51</guid>
     <property>
       <cache>forbid</cache>
     </property>
     <property>
-      <code>var XWiki = (function(XWiki) {
-  var drawEvidence = function(canvas, p, n) {
-    var context = canvas.getContext("2d")
-    var width = canvas.width;
-    var height = canvas.height;
-
-    context.beginPath();
-    context.rect(0, 0, canvas.width, canvas.height);
-    context.stroke();
-    
-    context.beginPath();
-    context.rect(0, 0, canvas.width * p, canvas.height / 2);
-    context.fillStyle = 'green';
-    context.fill();
-    context.beginPath();
-    context.rect(0, canvas.height / 2, canvas.width * n, canvas.height);
-    context.fillStyle = 'red';
-    context.fill();
-  }
-  
+      <code>var XWiki = (function(XWiki) {  
   var drawDistribution = function(canvas, v) {
     var colors = ["#298a08", "#86b404", "#ffbf00", "#fa5858", "#ff0000"];
     var context = canvas.getContext("2d")
@@ -182,7 +202,7 @@
     
     element.setStyle({display: ''});
   
-    var html = '&lt;table&gt;\n'
+    var html = '&lt;table width="100%"&gt;\n'
     for(type in dataByType) {
       var currentData = dataByType[type];
       html = html + '&lt;tr&gt;&lt;th colspan="2"&gt;&amp;nbsp;&lt;/th&gt;&lt;/tr&gt;'
@@ -190,7 +210,7 @@
         html = html + '&lt;tr&gt;&lt;td&gt;' + currentData[key].DESCRIPTION + '&lt;/td&gt;';
     
         if(currentData[key].TYPE == 'EVIDENCE') {
-          html = html + '&lt;td&gt;&lt;canvas id="' + riskConfiguration + '_' + key + '" width="200" height="30"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
+          html = html + '&lt;td&gt;&lt;div id="' + riskConfiguration + '_' + key + '"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
         } else if(currentData[key].TYPE == 'INTEGER' || currentData[key].TYPE == 'REAL') {
           html = html + '&lt;td&gt;' + currentData[key].VALUE + '&lt;/td&gt;&lt;/tr&gt;\n';
         } else if(currentData[key].TYPE == 'DISTRIBUTION') {
@@ -205,8 +225,12 @@
   
     for(key in data) {    
       if(data[key].TYPE == "EVIDENCE") {
-        var canvas = $(riskConfiguration + '_' + key);
-        drawEvidence(canvas, data[key].VALUE.positive,  data[key].VALUE.negative);
+        var div = $(riskConfiguration + '_' + key);
+        var altText = 'Positive: ' + data[key].VALUE.positive + ', Negative: ' + data[key].VALUE.negative;
+        var gauge = new Element('img', {
+          src: '$xwiki.getDocument('RISCOSSPlatformCode.EvidenceGauge').getExternalURL()?positive=' + data[key].VALUE.positive + '&amp;negative=' + data[key].VALUE.negative, 
+          alt: altText});
+        div.insert({top: gauge});
       }
       else if(data[key].TYPE == "DISTRIBUTION") {
         var canvas = $(riskConfiguration + '_' + key);
@@ -214,13 +238,40 @@
       }
     }
   }
+  
+  var displayInputData = function(element, data) {
+    var html = '&lt;table width="100%"&gt;&lt;tr&gt;&lt;th colspan="2"&gt;Provided inputs for this result&lt;/th&gt;&lt;/tr&gt;';
+    
+    for(key in data) {
+      if(data[key].question) {
+        html = html + '&lt;tr&gt;&lt;td&gt;' + data[key].question + '&lt;/td&gt;';
+      }
+      else {
+        html = html + '&lt;tr&gt;&lt;td&gt;Value for \'' + key + '\'&lt;/td&gt;';
+      }
+      html = html + '&lt;td&gt;' + data[key].value + '&lt;/td&gt;&lt;/tr&gt;';
+    }
+    html = html + '&lt;/table&gt;';
+    
+    element.update(html);
+    element.setStyle({display: ''});
+  }
 
   function init() {
-    var resultElements = $$('div.resultData')
+    var resultElements = $$('div.resultData');
     for(i = 0; i &lt; resultElements.length; i++) {
       var resultElement = resultElements[i];
       var data = JSON.parse(resultElement.innerText);
       displayData(resultElement, resultElement.getAttribute('riskConfiguration'), data);
+    }
+    
+    var inputDataElements = $$('div.resultInput');
+    
+    console.log(inputDataElements);
+    for(i = 0; i &lt; inputDataElements.length; i++) {
+      var inputDataElement = inputDataElements[i];
+      var data = JSON.parse(inputDataElement.innerText);
+      displayInputData(inputDataElement, data);
     }
   }
   
@@ -242,6 +293,10 @@
     </property>
   </object>
   <object>
+    <name>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet</name>
+    <number>0</number>
+    <className>XWiki.SheetDescriptorClass</className>
+    <guid>8f0b1e7b-7811-4ca7-9148-e307e9adec25</guid>
     <class>
       <name>XWiki.SheetDescriptorClass</name>
       <customClass/>
@@ -265,55 +320,8 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </action>
     </class>
-    <name>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet</name>
-    <number>0</number>
-    <className>XWiki.SheetDescriptorClass</className>
-    <guid>8f0b1e7b-7811-4ca7-9148-e307e9adec25</guid>
     <property>
       <action>view</action>
     </property>
   </object>
-  <content>{{velocity}}
-$xwiki.jsx.use("RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSheet")
-#set($riskAnalysisSessionObject = $doc.getObject('RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass'))
-#set($targetEntity = $xwiki.getDocument($riskAnalysisSessionObject.getProperty('entity').value))
-
-; Target entity
-: $targetEntity.title
-
-#set($riskEvaluations = $doc.getObjects('RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass'))
-|= Risk configuration |= |=
-#foreach($riskEvaluation in $riskEvaluations)
-  #set($riskConfiguration = $xwiki.getDocument($riskEvaluation.getProperty('riskConfiguration').value))
-| $riskConfiguration.title | (((
-  #if($riskEvaluation.getProperty('result').value == '')
-{{html wiki="true"}}
-    &lt;form action="$xwiki.getURL('RISCOSSPlatformRiskAnalysisManagerCode.Evaluate')" method="POST"&gt;
-      &lt;input type="hidden" name="riskAnalysisSession" value="$doc.fullName"/&gt;
-      &lt;input type="hidden" name="riskConfiguration" value="$riskConfiguration.fullName"/&gt;
-      &lt;input type="hidden" name="entity" value="$targetEntity.fullName"/&gt;
-      &lt;input type="submit" value="Evaluate" class="button"/&gt;
-    &lt;/form&gt;
-{{/html}}
-  #else 
-    Evaluation DONE 
-  #end 
-))) | (((
-  {{html}}
-    #if($riskEvaluation.getProperty('result').value != '')
-      &lt;div class="resultData" style="display: none" riskConfiguration="$riskConfiguration.fullName"&gt;$riskEvaluation.getProperty('result').value&lt;/div&gt;
-    #end
-  {{/html}}
-)))
-#end
-
-----
-
-{{html wiki="true"}}
-#set($xredirect = $xwiki.getDocument("RISCOSSPlatformRiskConfigurations.WebHome").getURL())
-&lt;span class="buttonwrapper"&gt;
-[[$services.localization.render("delete")&gt;&gt;$doc.getExternalURL("delete", "xredirect=${xredirect}")]]
-&lt;/span&gt;
-{{/html}}
-{{/velocity}}</content>
 </xwikidoc>
