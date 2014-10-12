@@ -20,8 +20,10 @@
 package eu.riscoss.services;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,12 +39,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import eu.riscoss.reasoner.Chunk;
-import eu.riscoss.reasoner.Evidence;
 import eu.riscoss.reasoner.Distribution;
+import eu.riscoss.reasoner.Evidence;
 import eu.riscoss.reasoner.Field;
 import eu.riscoss.reasoner.FieldType;
 import eu.riscoss.reasoner.ModelSlice;
+import eu.riscoss.reasoner.Rank;
+import eu.riscoss.reasoner.ReasoningLibrary;
 import eu.riscoss.reasoner.RiskAnalysisEngine;
+import eu.riscoss.reasoner.Sorter;
 
 public class RiskAnalysisEngineUtilsService
 {
@@ -98,6 +103,56 @@ public class RiskAnalysisEngineUtilsService
         Distribution result = new Distribution();
 
         result.setValues(values);
+
+        return result;
+    }
+
+    public Map<String, Map<String, Map<String, Object>>> runAnalysisWithStructuredResults(
+            RiskAnalysisEngine riskAnalysisEngine)
+    {
+        Map<String, Map<String, Map<String, Object>>> result = new HashMap<String, Map<String, Map<String, Object>>>();
+
+        riskAnalysisEngine.runAnalysis(new String[0]);
+
+        Map<String, Sorter> categories = new HashMap<String, Sorter>();
+        for (Chunk chunk : riskAnalysisEngine.queryModel(ModelSlice.OUTPUT_DATA)) {
+            Field output = riskAnalysisEngine.getField(chunk, FieldType.OUTPUT_VALUE);
+            String type = riskAnalysisEngine.getField(chunk, FieldType.TYPE).getValue();
+            Sorter sorter = categories.get(type);
+            if (sorter == null) {
+                sorter = ReasoningLibrary.get().createSorter();
+                categories.put(type, sorter);
+            }
+            sorter.add(chunk, output);
+        }
+
+        String[] types = new String[]{ "Goal", "Risk", "Data" };
+
+        for (String type : types) {
+            Map<String, Map<String, Object>> resultsForType = new LinkedHashMap<String, Map<String, Object>>();
+
+            Sorter sorter = categories.get(type);
+            if (sorter != null) {
+                for (Rank rank : sorter.order()) {
+                    Map<String, Object> item = new LinkedHashMap<String, Object>();
+
+                    Chunk chunk = rank.getChunk();
+                    Field descriptionField = riskAnalysisEngine.getField(chunk, FieldType.DESCRIPTION);
+                    if (descriptionField != null) {
+                        item.put("DESCRIPTION", riskAnalysisEngine.getField(chunk, FieldType.DESCRIPTION).getValue());
+                    } else {
+                        item.put("DESCRIPTION", chunk.getId());
+                    }
+
+                    item.put("TYPE", rank.getField().getDataType());
+                    item.put("VALUE", rank.getField().getValue());
+
+                    resultsForType.put(chunk.getId(), item);
+                }
+
+                result.put(type, resultsForType);
+            }
+        }
 
         return result;
     }
@@ -290,7 +345,10 @@ public class RiskAnalysisEngineUtilsService
             Iterable<Chunk> chunks = riskAnalysisEngine.queryModel(ModelSlice.INPUT_DATA);
             for (Chunk chunk : chunks) {
                 HttpGet get =
-                        new HttpGet(String.format("%s/%s?id=%s&limit=1", riskDataRepositoryURI, target, chunk.getId()));
+                        new HttpGet(
+                                String.format("%s/%s?id=%s&limit=1", riskDataRepositoryURI,
+                                        URLEncoder.encode(target, "UTF-8"), URLEncoder.encode(
+                                                chunk.getId(), "UTF-8")));
                 CloseableHttpResponse response = client.execute(get);
 
                 if (response.getStatusLine().getStatusCode() != 200) {
@@ -299,7 +357,7 @@ public class RiskAnalysisEngineUtilsService
                 }
 
                 JsonObject jsonObject =
-                            gson.fromJson(IOUtils.toString(response.getEntity().getContent()), JsonObject.class);
+                        gson.fromJson(IOUtils.toString(response.getEntity().getContent()), JsonObject.class);
                 JsonArray riskDataArray = jsonObject.getAsJsonArray("results");
                 if (riskDataArray.size() != 0) {
                     JsonObject riskData = riskDataArray.get(0).getAsJsonObject();
