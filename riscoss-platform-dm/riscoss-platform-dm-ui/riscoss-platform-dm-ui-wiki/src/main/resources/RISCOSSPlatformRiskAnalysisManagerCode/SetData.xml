@@ -35,7 +35,7 @@
   <date>0</date>
   <contentUpdateDate>0</contentUpdateDate>
   <version>1.1</version>
-  <title>SetData</title>
+  <title>Set risk data</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -81,11 +81,19 @@
 &lt;form action="$xwiki.getDocument("RISCOSSPlatformRiskAnalysisManagerCode.EvaluateInteractive").getURL()" method="POST"&gt;
   &lt;input type="hidden" name="entity" value="${request.entity}"/&gt;
   &lt;input type="hidden" name="riskConfiguration" value="${request.riskConfiguration}"/&gt;
+  &lt;input type="hidden" name="setDataFromRequest" value="true"/&gt;
   &lt;input type="hidden" name="showInputs" value="true"/&gt;
 &lt;table&gt;
     #foreach($inputChunk in $inputChunks)
   &lt;tr&gt;
-    &lt;td&gt;$services.riscoss.riskAnalysisEngineUtilsService.getQuestion($rae, $inputChunk)&lt;/td&gt;
+    &lt;td&gt;
+      #set($question = $services.riscoss.riskAnalysisEngineUtilsService.getQuestion($rae, $inputChunk))      
+      #if($question != "")
+        $question
+      #else
+        Value for '$inputChunk.id'
+      #end
+    &lt;/td&gt;
     &lt;td&gt;
       #set($field = $services.riscoss.riskAnalysisEngineUtilsService.getInputField($rae, $inputChunk)) ##
       #set($dataType = $field.getDataType())
