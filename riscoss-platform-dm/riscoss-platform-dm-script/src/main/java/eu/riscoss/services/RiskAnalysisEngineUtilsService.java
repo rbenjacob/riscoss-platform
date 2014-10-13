@@ -309,7 +309,13 @@ public class RiskAnalysisEngineUtilsService
                             }
                         } else {
                             for (int n = 0; n < ((Distribution) field.getValue()).getValues().size(); n++) {
-                                distributionValues.add(0.0d);
+                                /* Distributions must sum to 1.0 so use this "default" */
+                                if(n == 0) {
+                                    distributionValues.add(1.0d);
+                                }
+                                else {
+                                    distributionValues.add(0.0d);
+                                }
                             }
                         }
 
