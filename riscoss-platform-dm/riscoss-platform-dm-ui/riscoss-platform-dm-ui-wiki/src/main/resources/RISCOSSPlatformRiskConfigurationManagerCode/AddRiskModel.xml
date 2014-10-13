@@ -27,12 +27,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1413130502000</creationDate>
+  <creationDate>0</creationDate>
   <parent>RISCOSSPlatformRiskConfigurationManagerCode.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1413131009000</date>
-  <contentUpdateDate>1413131009000</contentUpdateDate>
+  <date>0</date>
+  <contentUpdateDate>0</contentUpdateDate>
   <version>1.1</version>
   <title>Add risk model to $xwiki.getDocument($request.riskConfiguration).title in layer $xwiki.getDocument($request.layer).title</title>
   <comment/>

@@ -27,12 +27,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1413132090000</creationDate>
+  <creationDate>0</creationDate>
   <parent>RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1413134591000</date>
-  <contentUpdateDate>1413132090000</contentUpdateDate>
+  <date>0</date>
+  <contentUpdateDate>0</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'RiskAnalysisSessionSheet')RiskAnalysisSession Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <comment/>

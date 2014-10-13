@@ -31,9 +31,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411739239000</creationDate>
-  <date>1411838853000</date>
-  <contentUpdateDate>1411838853000</contentUpdateDate>
+  <creationDate>0</creationDate>
+  <date>0</date>
+  <contentUpdateDate>0</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.name == 'RiskConfigurationSheet')RiskConfiguration Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
   <defaultTemplate/>
@@ -371,7 +371,7 @@ How it works:
 </comment>
     </property>
     <property>
-      <date>2014-04-18 23:05:46.0</date>
+      <date>0</date>
     </property>
     <property>
       <highlight/>

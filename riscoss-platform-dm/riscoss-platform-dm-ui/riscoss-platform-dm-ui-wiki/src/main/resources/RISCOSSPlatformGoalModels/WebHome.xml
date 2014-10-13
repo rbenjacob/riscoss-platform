@@ -31,9 +31,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411739241000</creationDate>
-  <date>1411744522000</date>
-  <contentUpdateDate>1411744522000</contentUpdateDate>
+  <creationDate>0</creationDate>
+  <date>0</date>
+  <contentUpdateDate>0</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render("riscossPlatform.riskConfigurationManager.goalModelsList.title")</title>
   <defaultTemplate/>

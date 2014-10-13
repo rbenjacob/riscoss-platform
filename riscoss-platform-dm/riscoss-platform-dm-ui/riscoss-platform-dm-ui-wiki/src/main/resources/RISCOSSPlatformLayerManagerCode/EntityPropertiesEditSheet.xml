@@ -31,9 +31,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1411739239000</creationDate>
-  <date>1411739239000</date>
-  <contentUpdateDate>1411739239000</contentUpdateDate>
+  <creationDate>0</creationDate>
+  <date>0</date>
+  <contentUpdateDate>0</contentUpdateDate>
   <version>1.1</version>
   <title>#if(!$doc.name.endsWith('Sheet'))Class: #end$stringtool.removeEnd($doc.name, 'Class')</title>
   <defaultTemplate/>
@@ -46,7 +46,7 @@
     <filename>arrow-move.png</filename>
     <filesize>616</filesize>
     <author>XWiki.Admin</author>
-    <date>1411739239000</date>
+    <date>0</date>
     <version>1.1</version>
     <comment/>
     <content>iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A
@@ -66,7 +66,7 @@ hYEQYAqay8Tg0C3O5DeTlYGBgYE1cC6KPAAEFtSlCs4TrgAAAABJRU5ErkJggg==
     <filename>bulletcross.png</filename>
     <filesize>587</filesize>
     <author>XWiki.Admin</author>
-    <date>1411739239000</date>
+    <date>0</date>
     <version>1.1</version>
     <comment/>
     <content>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAB3RJTUUH1woQCDkQxGYFbwAAAAlw
@@ -86,7 +86,7 @@ we3cC88AAAAASUVORK5CYII=
     <filename>bullettick.png</filename>
     <filesize>419</filesize>
     <author>XWiki.Admin</author>
-    <date>1411739239000</date>
+    <date>0</date>
     <version>1.1</version>
     <comment/>
     <content>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAB3RJTUUH1woQCDUr2dijRwAAAAlw
@@ -1523,7 +1523,7 @@ return XWiki;
 With the patched oldcore which allows object creation this will not be needed anymore and we might start using directly the AWM original sheet.</comment>
     </property>
     <property>
-      <date>2014-04-16 21:08:58.341</date>
+      <date>0</date>
     </property>
     <property>
       <replyto/>
