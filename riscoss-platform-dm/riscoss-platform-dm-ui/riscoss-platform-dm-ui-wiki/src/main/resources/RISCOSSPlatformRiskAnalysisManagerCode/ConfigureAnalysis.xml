@@ -169,7 +169,6 @@
     });
   }
 
-
   //Wait for dom load
   (XWiki.domIsLoaded &amp;&amp; init()) || document.observe("xwiki:dom:loaded", init);
    
