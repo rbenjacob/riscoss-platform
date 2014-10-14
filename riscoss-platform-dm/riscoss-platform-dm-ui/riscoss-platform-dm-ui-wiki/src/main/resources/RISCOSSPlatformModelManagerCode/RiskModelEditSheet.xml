@@ -87,7 +87,7 @@
 #end
 
 ; Risk model:
-: {{attachmentSelector buttontext="$services.localization.render('riscossPlatform.modelManager.uploadRiskModel')" classname="RISCOSSPlatformModelManagerCode.RiskModelClass" property="riskModelData" filter="xml"/}}
+: {{attachmentSelector buttontext="$services.localization.render('riscossPlatform.modelManager.uploadRiskModel')" classname="RISCOSSPlatformModelManagerCode.RiskModelClass" property="riskModelData" filter="xml,xdsl"/}}
 
 {{/velocity}}</content>
 </xwikidoc>
