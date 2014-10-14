@@ -223,7 +223,7 @@
     var resultElements = $$('div.resultData');
     for(i = 0; i &lt; resultElements.length; i++) {
       var resultElement = resultElements[i];
-      var data = JSON.parse(resultElement.innerText);
+      var data = JSON.parse(resultElement.innerHTML);
       displayData(resultElement, resultElement.getAttribute('riskConfiguration'), data);
     }
     
@@ -232,7 +232,7 @@
     console.log(inputDataElements);
     for(i = 0; i &lt; inputDataElements.length; i++) {
       var inputDataElement = inputDataElements[i];
-      var data = JSON.parse(inputDataElement.innerText);
+      var data = JSON.parse(inputDataElement.innerHTML);
       displayInputData(inputDataElement, data);
     }
   }
