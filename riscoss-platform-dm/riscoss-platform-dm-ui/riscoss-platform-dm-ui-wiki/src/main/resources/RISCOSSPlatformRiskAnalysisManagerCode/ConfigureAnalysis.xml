@@ -20,86 +20,29 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.1">
+<xwikidoc>
   <web>RISCOSSPlatformRiskAnalysisManagerCode</web>
   <name>ConfigureAnalysis</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>0</creationDate>
   <parent>RISCOSSPlatformRiskAnalysisManagerCode.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
+  <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>0</creationDate>
   <date>0</date>
   <contentUpdateDate>0</contentUpdateDate>
   <version>1.1</version>
   <title>Configure Risk Analysis Session</title>
+  <defaultTemplate/>
+  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{velocity}}
-
-{{html wiki="true"}}
-
-&lt;form action='$xwiki.getDocument('RISCOSSPlatformRiskAnalysisManagerCode.EvaluateInteractive').getURL()' method='POST'&gt;
-
-&lt;input type='hidden' name='entity' value='' id='entity'/&gt;
-&lt;input type='hidden' name='riskConfiguration' value='' id='riskConfiguration'/&gt;
-
-&lt;h1&gt;Selected entity: &lt;span id='selectedEntityText'&gt;{{info}}Please select and entity to run risk analysis on{{/info}}&lt;/span&gt;&lt;/h1&gt;
-
-#set($columns = ['entity', 'layer'])
-#set($columnsProperties = {
-    'entity' : { 'type' : 'text', 'link' : 'field', 'sortable' : 'true', 'filterable' : 'true'},    
-    'layer' : { 'type' : 'text', 'link' : 'field', 'sortable' : 'true', 'filterable' : 'true' }
-})
-#set($options = {
-   'resultPage' : 'RISCOSSPlatformLayerManagerCode.EntitiesLiveTableResults',   
-   'rowCount' : 10,
-   'pageSize' : false,
-   'tagCloud' : false,
-   'translationPrefix' : 'riscossPlatform.layerManager.entitiesTable.'
-})
-#livetable('entities', $columns, $columnsProperties, $options)
-
-----
-
-&lt;h1&gt;Selected risk configuration: &lt;span id='selectedRiskConfigurationText'&gt;{{info}}Please select the risk to be analysed{{/info}}&lt;/span&gt;&lt;/h1&gt;
-
-#set($columns = ["doc.name", "description"])
-#set($columnsProperties = {
-    "doc.name" : { "type" : "text" , "size" : 20, "link" : "view"},
-    "description" : { "type" : "text", "html" : "true", "filterable" : "false"}
-})
-#set($options = { 
-   "className":"RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationClass",
-   'pageSize' : false,
-   'translationPrefix' : "riscossPlatform.riskConfigurationManager.riskConfigurationsTable.",
-   'tagCloud' : false,
-   'rowCount': 10
-})
-#livetable("riskConfigurations" $columns $columnsProperties $options)
-
-&lt;br/&gt;
-
-----
-
-&lt;input type='submit' value='Perform evaluation' id='evaluate' class='button' style='width:100%'/&gt;
-
-&lt;/form&gt;
-
-{{/html}}
-
-
-
-{{/velocity}}</content>
   <object>
-    <name>RISCOSSPlatformRiskAnalysisManagerCode.ConfigureAnalysis</name>
-    <number>0</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>6c83603f-61df-4203-851b-c813a754834e</guid>
     <class>
       <name>XWiki.JavaScriptExtension</name>
       <customClass/>
@@ -171,6 +114,10 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
+    <name>RISCOSSPlatformRiskAnalysisManagerCode.ConfigureAnalysis</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>6c83603f-61df-4203-851b-c813a754834e</guid>
     <property>
       <cache>forbid</cache>
     </property>
@@ -239,4 +186,60 @@
       <use>currentPage</use>
     </property>
   </object>
+  <content>{{velocity}}
+
+{{html wiki="true"}}
+
+&lt;form action='$xwiki.getDocument('RISCOSSPlatformRiskAnalysisManagerCode.EvaluateInteractive').getURL()' method='POST'&gt;
+
+&lt;input type='hidden' name='entity' value='' id='entity'/&gt;
+&lt;input type='hidden' name='riskConfiguration' value='' id='riskConfiguration'/&gt;
+
+&lt;h1&gt;Selected entity: &lt;span id='selectedEntityText'&gt;{{info}}Please select and entity to run risk analysis on{{/info}}&lt;/span&gt;&lt;/h1&gt;
+
+#set($columns = ['entity', 'layer'])
+#set($columnsProperties = {
+    'entity' : { 'type' : 'text', 'link' : 'field', 'sortable' : 'true', 'filterable' : 'true'},    
+    'layer' : { 'type' : 'text', 'link' : 'field', 'sortable' : 'true', 'filterable' : 'true' }
+})
+#set($options = {
+   'resultPage' : 'RISCOSSPlatformLayerManagerCode.EntitiesLiveTableResults',   
+   'rowCount' : 10,
+   'pageSize' : false,
+   'tagCloud' : false,
+   'translationPrefix' : 'riscossPlatform.layerManager.entitiesTable.'
+})
+#livetable('entities', $columns, $columnsProperties, $options)
+
+----
+
+&lt;h1&gt;Selected risk configuration: &lt;span id='selectedRiskConfigurationText'&gt;{{info}}Please select the risk to be analysed{{/info}}&lt;/span&gt;&lt;/h1&gt;
+
+#set($columns = ["doc.name", "description"])
+#set($columnsProperties = {
+    "doc.name" : { "type" : "text" , "size" : 20, "link" : "view"},
+    "description" : { "type" : "text", "html" : "true", "filterable" : "false"}
+})
+#set($options = { 
+   "className":"RISCOSSPlatformRiskConfigurationManagerCode.RiskConfigurationClass",
+   'pageSize' : false,
+   'translationPrefix' : "riscossPlatform.riskConfigurationManager.riskConfigurationsTable.",
+   'tagCloud' : false,
+   'rowCount': 10
+})
+#livetable("riskConfigurations" $columns $columnsProperties $options)
+
+&lt;br/&gt;
+
+----
+
+&lt;input type='submit' value='Perform evaluation' id='evaluate' class='button' style='width:100%'/&gt;
+
+&lt;/form&gt;
+
+{{/html}}
+
+
+
+{{/velocity}}</content>
 </xwikidoc>

@@ -122,8 +122,31 @@
       <cache>forbid</cache>
     </property>
     <property>
-      <code>var XWiki = (function(XWiki) {  
-  var drawDistribution = function(canvas, v) {
+      <code>var XWiki = (function(XWiki) {
+  var createTextElement = function(value) {
+    var element = new Element('div');
+    element.innerHTML = JSON.stringify(value);
+    
+    return element;
+  }
+  
+  var createEvidenceElement = function(evidence) {
+    var div = new Element('div');
+    
+    var gauge = new Element('img', {
+      src: '$xwiki.getDocument('RISCOSSPlatformCode.EvidenceGauge').getExternalURL()?positive=' + evidence.positive + '&amp;negative=' + evidence.negative});
+    
+    var textDiv = new Element('div');
+    textDiv.innerHTML = '&lt;ul&gt;&lt;li&gt;Positive: ' + evidence.positive + '&lt;/li&gt;&lt;li&gt;Negative: ' + evidence.negative + '&lt;/li&gt;&lt;/ul&gt;';
+    
+    div.insert({top: gauge});
+    div.insert({bottom: textDiv});
+    
+    return div;
+  }
+  
+  var createDistributionElement = function(distribution) {
+    var canvas = new Element('canvas', {width: 200, height: 15 * distribution.length});
     var colors = ["#298a08", "#86b404", "#ffbf00", "#fa5858", "#ff0000"];
     var context = canvas.getContext("2d")
     var width = canvas.width;
@@ -133,70 +156,58 @@
     context.rect(0, 0, canvas.width, canvas.height);
     context.stroke();
     
-    var barHeight = Math.floor(canvas.height / v.length);
+    var barHeight = Math.floor(canvas.height / distribution.length);
     var fontSize = Math.min(barHeight, 10) ;
-    context.font = "bold " + fontSize + "px sans-serif"    
+    context.font = "bold " + fontSize + "px sans-serif"
     var maxTextWidth = context.measureText('999.99%').width;
         
-    for(i = 0; i &lt; v.length; i++) {
+    for(i = 0; i &lt; distribution.length; i++) {
       context.beginPath();
-      context.rect(0, i * barHeight, Math.floor(canvas.width  * v[i]), barHeight);
+      context.rect(0, i * barHeight, Math.floor(canvas.width  * distribution[i]), barHeight);
       context.fillStyle = colors[i];      
       context.fill();
       context.fillStyle = '#303030';
       context.textBaseline = "top";
       
-      context.fillText('' + Math.floor(10000 * v[i]) / 100 + "%", Math.min((canvas.width * v[i]) + 5, canvas.width - maxTextWidth - 5), (barHeight * i) + (barHeight - fontSize) / 2);
+      context.fillText('' + Math.floor(10000 * distribution[i]) / 100 + "%", Math.min((canvas.width * distribution[i]) + 5, canvas.width - maxTextWidth - 5), (barHeight * i) + (barHeight - fontSize) / 2);
     }
+    
+    return canvas;
   }
-
-  var displayData = function(element, riskConfiguration, data) {
-    var dataByType = {};
     
-    for(key in data) {
-      var type = data[key].TYPE;
-      if(dataByType[type] == null) {
-        dataByType[type] = {};
-      }
+  /* We expect data to be a map from a category to a map of results, where each
+   * result is a map of an id to a map with 3 elements (DESCRIPTION, TYPE, VALUE)
+   */
+  var displayData = function(element, data) {
+    var html = '&lt;table&gt;\n'
+    for(category in data) {
+      html = html + '&lt;tr&gt;&lt;th colspan="2"&gt;' + category + '&lt;/th&gt;&lt;/tr&gt;\n';
       
-      dataByType[type][key] = data[key];
-    }
-    
-    element.setStyle({display: ''});
-  
-    var html = '&lt;table width="100%"&gt;\n'
-    for(type in dataByType) {
-      var currentData = dataByType[type];
-      html = html + '&lt;tr&gt;&lt;th colspan="2"&gt;&amp;nbsp;&lt;/th&gt;&lt;/tr&gt;'
-      for(key in currentData) {
-        html = html + '&lt;tr&gt;&lt;td&gt;' + currentData[key].DESCRIPTION + '&lt;/td&gt;';
-    
-        if(currentData[key].TYPE == 'EVIDENCE') {
-          html = html + '&lt;td&gt;&lt;div id="' + riskConfiguration + '_' + key + '"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
-        } else if(currentData[key].TYPE == 'INTEGER' || currentData[key].TYPE == 'REAL') {
-          html = html + '&lt;td&gt;' + currentData[key].VALUE + '&lt;/td&gt;&lt;/tr&gt;\n';
-        } else if(currentData[key].TYPE == 'DISTRIBUTION') {
-          html = html + '&lt;td&gt;&lt;canvas id="' + riskConfiguration + '_' + key + '" width="200" height="50"/&gt;&lt;/td&gt;&lt;/tr&gt;\n';
-        }      
+      for(item in data[category]) {
+        var description = data[category][item].DESCRIPTION || item;
+        var type = data[category][item].TYPE;
+        var value = data[category][item].VALUE;
+        html = html + '&lt;tr&gt;&lt;td&gt;' + description + '&lt;/td&gt;&lt;td&gt;&lt;div class="result" type="' + type + '" style="display: none"&gt;' + encodeURIComponent(JSON.stringify(value)) + '&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;';
       }
     }
-  
-    html = html + '&lt;/table&gt;\n';
-  
+    html = html + '&lt;/table&gt;\n'
+    
     element.update(html);
-  
-    for(key in data) {    
-      if(data[key].TYPE == "EVIDENCE") {
-        var div = $(riskConfiguration + '_' + key);
-        var altText = 'Positive: ' + data[key].VALUE.positive + ', Negative: ' + data[key].VALUE.negative;
-        var gauge = new Element('img', {
-          src: '$xwiki.getDocument('RISCOSSPlatformCode.EvidenceGauge').getExternalURL()?positive=' + data[key].VALUE.positive + '&amp;negative=' + data[key].VALUE.negative, 
-          alt: altText});
-        div.insert({top: gauge});
+    element.setStyle({display: ''});
+    
+    var resultElements = $$('.result');
+    for(var i = 0; i &lt; resultElements.length; i++) {
+      var resultElement = resultElements[i];
+      var type = resultElement.getAttribute("type");
+      var value = JSON.parse(decodeURIComponent(resultElement.innerHTML));
+      if(type == "EVIDENCE") {
+        Element.replace(resultElement, createEvidenceElement(value));
       }
-      else if(data[key].TYPE == "DISTRIBUTION") {
-        var canvas = $(riskConfiguration + '_' + key);
-        drawDistribution(canvas, data[key].VALUE.values);
+      else if(type = "DISTRIBUTION") {
+        Element.replace(resultElement, createDistributionElement(value));
+      }
+      else {
+        Element.replace(resultElement, createTextElement(value));
       }
     }
   }
@@ -224,7 +235,7 @@
     for(i = 0; i &lt; resultElements.length; i++) {
       var resultElement = resultElements[i];
       var data = JSON.parse(resultElement.innerHTML);
-      displayData(resultElement, resultElement.getAttribute('riskConfiguration'), data);
+      displayData(resultElement, data);
     }
     
     var inputDataElements = $$('div.resultInput');
@@ -311,7 +322,7 @@ $xwiki.jsx.use("RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionViewSh
   #end
 ))) | (((
   {{html}}
-    #if($riskEvaluation.getProperty('result').value != '')      
+    #if($riskEvaluation.getProperty('result').value != '')
       &lt;div class="resultData" style="display: none" riskConfiguration="$riskConfiguration.fullName"&gt;$riskEvaluation.getProperty('result').value&lt;/div&gt;
       &lt;div class="resultInput" style="display: none"&gt;$riskEvaluation.getProperty('inputData').value&lt;/div&gt;
     #end

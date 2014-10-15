@@ -29,10 +29,6 @@ import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.script.service.ScriptService;
 
-import eu.riscoss.reasoner.AnalysisResponse;
-import eu.riscoss.reasoner.ModelSlice;
-import eu.riscoss.reasoner.ReasoningLibrary;
-import eu.riscoss.reasoner.RiskAnalysisEngine;
 import eu.riscoss.services.RiskAnalysisEngineService;
 import eu.riscoss.services.RiskAnalysisEngineUtilsService;
 
