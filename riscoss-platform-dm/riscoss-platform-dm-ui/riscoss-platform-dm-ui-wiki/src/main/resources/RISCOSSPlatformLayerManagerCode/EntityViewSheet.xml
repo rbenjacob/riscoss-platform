@@ -83,6 +83,23 @@
 
 ----
 
+= Risk analysis performed for this entity
+
+#set($query = "from doc.object(RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass) as ras where ras.entity = '${doc.fullName}'")
+#set($riskAnalysisSessionDocumentNames = $services.query.xwql($query).execute())
+
+|= Risk analysis session |= Analyzed risk configurations
+#foreach($riskAnalysisSessionDocumentName in $riskAnalysisSessionDocumentNames)  
+  #set($riskAnalysisDocument = $xwiki.getDocument($services.model.resolveDocument($riskAnalysisSessionDocumentName)))
+  #set($riskEvaluations = $riskAnalysisDocument.getObjects("RISCOSSPlatformRiskAnalysisManagerCode.RiskEvaluationClass"))
+| [[$riskAnalysisDocument]] | (((
+#foreach($riskEvaluation in $riskEvaluations)
+* [[$riskEvaluation.getProperty("riskConfiguration").value]]
+#end
+)))
+#end
+----
+
 #set($xredirect = $xwiki.getDocument("RISCOSSPlatformEntities.WebHome").getURL())
 &lt;span class="buttonwrapper"&gt;
 [[$services.localization.render("edit")&gt;&gt;$doc.getExternalURL("edit")]] | [[$services.localization.render("delete")&gt;&gt;$doc.getExternalURL("delete", "xredirect=${xredirect}")]]
