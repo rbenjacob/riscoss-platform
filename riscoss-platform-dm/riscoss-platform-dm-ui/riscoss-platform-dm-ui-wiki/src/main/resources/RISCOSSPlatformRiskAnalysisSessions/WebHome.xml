@@ -46,7 +46,7 @@
 #set($columns = ["doc.name", "entity"])
 #set($columnsProperties = {
     "doc.name" : { "type" : "text" , "size" : 20, "link" : "view"},
-    "entity" : { "type" : "text", "html" : "true", "filterable" : "false"}
+    "entity" : { "type" : "text", "html" : "true", "filterable" : "true"}
 })
 #set($options = { 
    "className":"RISCOSSPlatformRiskAnalysisManagerCode.RiskAnalysisSessionClass",
