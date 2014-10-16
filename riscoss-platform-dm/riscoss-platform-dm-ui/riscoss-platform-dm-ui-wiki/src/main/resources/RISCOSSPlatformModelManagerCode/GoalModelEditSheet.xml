@@ -87,7 +87,7 @@
 #end
 
 ; Goal model:
-: {{attachmentSelector buttontext="$services.localization.render('riscossPlatform.modelManager.uploadGoalModel')" classname="RISCOSSPlatformModelManagerCode.GoalModelClass" property="goalModelData" filter="xml"/}}
+: {{attachmentSelector buttontext="$services.localization.render('riscossPlatform.modelManager.uploadGoalModel')" classname="RISCOSSPlatformModelManagerCode.GoalModelClass" property="goalModelData" filter="istarml"/}}
 
 {{/velocity}}</content>
 </xwikidoc>

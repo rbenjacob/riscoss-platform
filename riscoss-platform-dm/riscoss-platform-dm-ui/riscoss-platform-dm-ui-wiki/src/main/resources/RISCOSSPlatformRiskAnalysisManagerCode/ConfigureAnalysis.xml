@@ -138,18 +138,18 @@
     }
 
     $('entities').on('click', function(e) {
-      if(e.srcElement.localName == 'a') {
+      if(e.target.localName == 'a') {
         e.stop();
-        $('selectedEntityText').innerText = e.srcElement.innerText;
-        $('entity').value = getDocumentFullNameFromURI(e.srcElement.href);
+        $('selectedEntityText').innerHTML = e.target.innerHTML;
+        $('entity').value = getDocumentFullNameFromURI(e.target.href);
       }
     });
 
     $('riskConfigurations').on('click', function(e) {
-      if(e.srcElement.localName == 'a') {
+      if(e.target.localName == 'a') {
         e.stop();
-        $('selectedRiskConfigurationText').innerText = e.srcElement.innerText;
-        $('riskConfiguration').value = getDocumentFullNameFromURI(e.srcElement.href);
+        $('selectedRiskConfigurationText').innerHTML = e.target.innerHTML;
+        $('riskConfiguration').value = getDocumentFullNameFromURI(e.target.href);
       }
     });
 
