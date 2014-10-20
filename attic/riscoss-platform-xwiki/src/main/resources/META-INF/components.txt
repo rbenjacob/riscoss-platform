@@ -1,3 +1,0 @@
-eu.riscoss.internal.RISCOSSPlatformScriptService
-eu.riscoss.internal.XWikiToolConfigurationProvider
-eu.riscoss.internal.XWikiHibernateSessionProvider
