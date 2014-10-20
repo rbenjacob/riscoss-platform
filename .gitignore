@@ -26,3 +26,6 @@ nbproject
 
 #HSQLDB created by unit tests
 database
+
+## Super secret proprietary code
+riscoss-platform-jsmile/src/main/resources/libjsmile.so
