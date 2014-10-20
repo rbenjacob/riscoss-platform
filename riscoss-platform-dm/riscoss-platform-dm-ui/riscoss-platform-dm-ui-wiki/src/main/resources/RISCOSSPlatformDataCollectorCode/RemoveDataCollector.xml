@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+  <web>RISCOSSPlatformDataCollectorCode</web>
+  <name>RemoveDataCollector</name>
+  <language />
+  <defaultLanguage />
+  <translation>0</translation>
+  <parent>xwiki:XWiki.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass />
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1357694025000</creationDate>
+  <date>1357696926000</date>
+  <contentUpdateDate>1357696926000</contentUpdateDate>
+  <version>1.1</version>
+  <title />
+  <template />
+  <defaultTemplate />
+  <validationScript />
+  <comment />
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+## -*- Mode:Velocity
+#if(&quot;$!request.getParameter(&#39;deleteCollector&#39;)&quot; != &quot;&quot;)
+  #set($dc = $!request.getParameter(&#39;deleteCollector&#39;))
+  #set($dn = $!request.getParameter(&#39;docName&#39;))
+  #set($d = $xwiki.getDocument($dn))
+  #set($rmobj = &#39;&#39;)
+  #foreach($obj in $d.getObjects(&#39;RISCOSSPlatformDataCollectorCode.DataCollectorScheduler&#39;))
+    #set($rmobj = $obj)
+  #end
+  #set ($ret = &quot;OK&quot;)
+  #if(&quot;$!rmobj&quot; != &quot;&quot;)
+    #set($obj2 = $doc.getObject($rmobj.getProperty(&quot;collectorName&quot;).getValue()))
+    #if (&quot;$!obj2&quot; != &quot;&quot;)
+      $doc.removeObject($obj2)##
+    #else
+      #set ($ret = &quot;ENOCOLLECTOR&quot;)
+    #end
+    $doc.removeObject($rmobj)##
+  #else
+    #set ($ret = &quot;ENOSCHEDULE&quot;)
+  #end
+  $ret
+#else
+{{info}}This document contains code to remove data collectors from documents.{{/info}}
+#end
+{{/velocity}}
+</content>
+</xwikidoc>

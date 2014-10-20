@@ -105,7 +105,8 @@
 [[$services.localization.render("edit")&gt;&gt;$doc.getExternalURL("edit")]] | [[$services.localization.render("delete")&gt;&gt;$doc.getExternalURL("delete", "xredirect=${xredirect}")]]
 &lt;/span&gt;
 {{/html}}
-{{/velocity}}</content>
+{{/velocity}}
+{{include document="RISCOSSPlatformDataCollectorCode.DataCollectorManager"}}</content>
   <object>
     <name>RISCOSSPlatformLayerManagerCode.EntityViewSheet</name>
     <number>0</number>

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+  <web>RISCOSSPlatformDataCollectorCode</web>
+  <name>DataCollectorManager</name>
+  <language />
+  <defaultLanguage />
+  <translation>0</translation>
+  <parent>xwiki:XWiki.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass />
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1357694025000</creationDate>
+  <date>1357696926000</date>
+  <contentUpdateDate>1357696926000</contentUpdateDate>
+  <version>1.1</version>
+  <title />
+  <template />
+  <defaultTemplate />
+  <validationScript />
+  <comment />
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity output=&quot;false&quot;}}##
+## -*- Mode:Velocity
+## Data Collector Configuration.
+##
+
+## Load the jsx which this code will send data to.
+$xwiki.jsx.use(&#39;RISCOSSPlatformDataCollectorCode.DataCollectorManager&#39;, {&quot;minify&quot;:&quot;false&quot;})
+
+## The final output
+#set ($outConf = {})
+
+## URL for removing objects, used by the jsx
+#set ($removeDC = &#39;RISCOSSPlatformDataCollectorCode.RemoveDataCollector&#39;)
+$outConf.put(&quot;objRemoveURL&quot;, $xwiki.getURL($removeDC, &#39;get&#39;, &quot;docName=$doc.getFullName()&quot;))
+
+## List of data collectors
+#set ($collectors = [])
+$outConf.put(&quot;collectors&quot;, $collectors)
+
+#set ($schedulesList = $doc.getObjects(&quot;RISCOSSPlatformDataCollectorCode.DataCollectorScheduler&quot;))
+#set ($schedulesMap = {})
+#foreach ($s in $schedulesList)
+  #if (&quot;$!s.getProperty(&#39;collectorName&#39;)&quot; != &quot;&quot;)
+    $schedulesMap.put($s.getProperty(&quot;collectorName&quot;).getValue(), $s)
+  #end
+#end
+
+#if (&quot;$schedulesList.size()&quot; == &quot;0&quot;)
+  $schedulesList.add($doc.newObject(&quot;RISCOSSPlatformDataCollectorCode.DataCollectorScheduler&quot;))
+#end
+
+#set ($collectorDocNames =
+  $services.query.xwql(
+    &#39;from doc.object(RISCOSSPlatformDataCollectorCode.DataCollectorClass) as x&#39;).execute())
+#foreach($collectorName in $collectorDocNames)
+  #set ($collectorOut = {})
+  $collectors.add($collectorOut)
+  #set ($col = $xwiki.getDocument($collectorName))
+  #set ($cobj = $doc.getObject($collectorName))
+
+  $collectorOut.put(&quot;name&quot;, $col.getName())
+
+  #set($schedule = $schedulesMap.get(&quot;RISCOSSPlatformDataCollectors.$col.getName()&quot;))
+  #if (&quot;$!schedule&quot; == &quot;&quot;)
+    #set($schedule = $schedulesList.get(0))
+  #else
+    $collectorOut.put(&#39;enabled&#39;, &#39;true&#39;)
+  #end
+  $collectorOut.put(&quot;periodicity_edit&quot;, &quot;$!schedule.display(&#39;periodicity&#39;, &#39;edit&#39;)&quot;)
+  $collectorOut.put(&quot;periodicity_view&quot;, &quot;$!schedule.getProperty(&#39;periodicity&#39;).getValue()&quot;)
+
+  #set($props = [])
+  $collectorOut.put(&quot;properties&quot;, $props)
+
+  #set($collectorProps = $col.getxWikiClass().getEnabledProperties())
+  #foreach($cp in $collectorProps)
+    #set($prop = {})
+    $props.add($prop)
+    $prop.put(&quot;name&quot;, &quot;$cp.getName()&quot;)
+    $prop.put(&quot;prettyName&quot;, $cp.getPrettyName())
+    $prop.put(&quot;type&quot;, $cp.getType())
+    #if (&quot;$!cobj&quot; != &quot;&quot;)
+      $prop.put(&quot;value&quot;, $cobj.getProperty($cp.getName()).getValue())
+    #end
+  #end
+#end
+{{/velocity}}
+{{velocity}}## Data Collector Output, this is picked up by the jsx javascript.
+{{html clean=&quot;false&quot;}}
+&lt;div class=&quot;data-collectors&quot; style=&quot;display:none;&quot;&gt;$escapetool.url($jsontool.serialize($outConf))&lt;/div&gt;
+{{/html}}{{/velocity}}
+</content>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass />
+      <customMapping />
+      <defaultViewSheet />
+      <defaultEditSheet />
+      <defaultWeb />
+      <nameField />
+      <validationScript />
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+        <size>30</size>
+      </name>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+        <rows>20</rows>
+        <size>50</size>
+      </code>
+      <use>
+        <disabled>0</disabled>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+        <cache>0</cache>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+      </use>
+      <parse>
+        <disabled>0</disabled>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+      </parse>
+      <cache>
+        <disabled>0</disabled>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+        <cache>0</cache>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <values>long|short|default|forbid</values>
+      </cache>
+    </class>
+    <name>RISCOSSPlatformDataCollectorCode.DataCollectorManager</name>
+    <number>1</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>f8d7a9fe-9260-4abe-adf9-43d58f94dfe1</guid>
+    <property>
+      <name />
+    </property>
+    <property>
+      <code>require([&#39;jquery&#39;], function ($) {
+
+  // VELOCITY
+  var REMOVE_DC_URL = &quot;$xwiki.getURL(&#39;RISCOSSPlatformDataCollectorCode.RemoveDataCollector&#39;)&quot;;
+  // END_VELOCITY
+
+  var MESSAGES = {
+    dataCollectors: &#39;Data Collectors&#39;,
+    deletingObject: &#39;Deleting Object&#39;,
+    doneDeletingObject: &#39;Done&#39;,
+    errorDeletingObject: &#39;Error&#39;,
+    periodicity: &#39;Frequency&#39;
+  };
+
+  var uid = function () { return &#39;uid-&#39; + Math.random().toString(32).substring(2); };
+  var appendElem = function ($container, type, id) {
+    id = id || uid();
+    $container.append(&quot;&lt;&quot;+type+&quot; id=&quot;+id+&quot;&gt;&lt;/&quot;+type+&quot;&gt;&quot;);
+    return $(&#39;#&#39;+id);
+  };
+
+  var toggleHidden = function ($elem) {
+    if ($elem.attr(&#39;style&#39;) === &#39;display:none;&#39;) {
+      $elem.removeAttr(&#39;style&#39;);
+      $elem.find(&#39;.post-input[data-name]&#39;).each(function (num, el) {
+        var $el = $(el);
+        $el.attr(&#39;name&#39;, $el.attr(&#39;data-name&#39;));
+      });
+    } else {
+      $elem.attr(&#39;style&#39;, &#39;display:none;&#39;);
+      // stash the &#39;name&#39; field in data-name and remove it so it will not create a new obj.
+      $elem.find(&#39;.post-input[name]&#39;).each(function (num, el) {
+        var $el = $(el);
+        $el.attr(&#39;data-name&#39;, $el.attr(&#39;name&#39;));
+        $el.removeAttr(&#39;name&#39;);
+      });
+    }
+  };
+
+  var makeLabeledElement = function ($list, labelTxt, elementType) {
+    var id = uid();
+    var $labelDT = appendElem($list, &#39;dt&#39;);
+    var $label = appendElem($labelDT, &#39;label&#39;, id + &#39;-label&#39;);
+    $label.attr(&#39;for&#39;, id);
+    $label.text(labelTxt);
+    var $inputDD = appendElem($list, &#39;dd&#39;);
+    return appendElem($inputDD, elementType, id);
+  }
+
+  var getObjRemoveURL = function (baseObjRemoveURL, className) {
+    return baseObjRemoveURL + &#39;&amp;xpage=plain&amp;deleteCollector=&#39; + className;
+  };
+
+  var editCollector = function (col, $elem, objRemoveURL) {
+
+    var $checkbox = makeLabeledElement($elem, col.name, &#39;input&#39;);
+    $checkbox.attr(&#39;type&#39;, &#39;checkbox&#39;);
+    var $subsection = appendElem($checkbox.parent(), &#39;div&#39;);
+
+    var $list = appendElem($subsection, &#39;dl&#39;);
+    for (var i = 0; i &lt; col.properties.length; i++) {
+      var prop = col.properties[i];
+      var $input = makeLabeledElement($list, prop.prettyName, &#39;input&#39;);
+      switch (prop.type) {
+        case &#39;StringClass&#39;: $input.attr(&#39;type&#39;, &#39;text&#39;); break;
+        case &#39;BooleanClass&#39;: $input.attr(&#39;type&#39;, &#39;checkbox&#39;); break;
+        case &#39;NumberClass&#39;: $input.attr(&#39;type&#39;, &#39;text&#39;); break;
+      }
+      $input.attr(&#39;class&#39;, &#39;post-input&#39;);
+      $input.attr(&#39;name&#39;, &#39;RISCOSSPlatformDataCollectors.&#39; + col.name + &#39;_0_&#39; + prop.name);
+      $input.attr(&#39;value&#39;, prop.value || &#39;&#39;);
+    }
+
+    var $input = makeLabeledElement($list, MESSAGES.periodicity, &#39;input&#39;);
+    var freqEdit = col.periodicity_edit.replace(/^{{[^}]+}}/, &#39;&#39;).replace(/{{[^}]+}}$/, &#39;&#39;);
+    var $freqDD = $($input[0].parentNode);
+    var inputId = $input.attr(&#39;id&#39;);
+    $input.remove();
+    $freqDD.append(freqEdit);
+    var name = $freqDD.find(&#39;select&#39;).attr(&#39;name&#39;).replace(/_periodicity$/, &#39;_collectorName&#39;);
+    $freqDD.append(&#39;&lt;input type=&quot;hidden&quot; name=&quot;&#39; + name + &#39;&quot; value=&quot;RISCOSSPlatformDataCollectors.&#39; + col.name + &#39;&quot;&gt;&#39;);
+    $freqDD.find(&#39;select&#39;).attr(&#39;id&#39;, inputId).attr(&#39;class&#39;, &#39;post-input&#39;);
+    $freqDD.find(&#39;input&#39;).attr(&#39;class&#39;, &#39;post-input&#39;);
+
+    if (col.enabled) {
+      $checkbox.attr(&#39;checked&#39;, &#39;checked&#39;);
+    } else {
+      toggleHidden($subsection);
+    }
+
+    $checkbox.click(function () {
+      if (col.enabled) {
+        var inProgress = new XWiki.widgets.Notification(MESSAGES.deletingObject, &quot;inprogress&quot;);
+        $.ajax({
+          url: getObjRemoveURL(objRemoveURL, &#39;RISCOSSPlatformDataCollectors.&#39; + col.name),
+          method: &#39;POST&#39;,
+          success: function () {
+            inProgress.hide();
+            new XWiki.widgets.Notification(MESSAGES.doneDeletingObject, &quot;done&quot;);
+            col.enabled = false;
+          },
+          error: function (jqXHR, error) {
+            inProgress.hide();
+            new XWiki.widgets.Notification(MESSAGES.errorDeletingObject + &#39; &#39; + error, &quot;error&quot;);
+          }
+        });
+      }
+      toggleHidden($subsection);
+    });
+  };
+
+  var edit = function (config, $elem) {
+    var $updateOrCreate = appendElem($elem, &#39;input&#39;);
+    $updateOrCreate.attr(&#39;type&#39;, &#39;hidden&#39;);
+    $updateOrCreate.attr(&#39;value&#39;, &#39;updateOrCreate&#39;);
+    $updateOrCreate.attr(&#39;name&#39;, &#39;objectPolicy&#39;);
+
+    var $dl = appendElem($elem, &#39;dl&#39;);
+    $dl.append(&#39;&lt;dt&gt;&#39;+MESSAGES.dataCollectors+&#39;&lt;/dt&gt;&#39;);
+    var $dd = appendElem($dl, &#39;dd&#39;);
+    for (var i = 0; i &lt; config.collectors.length; i++) {
+      editCollector(config.collectors[i], $dd, config.objRemoveURL);
+    }
+  };
+
+  var viewCollector = function (col, $ul) {
+    if (col.periodicity_view === &quot;&quot;) { return; }
+    var $li = appendElem($ul, &#39;li&#39;);
+    $li.text(col.name + &#39; - Running &#39; + col.periodicity_view);
+  };
+
+  var view = function (config, $elem) {
+    var $dl = appendElem($elem, &#39;dl&#39;);
+    $dl.append(&#39;&lt;dt&gt;&#39;+MESSAGES.dataCollectors+&#39;&lt;/dt&gt;&#39;);
+    var $dd = appendElem($dl, &#39;dd&#39;);
+    var $ul = appendElem($dd, &#39;ul&#39;);
+    for (var i = 0; i &lt; config.collectors.length; i++) {
+      viewCollector(config.collectors[i], $ul);
+    }
+  };
+
+  var $elem = $(&#39;.data-collectors&#39;);
+  var config = JSON.parse(decodeURIComponent($elem.text().replace(/\+/g, &#39;%20&#39;)));
+  $elem.text(&#39;&#39;);
+  $elem.removeAttr(&#39;style&#39;);
+  $elem.append(&#39;&lt;hr /&gt;&#39;);
+
+  if (XWiki.contextaction === &#39;edit&#39;) {
+    edit(config, $elem);
+  } else {
+    view(config, $elem);
+  }
+});
+</code>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <cache>forbid</cache>
+    </property>
+  </object>
+</xwikidoc>
