@@ -148,7 +148,7 @@ public class FossologyRiskDataCollector implements RiskDataCollector
         return licenseAnalysisReport;
     }
 
-    @Override public void createIndicators(IndicatorsMap indicatorsMap, Properties properties) throws Exception
+    public void createIndicators(IndicatorsMap indicatorsMap, Properties properties) throws Exception
     {
         String targetFossology = properties.getProperty(TARGET_FOSSOLOGY_PROPERTY);
         if (targetFossology == null) {

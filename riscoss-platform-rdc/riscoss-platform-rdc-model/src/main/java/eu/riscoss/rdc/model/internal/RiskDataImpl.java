@@ -36,27 +36,27 @@ public class RiskDataImpl implements RiskData
 
     private Object value;
 
-    @Override public String getId()
+    public String getId()
     {
         return id;
     }
 
-    @Override public String getTarget()
+    public String getTarget()
     {
         return target;
     }
 
-    @Override public Date getDate()
+    public Date getDate()
     {
         return date;
     }
 
-    @Override public RiskDataType getType()
+    public RiskDataType getType()
     {
         return type;
     }
 
-    @Override public Object getValue()
+    public Object getValue()
     {
         return value;
     }

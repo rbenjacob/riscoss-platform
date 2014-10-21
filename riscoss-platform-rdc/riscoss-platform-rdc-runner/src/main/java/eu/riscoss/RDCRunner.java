@@ -32,7 +32,7 @@ public class RDCRunner
     {
         try {
             Options options = new Options();
-            Option propertiesOption = OptionBuilder.hasArg().withArgName("propertiesFile").create("properties");
+            Option propertiesOption = OptionBuilder.hasArgs().withArgName("propertiesFile").create("properties");
             Option propertyOption = OptionBuilder.hasArgs().withArgName("key=value").create("property");
             options.addOption(propertiesOption);
             options.addOption(propertyOption);
@@ -56,8 +56,10 @@ public class RDCRunner
 
             if (commandLine.hasOption("properties")) {
                 Properties commandLineSpecifiedProperties = new Properties();
-                commandLineSpecifiedProperties.load(new FileInputStream(commandLine.getOptionValue("properties")));
-                properties.putAll(commandLineSpecifiedProperties);
+                for (String arg : commandLine.getOptionValues("properties")) {
+                    commandLineSpecifiedProperties.load(new FileInputStream(arg));
+                    properties.putAll(commandLineSpecifiedProperties);
+                }
             }
 
             if (commandLine.hasOption("property")) {
