@@ -1,48 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
 <xwikidoc>
   <web>RISCOSSPlatformDataCollectorCode</web>
   <name>RemoveDataCollector</name>
-  <language />
-  <defaultLanguage />
+  <language/>
+  <defaultLanguage/>
   <translation>0</translation>
   <parent>xwiki:XWiki.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
-  <customClass />
+  <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1357694025000</creationDate>
-  <date>1357696926000</date>
-  <contentUpdateDate>1357696926000</contentUpdateDate>
+  <creationDate>0</creationDate>
+  <date>0</date>
+  <contentUpdateDate>0</contentUpdateDate>
   <version>1.1</version>
-  <title />
-  <template />
-  <defaultTemplate />
-  <validationScript />
-  <comment />
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>{{velocity}}
 ## -*- Mode:Velocity
-#if(&quot;$!request.getParameter(&#39;deleteCollector&#39;)&quot; != &quot;&quot;)
-  #set($dc = $!request.getParameter(&#39;deleteCollector&#39;))
-  #set($dn = $!request.getParameter(&#39;docName&#39;))
+#if("$!request.getParameter('deleteCollector')" != "")
+  #set($dc = $!request.getParameter('deleteCollector'))
+  #set($dn = $!request.getParameter('docName'))
   #set($d = $xwiki.getDocument($dn))
-  #set($rmobj = &#39;&#39;)
-  #foreach($obj in $d.getObjects(&#39;RISCOSSPlatformDataCollectorCode.DataCollectorScheduler&#39;))
+  #set($rmobj = '')
+  #foreach($obj in $d.getObjects('RISCOSSPlatformDataCollectorCode.DataCollectorScheduler'))
     #set($rmobj = $obj)
   #end
-  #set ($ret = &quot;OK&quot;)
-  #if(&quot;$!rmobj&quot; != &quot;&quot;)
-    #set($obj2 = $doc.getObject($rmobj.getProperty(&quot;collectorName&quot;).getValue()))
-    #if (&quot;$!obj2&quot; != &quot;&quot;)
+  #set ($ret = "OK")
+  #if("$!rmobj" != "")
+    #set($obj2 = $doc.getObject($rmobj.getProperty("collectorName").getValue()))
+    #if ("$!obj2" != "")
       $doc.removeObject($obj2)##
     #else
-      #set ($ret = &quot;ENOCOLLECTOR&quot;)
+      #set ($ret = "ENOCOLLECTOR")
     #end
     $doc.removeObject($rmobj)##
   #else
-    #set ($ret = &quot;ENOSCHEDULE&quot;)
+    #set ($ret = "ENOSCHEDULE")
   #end
   $ret
 #else
