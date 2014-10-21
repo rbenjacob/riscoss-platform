@@ -208,5 +208,6 @@ $xwiki.jsx.use("RISCOSSPlatformLayerManagerCode.EntityEditSheet")
 
 ; $services.localization.render("riscossPlatform.layerManager.rdids")
 : $doc.display("rdids")
-{{/velocity}}</content>
+{{/velocity}}
+{{include document="RISCOSSPlatformDataCollectorCode.DataCollectorManager"}}</content>
 </xwikidoc>
