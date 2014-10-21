@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
   *
   * See the NOTICE file distributed with this work for additional
@@ -21,39 +22,39 @@
   *
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
-    <version>6.0</version>
-  </parent>
   <groupId>eu.riscoss</groupId>
-  <artifactId>riscoss-platform</artifactId>
+  <artifactId>riscoss-platform-risk-analyser</artifactId>
   <version>0.24-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>RISCOSS Platform - Parent POM</name>
+  <name>RISCOSS Platform - Risk Analyser</name>
 
-  <properties>
-    <xwiki.version>${enterprise.version}</xwiki.version>
-  </properties>
+  <dependencies>
 
-  <modules>
-    <module>riscoss-platform-rdr</module>
-    <module>riscoss-platform-dm</module>
-    <module>riscoss-platform-rdc</module>
-    <module>riscoss-platform-jsmile</module>
-    <module>riscoss-platform-risk-analyser</module>
-  </modules>
+    <!-- TODO: switch to building this from source -->
+    <dependency>
+      <groupId>eu.riscoss</groupId>
+      <artifactId>riscoss-reasoner</artifactId>
+      <!-- ['0.141009', '0.18', 'm20-alpha-140612-2'] -->
+      <version>0.141015</version>
+    </dependency>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>2.2.4</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+    <dependency>
+      <groupId>eu.riscoss</groupId>
+      <artifactId>riscoss-platform-jsmile</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>local-repository</id>
+      <url>file://${basedir}/local-repository</url>
+    </repository>
+  </repositories>
+
 </project>
