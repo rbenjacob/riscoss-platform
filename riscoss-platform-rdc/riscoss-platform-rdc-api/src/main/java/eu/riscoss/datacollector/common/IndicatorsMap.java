@@ -2,9 +2,9 @@ package eu.riscoss.datacollector.common;
 
 import java.util.Date;
 
-import eu.riscoss.rdr.RiskDataFactory;
-import eu.riscoss.rdr.model.RiskData;
-import eu.riscoss.rdr.model.RiskDataType;
+import eu.riscoss.rdc.RiskDataFactory;
+import eu.riscoss.rdc.model.RiskData;
+import eu.riscoss.rdc.model.RiskDataType;
 
 public class IndicatorsMap extends java.util.HashMap<String, RiskData>
 {

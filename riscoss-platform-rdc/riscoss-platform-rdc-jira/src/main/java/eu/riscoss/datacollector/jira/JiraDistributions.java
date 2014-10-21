@@ -9,8 +9,8 @@ import java.util.Map;
 import eu.riscoss.datacollector.common.IndicatorsMap;
 import eu.riscoss.datacollector.common.RiskDataUtils;
 import eu.riscoss.datacollector.jira.JiraRiskDataCollector.JiraLogStatistics;
-import eu.riscoss.rdr.model.Distribution;
-import eu.riscoss.rdr.model.RiskDataType;
+import eu.riscoss.rdc.model.Distribution;
+import eu.riscoss.rdc.model.RiskDataType;
 
 public class JiraDistributions
 {

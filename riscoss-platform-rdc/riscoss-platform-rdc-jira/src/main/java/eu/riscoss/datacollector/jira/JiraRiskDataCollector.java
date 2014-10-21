@@ -26,7 +26,7 @@ import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientF
 
 import eu.riscoss.datacollector.RiskDataCollector;
 import eu.riscoss.datacollector.common.IndicatorsMap;
-import eu.riscoss.rdr.model.RiskDataType;
+import eu.riscoss.rdc.model.RiskDataType;
 
 /**
  * @author Mirko Morandini, Fabio Mancinelli
@@ -453,7 +453,7 @@ public class JiraRiskDataCollector implements RiskDataCollector
             }
         }
     /*
-	 * Measures for FEATUREs
+     * Measures for FEATUREs
 	 */
         else {
 		/*

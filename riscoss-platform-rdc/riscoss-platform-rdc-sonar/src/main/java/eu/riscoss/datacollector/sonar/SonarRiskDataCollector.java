@@ -13,8 +13,8 @@ import java.util.TreeMap;
 
 import eu.riscoss.datacollector.RiskDataCollector;
 import eu.riscoss.datacollector.common.IndicatorsMap;
-import eu.riscoss.rdr.model.Distribution;
-import eu.riscoss.rdr.model.RiskDataType;
+import eu.riscoss.rdc.model.Distribution;
+import eu.riscoss.rdc.model.RiskDataType;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;

@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import eu.riscoss.datacollector.RiskDataCollector;
 import eu.riscoss.datacollector.common.IndicatorsMap;
 import eu.riscoss.datacollector.restapi.RDR;
-import eu.riscoss.rdr.model.RiskData;
+import eu.riscoss.rdc.model.RiskData;
 
 public class RDCRunner
 {

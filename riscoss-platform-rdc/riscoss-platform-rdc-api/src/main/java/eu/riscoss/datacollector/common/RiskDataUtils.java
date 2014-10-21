@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.riscoss.rdr.model.Distribution;
+import eu.riscoss.rdc.model.Distribution;
 
 public class RiskDataUtils
 {
