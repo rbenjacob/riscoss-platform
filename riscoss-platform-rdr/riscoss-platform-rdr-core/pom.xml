@@ -41,7 +41,7 @@
   <dependencies>
     <dependency>
       <groupId>eu.riscoss</groupId>
-      <artifactId>riscoss-platform-rdr-model</artifactId>
+      <artifactId>riscoss-platform-rdc-model</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

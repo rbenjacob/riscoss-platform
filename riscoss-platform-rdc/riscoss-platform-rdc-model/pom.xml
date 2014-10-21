@@ -28,12 +28,12 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>eu.riscoss</groupId>
-    <artifactId>riscoss-platform-rdr</artifactId>
+    <artifactId>riscoss-platform-rdc</artifactId>
     <version>0.24-SNAPSHOT</version>
   </parent>
-  <artifactId>riscoss-platform-rdr-model</artifactId>
+  <artifactId>riscoss-platform-rdc-model</artifactId>
 
-  <name>RISCOSS Platform - Risk Data Repository - Model</name>
+  <name>RISCOSS Platform - Risk Data Collector - Model</name>
 
   <dependencies>
     <dependency>

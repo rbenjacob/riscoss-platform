@@ -16,6 +16,7 @@
   <modules>
     <module>riscoss-platform-rdc-fossology</module>
     <module>riscoss-platform-rdc-api</module>
+    <module>riscoss-platform-rdc-model</module>
     <module>riscoss-platform-rdc-runner</module>
     <module>riscoss-platform-rdc-jira</module>
     <module>riscoss-platform-rdc-git</module>
