@@ -2,8 +2,7 @@ package eu.riscoss.rdr.api;
 
 import java.util.List;
 
-import eu.riscoss.rdr.api.internal.RiskDataEntity;
-import eu.riscoss.rdr.model.RiskData;
+import eu.riscoss.rdc.model.RiskData;
 
 public interface RiskDataRepository
 {

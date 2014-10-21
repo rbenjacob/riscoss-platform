@@ -17,13 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package eu.riscoss.rdr;
+package eu.riscoss.rdc;
 
 import java.util.Date;
 
-import eu.riscoss.rdr.model.RiskData;
-import eu.riscoss.rdr.model.RiskDataType;
-import eu.riscoss.rdr.model.internal.RiskDataImpl;
+import eu.riscoss.rdc.model.RiskData;
+import eu.riscoss.rdc.model.RiskDataType;
+import eu.riscoss.rdc.model.internal.RiskDataImpl;
 
 public class RiskDataFactory
 {
@@ -38,5 +38,4 @@ public class RiskDataFactory
 
         return riskData;
     }
-
 }

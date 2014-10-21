@@ -9,10 +9,10 @@ import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.riscoss.rdr.RiskDataFactory;
+import eu.riscoss.rdc.RiskDataFactory;
+import eu.riscoss.rdc.model.RiskData;
 import eu.riscoss.rdr.api.HibernateSessionProvider;
 import eu.riscoss.rdr.api.RiskDataRepository;
-import eu.riscoss.rdr.model.RiskData;
 
 public class RiskDataRepositoryImpl implements RiskDataRepository
 {
