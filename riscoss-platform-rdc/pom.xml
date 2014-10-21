@@ -20,5 +20,7 @@
     <module>riscoss-platform-rdc-runner</module>
     <module>riscoss-platform-rdc-jira</module>
     <module>riscoss-platform-rdc-git</module>
+    <module>riscoss-platform-rdc-sonar</module>
+    <module>riscoss-platform-rdc-rdrpost</module>
   </modules>
 </project>
