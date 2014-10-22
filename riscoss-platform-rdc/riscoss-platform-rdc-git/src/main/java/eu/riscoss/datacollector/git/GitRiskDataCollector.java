@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,11 +64,13 @@ public class GitRiskDataCollector implements RiskDataCollector
         public int[] commitsByHour = new int[24];
 
         public int[] commitsByWeekday = new int[7];
+
+        public Date firstCommitDate;
     }
 
     /**
      * Extracts and stores the indicators for
-     *
+     * 
      * @param im indicatorMap to store the indicators
      * @param properties the properties to get the required config information.
      */
@@ -86,7 +87,7 @@ public class GitRiskDataCollector implements RiskDataCollector
 
     /**
      * Returns the statistics of the git project.
-     *
+     * 
      * @return the statistics of the git project.
      */
     protected GitRiskDataCollector.GitLogStatistics getStatistics()
@@ -122,8 +123,17 @@ public class GitRiskDataCollector implements RiskDataCollector
                 Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
                 calendar.setTime(commitDetail.getDate());
                 statistics.commitsByHour[calendar.get(Calendar.HOUR_OF_DAY)]++;
-                statistics.commitsByWeekday[calendar.get(Calendar.DAY_OF_WEEK)]++;
+                statistics.commitsByWeekday[calendar.get(Calendar.DAY_OF_WEEK) - 1]++;
                 statistics.totalCommits++;
+
+                if (statistics.firstCommitDate != null) {
+                    if (commitDetail.getDate().before(statistics.firstCommitDate)) {
+                        statistics.firstCommitDate = commitDetail.getDate();
+                    }
+                } else {
+                    statistics.firstCommitDate = commitDetail.getDate();
+                }
+
             }
             statistics.totalCommitters = committers.size();
         } catch (Exception e) {
@@ -134,14 +144,14 @@ public class GitRiskDataCollector implements RiskDataCollector
 
     /**
      * Return the commit Details of a given commit.
-     *
+     * 
      * @param commitId: Identifier of the commit to analyze.
      * @return the details of such commit.
      */
     private CommitDetails getCommitDetails(String commitId) throws Exception
     {
         CommitDetails commitDetails = new CommitDetails();
-        String[] command = { gitPath, "diff-tree", "--pretty=format:%cn%n%cd", "--shortstat", commitId };
+        String[] command = {gitPath, "diff-tree", "--pretty=format:%cn%n%cd", "--shortstat", commitId};
 
         Process process = Runtime.getRuntime().exec(command, null, repositoryLocalPath);
         InputStream inputStream = process.getInputStream();
@@ -193,13 +203,13 @@ public class GitRiskDataCollector implements RiskDataCollector
 
     /**
      * Retrieves the list of all commit IDs since the given date specified in gitInitialDate
-     *
+     * 
      * @return the list of commit ids.
      */
     private List<String> getCommitsIds() throws Exception
     {
 
-        String[] command = { gitPath, "rev-list", "HEAD", "--since=\"" + initialDate + "\"" };
+        String[] command = {gitPath, "rev-list", "HEAD", "--since=\"" + initialDate + "\""};
 
         Process process = Runtime.getRuntime().exec(command, null, repositoryLocalPath);
         InputStream inputStream = process.getInputStream();
@@ -219,45 +229,39 @@ public class GitRiskDataCollector implements RiskDataCollector
 
     /**
      * Obtain the indicators from the statistics and stores them into the im
-     *
+     * 
      * @param im indicatorMap to store the indicators
      * @param statistics statistics of the git.
      */
     private void storeAllMeasures(IndicatorsMap im, GitLogStatistics statistics)
     {
-        try {
-            DateTime dt = new DateTime(dateFormat.parse(initialDate));
-            Months months = Months.monthsBetween(new DateTime(), dt);
-            Weeks weeks = Weeks.weeksBetween(new DateTime(), dt);
+        DateTime dt = new DateTime(statistics.firstCommitDate);
+        Months months = Months.monthsBetween(dt, new DateTime());
+        Weeks weeks = Weeks.weeksBetween(dt, new DateTime());
 
-            im.add("git average-commits-per-month", (double) statistics.totalCommits / months.getMonths());
-            im.add("git average-commits-per-week", (double) statistics.totalCommits / weeks.getWeeks());
-            im.add("git average-commits-per-committer", (double) statistics.totalCommits / statistics.totalCommitters);
-            im.add("git average-files-changed-per-committer", (double) statistics.totalFilesChanged
-                    / statistics.totalCommitters);
-            im.add("git average-lines-added-per-commmit",
-                    (double) statistics.totalLinesAdded / statistics.totalCommits);
-            im.add("git average-lines-removed-per-commit", (double) statistics.totalLinesRemoved
-                    / statistics.totalCommits);
-            im.add("git average-files-changed-per-commit", (double) statistics.totalFilesChanged
-                    / statistics.totalCommits);
+        im.add("git average-commits-per-month", (double) statistics.totalCommits / months.getMonths());
+        im.add("git average-commits-per-week", (double) statistics.totalCommits / weeks.getWeeks());
+        im.add("git average-commits-per-committer", (double) statistics.totalCommits / statistics.totalCommitters);
+        im.add("git average-files-changed-per-committer", (double) statistics.totalFilesChanged
+            / statistics.totalCommitters);
+        im.add("git average-lines-added-per-commmit", (double) statistics.totalLinesAdded / statistics.totalCommits);
+        im.add("git average-lines-removed-per-commit", (double) statistics.totalLinesRemoved / statistics.totalCommits);
+        im.add("git average-files-changed-per-commit", (double) statistics.totalFilesChanged / statistics.totalCommits);
 
-            im.add("git distribution-commits-by-hour", RiskDataType.DISTRIBUTION,
-                    getDistribution(statistics.commitsByHour, statistics.totalCommits));
+        im.add("git distribution-commits-by-hour", RiskDataType.DISTRIBUTION,
+            getDistribution(statistics.commitsByHour, statistics.totalCommits));
 
-            im.add("git distribution-commits-by-weekday", RiskDataType.DISTRIBUTION,
-                    getDistribution(statistics.commitsByWeekday, statistics.totalCommits));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        im.add("git distribution-commits-by-weekday", RiskDataType.DISTRIBUTION,
+            getDistribution(statistics.commitsByWeekday, statistics.totalCommits));
+
     }
 
     /**
      * Given an array of integers with absolute values, it returns the distribution in %.
-     *
+     * 
      * @param values the array to convert to distribution
      * @param total sum of the values of all the elements of the array. Note: although it can be easily computed, it is
-     * passed through parameter because (usually) it has already been computed before.
+     *            passed through parameter because (usually) it has already been computed before.
      */
     private Distribution getDistribution(int[] values, int total)
     {
@@ -274,7 +278,7 @@ public class GitRiskDataCollector implements RiskDataCollector
 
     protected boolean cloneRepository(String repositoryURI, File destination) throws Exception
     {
-        String[] cmd = { gitPath, "clone", repositoryURI.toString(), destination.toString() };
+        String[] cmd = {gitPath, "clone", repositoryURI.toString(), destination.toString()};
 
         Process p = Runtime.getRuntime().exec(cmd);
         int result = p.waitFor();
@@ -284,7 +288,7 @@ public class GitRiskDataCollector implements RiskDataCollector
 
     protected boolean updateRepository(File repository) throws Exception
     {
-        String[] cmd = { gitPath, "pull", repository.toString() };
+        String[] cmd = {gitPath, "pull", repository.toString()};
 
         Process p = Runtime.getRuntime().exec(cmd);
         int result = p.waitFor();
