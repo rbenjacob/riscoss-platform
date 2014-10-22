@@ -10,7 +10,7 @@
     </composite-id>
     <property name="type" column="RISK_DATA_ENTITY_TYPE">
       <type name="org.hibernate.type.EnumType">
-        <param name="enumClass">eu.riscoss.rdr.model.RiskDataType</param>
+        <param name="enumClass">eu.riscoss.rdc.model.RiskDataType</param>
       </type>
     </property>
     <property name="serializedValue" type="text" column="RISK_DATA_ENTITY_VALUE"/>

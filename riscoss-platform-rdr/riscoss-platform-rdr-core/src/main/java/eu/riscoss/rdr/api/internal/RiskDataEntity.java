@@ -9,9 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-import eu.riscoss.rdr.model.Distribution;
-import eu.riscoss.rdr.model.Evidence;
-import eu.riscoss.rdr.model.RiskDataType;
+import eu.riscoss.rdc.model.Distribution;
+import eu.riscoss.rdc.model.Evidence;
+import eu.riscoss.rdc.model.RiskDataType;
 
 public class RiskDataEntity implements Serializable
 {

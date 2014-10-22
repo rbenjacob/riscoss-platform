@@ -41,7 +41,7 @@
   <dependencies>
     <dependency>
       <groupId>eu.riscoss</groupId>
-      <artifactId>riscoss-platform-rdr-model</artifactId>
+      <artifactId>riscoss-platform-rdc-model</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -49,6 +49,11 @@
       <artifactId>hibernate-core</artifactId>
       <!-- This must match with the version used in XWiki -->
       <version>3.6.9.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.2.4</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

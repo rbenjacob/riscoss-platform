@@ -39,12 +39,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import eu.riscoss.rdr.RiskDataFactory;
+import eu.riscoss.rdc.RiskDataFactory;
+import eu.riscoss.rdc.model.Distribution;
+import eu.riscoss.rdc.model.Evidence;
+import eu.riscoss.rdc.model.RiskData;
+import eu.riscoss.rdc.model.RiskDataType;
 import eu.riscoss.rdr.api.RiskDataRepository;
-import eu.riscoss.rdr.model.Distribution;
-import eu.riscoss.rdr.model.Evidence;
-import eu.riscoss.rdr.model.RiskData;
-import eu.riscoss.rdr.model.RiskDataType;
 
 @Path("/")
 public class RiskDataResource

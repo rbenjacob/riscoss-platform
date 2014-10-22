@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!--
   *
@@ -22,22 +22,17 @@
   *
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>riscoss-platform</artifactId>
     <groupId>eu.riscoss</groupId>
+    <artifactId>riscoss-platform-rdc</artifactId>
     <version>0.24-SNAPSHOT</version>
   </parent>
-  <artifactId>riscoss-platform-rdr</artifactId>
-  <packaging>pom</packaging>
+  <artifactId>riscoss-platform-rdc-model</artifactId>
 
-  <name>RISCOSS Platform - Risk Data Repository - Parent POM</name>
+  <name>RISCOSS Platform - Risk Data Collector - Model</name>
 
-  <modules>
-    <module>riscoss-platform-rdr-core</module>
-    <module>riscoss-platform-rdr-rest</module>
-    <module>riscoss-platform-rdr-war</module>
-  </modules>
 </project>
