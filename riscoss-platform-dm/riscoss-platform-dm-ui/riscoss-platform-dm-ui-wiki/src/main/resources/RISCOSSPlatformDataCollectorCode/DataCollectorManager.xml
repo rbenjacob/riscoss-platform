@@ -190,7 +190,7 @@ $outConf.put("collectors", $collectors)
     <name>RISCOSSPlatformDataCollectorCode.DataCollectorManager</name>
     <number>1</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>f8d7a9fe-9260-4abe-adf9-43d58f94dfe1</guid>
+    <guid>a6756382-0fb0-4247-8e67-e4dea39e74bd</guid>
     <property>
       <name/>
     </property>
