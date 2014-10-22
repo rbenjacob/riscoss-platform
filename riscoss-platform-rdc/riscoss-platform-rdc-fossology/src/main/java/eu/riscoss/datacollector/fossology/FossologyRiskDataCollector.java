@@ -90,17 +90,20 @@ public class FossologyRiskDataCollector implements RiskDataCollector
         int totalFiles = 0;
         String line;
         while ((line = br.readLine()) != null) {
-            String[] parts = line.split(":", 2);
+            /* Parse only the lines that contains a ':' */
+            if (line.contains(":")) {
+                String[] parts = line.split(":", 2);
 
-            String license = parts[1].trim();
+                String license = parts[1].trim();
 
-            if (licenseOccurrences.get(license) == null) {
-                licenseOccurrences.put(license, 1);
-            } else {
-                licenseOccurrences.put(license, licenseOccurrences.get(license) + 1);
+                if (licenseOccurrences.get(license) == null) {
+                    licenseOccurrences.put(license, 1);
+                } else {
+                    licenseOccurrences.put(license, licenseOccurrences.get(license) + 1);
+                }
+
+                totalFiles++;
             }
-
-            totalFiles++;
         }
 
         /* Find license types */
