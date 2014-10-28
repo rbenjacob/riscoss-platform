@@ -2735,7 +2735,7 @@ In order to activate your account, please follow this link:
 ${host}${xwiki.getURL('XWiki.AccountValidation', 'view', "validkey=${validkey}&amp;xwikiname=${xwikiname}")}</validation_email_content>
     </property>
     <property>
-      <version>RISCOSS Platform Version 0.18</version>
+      <version>RISCOSS Platform Version 0.24</version>
     </property>
     <property>
       <webcopyright>© 2012-2014 &lt;a href="http://www.riscoss.eu"&gt;RISCOSS&lt;/a&gt; Consortium</webcopyright>
