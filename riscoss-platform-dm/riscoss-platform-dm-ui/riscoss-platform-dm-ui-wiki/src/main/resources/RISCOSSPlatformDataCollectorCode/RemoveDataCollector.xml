@@ -29,23 +29,23 @@
   #set($dc = $!request.getParameter('deleteCollector'))
   #set($dn = $!request.getParameter('docName'))
   #set($d = $xwiki.getDocument($dn))
+  ##
   #set($rmobj = '')
   #foreach($obj in $d.getObjects('RISCOSSPlatformDataCollectorCode.DataCollectorScheduler'))
-    #set($rmobj = $obj)
-  #end
-  #set ($ret = "OK")
-  #if("$!rmobj" != "")
-    #set($obj2 = $doc.getObject($rmobj.getProperty("collectorName").getValue()))
-    #if ("$!obj2" != "")
-      $doc.removeObject($obj2)##
-    #else
-      #set ($ret = "ENOCOLLECTOR")
+    #if("$!obj.getProperty('collectorName').getValue()" == $dc)
+        #set($rmobj = $obj)
     #end
-    $doc.removeObject($rmobj)##
-  #else
-    #set ($ret = "ENOSCHEDULE")
   #end
-  $ret
+  #if("$!rmobj" == "" || !$d.removeObject($rmobj))
+    NO_SUCH_SCHEDULE
+  #end
+  ##
+  #set($rmobj = $d.getObject($dc))
+  #if("$!rmobj" == "" || !$d.removeObject($rmobj))
+    NO_SUCH_COLLECTOR
+  #end
+  ##
+  $d.save("Removed DataCollector ${dc}")
 #else
 {{info}}This document contains code to remove data collectors from documents.{{/info}}
 #end
