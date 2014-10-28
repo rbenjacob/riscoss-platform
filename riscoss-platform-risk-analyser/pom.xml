@@ -38,8 +38,8 @@
     <dependency>
       <groupId>eu.riscoss</groupId>
       <artifactId>riscoss-reasoner</artifactId>
-      <!-- ['0.141009', '0.18', 'm20-alpha-140612-2'] -->
-      <version>0.141015</version>
+      <!-- ['0.141024-2', '0.141009', '0.18', 'm20-alpha-140612-2'] -->
+      <version>0.141024-2</version>
     </dependency>
 
     <dependency>
