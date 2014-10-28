@@ -50,10 +50,6 @@ $outConf.put("collectors", $collectors)
   #end
 #end
 
-#if ("$schedulesList.size()" == "0")
-  $schedulesList.add($doc.newObject("RISCOSSPlatformDataCollectorCode.DataCollectorScheduler"))
-#end
-
 #set ($collectorDocNames =
   $services.query.xwql(
     'from doc.object(RISCOSSPlatformDataCollectorCode.DataCollectorClass) as x').execute())
@@ -63,11 +59,13 @@ $outConf.put("collectors", $collectors)
   #set ($col = $xwiki.getDocument($collectorName))
   #set ($cobj = $doc.getObject($collectorName))
 
-  $collectorOut.put("name", $col.getName())
+  $collectorOut.put("title", $col.getTitle())
+  $collectorOut.put("fullName", $col.getFullName())
 
-  #set($schedule = $schedulesMap.get("RISCOSSPlatformDataCollectors.$col.getName()"))
+  #set($schedule = $schedulesMap.get($col.getFullName()))
   #if ("$!schedule" == "")
-    #set($schedule = $schedulesList.get(0))
+    ## We're not going to save this object at the moment, just make it ready to save later...
+    #set($schedule = $doc.newObject("RISCOSSPlatformDataCollectorCode.DataCollectorScheduler"))
   #else
     $collectorOut.put('enabled', 'true')
   #end
@@ -170,16 +168,12 @@ $outConf.put("collectors", $collectors)
     <name>RISCOSSPlatformDataCollectorCode.DataCollectorManager</name>
     <number>1</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>a6756382-0fb0-4247-8e67-e4dea39e74bd</guid>
+    <guid>568fbb13-0688-43fb-8aa8-b57614dae0c0</guid>
     <property>
       <name/>
     </property>
     <property>
       <code>require(['jquery'], function ($) {
-
-  // VELOCITY
-  var REMOVE_DC_URL = "$xwiki.getURL('RISCOSSPlatformDataCollectorCode.RemoveDataCollector')";
-  // END_VELOCITY
 
   var MESSAGES = {
     dataCollectors: 'Data Collectors',
@@ -230,7 +224,7 @@ $outConf.put("collectors", $collectors)
 
   var editCollector = function (col, $elem, objRemoveURL) {
 
-    var $checkbox = makeLabeledElement($elem, col.name, 'input');
+    var $checkbox = makeLabeledElement($elem, col.title, 'input');
     $checkbox.attr('type', 'checkbox');
     var $subsection = appendElem($checkbox.parent(), 'div');
 
@@ -244,7 +238,7 @@ $outConf.put("collectors", $collectors)
         case 'NumberClass': $input.attr('type', 'text'); break;
       }
       $input.attr('class', 'post-input');
-      $input.attr('name', 'RISCOSSPlatformDataCollectors.' + col.name + '_0_' + prop.name);
+      $input.attr('name', col.fullName + '_0_' + prop.name);
       $input.attr('value', prop.value || '');
     }
 
@@ -255,7 +249,7 @@ $outConf.put("collectors", $collectors)
     $input.remove();
     $freqDD.append(freqEdit);
     var name = $freqDD.find('select').attr('name').replace(/_periodicity$/, '_collectorName');
-    $freqDD.append('&lt;input type="hidden" name="' + name + '" value="RISCOSSPlatformDataCollectors.' + col.name + '"&gt;');
+    $freqDD.append('&lt;input type="hidden" name="' + name + '" value="' + col.fullName + '"&gt;');
     $freqDD.find('select').attr('id', inputId).attr('class', 'post-input');
     $freqDD.find('input').attr('class', 'post-input');
 
@@ -269,7 +263,7 @@ $outConf.put("collectors", $collectors)
       if (col.enabled) {
         var inProgress = new XWiki.widgets.Notification(MESSAGES.deletingObject, "inprogress");
         $.ajax({
-          url: getObjRemoveURL(objRemoveURL, 'RISCOSSPlatformDataCollectors.' + col.name),
+          url: getObjRemoveURL(objRemoveURL, col.fullName),
           method: 'POST',
           success: function () {
             inProgress.hide();
@@ -301,9 +295,9 @@ $outConf.put("collectors", $collectors)
   };
 
   var viewCollector = function (col, $ul) {
-    if (col.periodicity_view === "") { return; }
+    if (!col.enabled) { return; }
     var $li = appendElem($ul, 'li');
-    $li.text(col.name + ' - Running ' + col.periodicity_view);
+    $li.text(col.title + ' - Running ' + col.periodicity_view);
   };
 
   var view = function (config, $elem) {
