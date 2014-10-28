@@ -265,7 +265,11 @@ public class RiskAnalysisEngineUtilsService
 
                 switch (field.getDataType()) {
                     case INTEGER:
-                        int i = 0;
+                        /* Set default value */
+                        Integer i = riskAnalysisEngine.getDefaultValue(chunk);
+                        if (i == null) {
+                            i = 0;
+                        }
 
                         if (values != null && !values[0].isEmpty()) {
                             i = Integer.parseInt(values[0]);
@@ -274,7 +278,11 @@ public class RiskAnalysisEngineUtilsService
                         riskData.put(chunk.getId(), i);
                         break;
                     case REAL:
-                        double d = 0.0d;
+                        /* Set default value */
+                        Double d = riskAnalysisEngine.getDefaultValue(chunk);
+                        if (d == null) {
+                            d = 0.0d;
+                        }
 
                         if (values != null && !values[0].isEmpty()) {
                             d = Double.parseDouble(values[0]);
@@ -298,20 +306,17 @@ public class RiskAnalysisEngineUtilsService
                             Evidence evidence = new Evidence(p, n);
                             riskData.put(chunk.getId(), evidence);
                         } else {
-                            errors.put(chunk.getId(), "Two values are required");
+                            Evidence evidence = riskAnalysisEngine.getDefaultValue(chunk);
+                            if (evidence == null) {
+                                evidence = new Evidence(0.0, 0.0);
+                            }
+                            riskData.put(chunk.getId(), evidence);
                         }
                         break;
                     case DISTRIBUTION:
                         List<Double> distributionValues = new ArrayList<Double>();
-                        if (values != null) {
-                            for (String v : values) {
-                                if (!v.isEmpty()) {
-                                    distributionValues.add(Double.parseDouble(v));
-                                } else {
-                                    distributionValues.add(0.0d);
-                                }
-                            }
-                        } else {
+                        Distribution distribution = riskAnalysisEngine.getDefaultValue(chunk);
+                        if (distribution == null) {
                             for (int n = 0; n < ((Distribution) field.getValue()).getValues().size(); n++) {
                                 /* Distributions must sum to 1.0 so use this "default" */
                                 if (n == 0) {
@@ -322,8 +327,18 @@ public class RiskAnalysisEngineUtilsService
                             }
                         }
 
-                        Distribution distribution = new Distribution();
-                        distribution.setValues(distributionValues);
+                        if (values != null) {
+                            for (String v : values) {
+                                if (!v.isEmpty()) {
+                                    distributionValues.add(Double.parseDouble(v));
+                                } else {
+                                    distributionValues.add(0.0d);
+                                }
+                            }
+
+                            distribution.setValues(distributionValues);
+                        }
+
                         riskData.put(chunk.getId(), distribution);
                         break;
                     case STRING:
