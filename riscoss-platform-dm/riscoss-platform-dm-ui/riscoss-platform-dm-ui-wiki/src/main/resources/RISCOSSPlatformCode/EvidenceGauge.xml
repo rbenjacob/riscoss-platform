@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xwikidoc>
+<xwikidoc version="1.1">
   <web>RISCOSSPlatformCode</web>
   <name>EvidenceGauge</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>RISCOSSPlatformCode.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>0</creationDate>
+  <parent>RISCOSSPlatformCode.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>0</date>
   <contentUpdateDate>0</contentUpdateDate>
   <version>1.1</version>
   <title>EvidenceGauge</title>
-  <defaultTemplate/>
-  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
@@ -38,8 +35,18 @@ import eu.riscoss.reasoner.Evidence;
 
 public class EvidenceGauge extends BufferedImage {
 	
+	Color right_color;
+	Color left_color;
+	
 	public EvidenceGauge( Evidence e, int w, int h ) {
+		this( e, w, h, Color.green, Color.red );
+	}
+	
+	public EvidenceGauge( Evidence e, int w, int h, Color right_color, Color left_color ) {
 		super( w, h, BufferedImage.TYPE_INT_ARGB );
+		
+		this.right_color = right_color;
+		this.left_color = left_color;
 		
 		Graphics2D g = (Graphics2D)getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -60,7 +67,7 @@ public class EvidenceGauge extends BufferedImage {
 				new Point2D.Double( x, y + h / 2 ),
 				new Point2D.Double( x + w, y + h / 2 ),
 				(float[]) [ 0.1f, 0.9f ],
-				(Color[]) [ Color.red, Color.green ] );
+				(Color[]) [ this.left_color, this.right_color ] );
 		g.setPaint(paint);
 		g.fill( mkArc( origin, 
 				rotate( pt( x, y + h ), 
@@ -91,11 +98,11 @@ public class EvidenceGauge extends BufferedImage {
 		
 		Paint fuzziness = new RadialGradientPaint( 
 				r, 
-				(float)(180 * e.getConflict()) + 1f, 
+				(float)(((180 * e.getConflict()) / 100) * getHeight()) + 1f, 
 				(float[]) [ 0.0f, 0.5f ], 
 				(Color[]) [ Color.darkGray, new Color( 0, 0, 0, 0 ) ] );
 		
-		int sz = (int)(180 * e.getConflict());
+		int sz = (int)(((180 * e.getConflict()) / 100) * getWidth());
 		g.setPaint( fuzziness );
 		g.setClip( mkArc( origin, 
 				pt( x, y + h ), 
@@ -166,23 +173,23 @@ public class EvidenceGauge extends BufferedImage {
 				2 * ra, 2 * ra,                  // box width and height
 				aa, angleDiff(aa, ad),           // angle start, extent 
 				type );
-	}
+	}  
 }
 
 int width = 100;
 int height = 50;
 
 if(request.positive != null &amp;&amp; request.negative != null) {
-  if(request.width != null) {
-    width = Integer.parseInt(request.width);
-    height = width / 2;
-  }
-  
-  EvidenceGauge eg = new EvidenceGauge(new Evidence(Double.parseDouble(request.positive), Double.parseDouble(request.negative)), width, height);
+    if(request.width != null) {
+        width = Integer.parseInt(request.width);
+        height = width / 2;
+    }
 
-  response.setContentType("image/png");
-  javax.imageio.ImageIO.write(eg, "png", response.getOutputStream());
-  response.flush();
+    EvidenceGauge eg = new EvidenceGauge(new Evidence(Double.parseDouble(request.positive), Double.parseDouble(request.negative)), width, height);
+
+    response.setContentType("image/png");
+    javax.imageio.ImageIO.write(eg, "png", response.getOutputStream());
+    response.flush();
 }
 
 {{/groovy}}</content>
