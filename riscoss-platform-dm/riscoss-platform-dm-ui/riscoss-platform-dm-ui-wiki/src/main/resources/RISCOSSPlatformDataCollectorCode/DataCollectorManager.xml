@@ -168,7 +168,7 @@ $outConf.put("collectors", $collectors)
     <name>RISCOSSPlatformDataCollectorCode.DataCollectorManager</name>
     <number>1</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>568fbb13-0688-43fb-8aa8-b57614dae0c0</guid>
+    <guid>21594e02-6c54-4eff-a89d-e404b589661b</guid>
     <property>
       <name/>
     </property>
@@ -226,6 +226,7 @@ $outConf.put("collectors", $collectors)
 
     var $checkbox = makeLabeledElement($elem, col.title, 'input');
     $checkbox.attr('type', 'checkbox');
+    $checkbox.parent().css({"background-color": "#F0F0F0", "padding": "5px", "border-bottom" : "1px solid #A0A0A0"});
     var $subsection = appendElem($checkbox.parent(), 'div');
 
     var $list = appendElem($subsection, 'dl');
@@ -302,7 +303,7 @@ $outConf.put("collectors", $collectors)
 
   var view = function (config, $elem) {
     var $dl = appendElem($elem, 'dl');
-    $dl.append('&lt;dt&gt;'+MESSAGES.dataCollectors+'&lt;/dt&gt;');
+    $dl.append('&lt;dt&gt;&lt;h1&gt;'+MESSAGES.dataCollectors+'&lt;/h1&gt;&lt;/dt&gt;');
     var $dd = appendElem($dl, 'dd');
     var $ul = appendElem($dd, 'ul');
     for (var i = 0; i &lt; config.collectors.length; i++) {

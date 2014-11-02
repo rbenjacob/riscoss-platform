@@ -78,15 +78,20 @@
 #end
 )))
 #end
+
+{{include document="RISCOSSPlatformDataCollectorCode.DataCollectorManager"/}}
+
 ----
 
 #set($xredirect = $xwiki.getDocument("RISCOSSPlatformEntities.WebHome").getURL())
 &lt;span class="buttonwrapper"&gt;
-[[$services.localization.render("edit")&gt;&gt;$doc.getExternalURL("edit")]] | [[$services.localization.render("delete")&gt;&gt;$doc.getExternalURL("delete", "xredirect=${xredirect}")]]
+[[Edit entity&gt;&gt;$doc.getExternalURL("edit")]] | [[Delete entity&gt;&gt;$doc.getExternalURL("delete", "xredirect=${xredirect}")]]
 &lt;/span&gt;
 {{/html}}
 {{/velocity}}
-{{include document="RISCOSSPlatformDataCollectorCode.DataCollectorManager"}}</content>
+
+
+</content>
   <object>
     <name>RISCOSSPlatformLayerManagerCode.EntityViewSheet</name>
     <number>0</number>
