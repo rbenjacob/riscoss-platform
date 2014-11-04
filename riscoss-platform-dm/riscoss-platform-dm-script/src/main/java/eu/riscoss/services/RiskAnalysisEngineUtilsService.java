@@ -20,6 +20,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import eu.riscoss.reasoner.Chunk;
+import eu.riscoss.reasoner.DataType;
 import eu.riscoss.reasoner.Distribution;
 import eu.riscoss.reasoner.Evidence;
 import eu.riscoss.reasoner.Field;
@@ -88,11 +89,17 @@ public class RiskAnalysisEngineUtilsService
         return result;
     }
 
+    public Map<String, Map<String, Map<String, Object>>> runAnalysisWithStructuredResults(
+            RiskAnalysisEngine riskAnalysisEngine)
+    {
+        return runAnalysisWithStructuredResults(riskAnalysisEngine, true);
+    }
+
     /**
      * @return A map with the following structure { Category -> {Risk -> {DESCRIPTION, TYPE, VALUE}}}
      */
     public Map<String, Map<String, Map<String, Object>>> runAnalysisWithStructuredResults(
-            RiskAnalysisEngine riskAnalysisEngine)
+            RiskAnalysisEngine riskAnalysisEngine, boolean onlyNonZero)
     {
         Map<String, Map<String, Map<String, Object>>> result =
                 new LinkedHashMap<String, Map<String, Map<String, Object>>>();
@@ -108,7 +115,19 @@ public class RiskAnalysisEngineUtilsService
                 sorter = ReasoningLibrary.get().createSorter();
                 categories.put(type, sorter);
             }
-            sorter.add(chunk, output);
+
+            if (output.getDataType().equals(DataType.EVIDENCE)) {
+                Evidence e = output.getValue();
+                if (onlyNonZero) {
+                    if (e.nonZero()) {
+                        sorter.add(chunk, output);
+                    }
+                } else {
+                    sorter.add(chunk, output);
+                }
+            } else {
+                sorter.add(chunk, output);
+            }
         }
 
         String[] types = new String[]{ "Goal", "Risk", "Data" };
