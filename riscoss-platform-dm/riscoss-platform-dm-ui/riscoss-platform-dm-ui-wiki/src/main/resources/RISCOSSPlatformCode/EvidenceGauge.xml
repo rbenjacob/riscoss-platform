@@ -185,7 +185,7 @@ if(request.positive != null &amp;&amp; request.negative != null) {
         height = width / 2;
     }
 
-    EvidenceGauge eg = new EvidenceGauge(new Evidence(Double.parseDouble(request.positive), Double.parseDouble(request.negative)), width, height);
+    EvidenceGauge eg = new EvidenceGauge(new Evidence(Double.parseDouble(request.positive), Double.parseDouble(request.negative)), width, height, Color.red, Color.green);
 
     response.setContentType("image/png");
     javax.imageio.ImageIO.write(eg, "png", response.getOutputStream());
