@@ -15,7 +15,7 @@
   <date>0</date>
   <contentUpdateDate>0</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render('riscossPlatform.title') : $services.wiki.getById($services.wiki.getCurrentWikiId()).prettyName $services.localization.render("riscossPlatform.domain")</title>
+  <title>$services.localization.render('riscossPlatform.title') : $!services.wiki.getById($services.wiki.getCurrentWikiId()).prettyName $services.localization.render("riscossPlatform.domain")</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -506,6 +506,5 @@ JJNMMskkk0wyySSTTDLJJJNMMskkk0wyySSTTDLJxMj/A+IKv9FKHLl+AAAAAElFTkSuQmCC
   </object>
   <content>{{html wiki="true"}}
 &lt;p style="text-align: center"&gt;[[image:riscoss-logo.png]]&lt;/p&gt;
-{{/html}}
-</content>
+{{/html}}</content>
 </xwikidoc>
