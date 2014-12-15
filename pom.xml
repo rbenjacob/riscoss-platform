@@ -22,8 +22,7 @@
     <module>riscoss-platform-rdr</module>
     <module>riscoss-platform-dm</module>
     <module>riscoss-platform-rdc</module>
-    <module>riscoss-platform-jsmile</module>
-    <module>riscoss-platform-risk-analyser</module>
+    <module>analyser</module>
   </modules>
 
   <dependencyManagement>

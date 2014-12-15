@@ -49,8 +49,8 @@ public class SonarRiskDataCollector implements RiskDataCollector
 
         String host = properties.getProperty("Sonar_host"); // "org.ow2.bonita:bonita-server";
 
-        singleMetrics = properties.getProperty("Sonar_singleMetrics").split("\\s*\\,\\s*");
-        historyMetrics = properties.getProperty("Sonar_historyMetrics").split("\\s*\\,\\s*");
+        singleMetrics = properties.getProperty("Sonar_singleMetrics", "ncloc, complexity").split("\\s*\\,\\s*");
+        historyMetrics = properties.getProperty("Sonar_historyMetrics", "ncloc, comment_lines").split("\\s*\\,\\s*");
         //fileMetrics takes ncloc, complexity as default if not defined:
         fileMetrics = properties.getProperty("Sonar_by_file_Metrics", "ncloc, complexity").split("\\s*\\,\\s*");
 

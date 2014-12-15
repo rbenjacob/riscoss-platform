@@ -20,17 +20,14 @@
   </properties>
 
   <dependencies>
-      <dependency>
-          <groupId>eu.riscoss</groupId>
-          <artifactId>riscoss-platform-dm-script</artifactId>
-          <version>${project.version}</version>
-      </dependency>
+
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-web</artifactId>
       <version>${xwiki.version}</version>
       <type>war</type>
     </dependency>
+
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-legacy-oldcore</artifactId>
@@ -43,10 +40,25 @@
         </exclusion>
       </exclusions>
     </dependency>
+
+    <dependency>
+      <groupId>org.xwiki.contrib</groupId>
+      <artifactId>xwiki-contrib-commandrunner</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>eu.riscoss</groupId>
+      <artifactId>riscoss-remote-risk-analyser</artifactId>
+      <version>${project.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
     <plugins>
+
       <!-- Inject XWiki's configuration (only xwiki.cfg, not hibernate.cfg.xml) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -57,6 +69,30 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.gmaven</groupId>
+        <artifactId>gmaven-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>get-riscoss-remote-risk-analyser</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <properties>
+                <filename>riscoss-remote-risk-analyser-${project.version}-jar-with-dependencies.jar</filename>
+                <indir>${settings.localRepository}/eu/riscoss/riscoss-remote-risk-analyser/${project.version}</indir>
+                <outfile>${project.build.directory}/classes/riscoss-remote-risk-analyser.jar</outfile>
+              </properties>
+              <source>${basedir}/src/main/groovy/GetRiscossRemoteAnalyzer.groovy</source>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
         <!-- Don't check for legacy dependency usages since we depend on oldcore for the patch -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -68,8 +104,17 @@
                 <skip>true</skip>
               </configuration>
             </execution>
+
+            <!-- This is triggered by riscoss-remote-risk-analyser which is external. -->
+            <execution>
+              <id>enforce-jcl-log4j-isolation</id>
+              <configuration>
+                <skip>true</skip>
+              </configuration>
+            </execution>
           </executions>
         </plugin>
+
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
@@ -77,10 +122,12 @@
             %regex[WEB-INF/lib/xwiki-platform-legacy-oldcore-[0-9].[0-9].jar],
             %regex[WEB-INF/lib/xwiki-platform-oldcore-[0-9].[0-9].jar],
             %regex[WEB-INF/lib/xwiki-platform-legacy-oldcore-[0-9].[0.9]-SNAPSHOT.jar],
-            %regex[WEB-INF/lib/xwiki-platform-oldcore-[0-9].[0-9]-SNAPSHOT.jar]
+            %regex[WEB-INF/lib/xwiki-platform-oldcore-[0-9].[0-9]-SNAPSHOT.jar],
+            %regex[WEB-INF/lib/riscoss-remote-risk-analyzer-.*]
           </packagingExcludes>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 
