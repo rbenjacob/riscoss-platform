@@ -287,7 +287,11 @@ public class RemoteRiskAnalyser
                 }
                 JSONArray arr = new JSONArray();
                 for (int i = 0; i < size; i++) {
-                    arr.put(0.2);
+                    if (i == 0) {
+                        arr.put(1);
+                    } else {
+                        arr.put(0);
+                    }
                 }
                 o.put("value", arr);
             } else if ("REAL".equals(dataType)) {
